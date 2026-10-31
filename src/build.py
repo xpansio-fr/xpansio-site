@@ -136,12 +136,6 @@ def offers(items, cls):
 def targets(items, cls):
     return f'<div class="targets {cls}">' + ''.join(f'<span class="target"><i></i>{t}</span>' for t in items) + '</div>'
 
-PCARDS = '''
-      <article class="pcard"><span class="tag cl">Expérience client</span><span class="who">Solutions bureautiques et IT</span><h3>Programme d’écoute client</h3><p>Identifier et prioriser les irritants d’une base installée nationale.</p><div class="kpis"><div class="kpi"><div class="v">7</div><div class="l">chantiers prioritaires</div></div><div class="kpi"><div class="v">+15&nbsp;pts</div><div class="l">de NPS en 2 ans</div></div></div></article>
-      <article class="pcard"><span class="tag cl">Expérience client</span><span class="who">Solutions bureautiques et IT</span><h3>Analyse de la base client</h3><p>Repérer les clients prioritaires et ceux qui détruisent la marge.</p><div class="kpis"><div class="kpi"><div class="v">VIP</div><div class="l">identifiés dans chaque région</div></div><div class="kpi"><div class="v">+50&nbsp;%</div><div class="l">de rétention en 2 ans</div></div></div></article>
-      <article class="pcard"><span class="tag cl">Expérience client</span><span class="who">Solutions bureautiques et IT</span><h3>Approche Customer Success</h3><p>Une équipe dédiée aux ETI à fort potentiel.</p><div class="kpis"><div class="kpi"><div class="v">+50&nbsp;%</div><div class="l">de rétention en 2 ans</div></div><div class="kpi"><div class="v">+20&nbsp;%</div><div class="l">de lifetime value</div></div></div></article>'''
-
-
 # ---------- Mosaïque décorative du haut de l'accueil (partenaires à gauche, clients à droite) ----------
 PAL = {"ch": ("#E9ECFF", "#A8B2FA", "#7F8DF6"), "cl": ("#FFECE5", "#F8B7A3", "#F2906F"), "ne": ("#EFF2F6", "#CBD3DD", "#AEB8C6")}
 def _avatar(kind, v):
@@ -182,92 +176,118 @@ TILES = _tiles("l", [("ch",0),("ne",2),("ch",3),("ch","net"),("ch",1),("ne",0),(
         _tiles("r", [("cl",1),("cl","heart"),("ne",1),("ne",2),("cl",0),("cl",3),("cl","star"),("ne",0),("cl",2)])
 
 # ---------- ACCUEIL ----------
+def real(cls, tag, title, text):
+    return f'<article class="pcard rcard {cls}"><span class="tag {cls}">{tag}</span><h3>{title}</h3><p>{text}</p></article>'
+
+REALISATIONS = ''.join([
+    real("ch", "Channel Performance", "Conception et refonte d’un programme partenaires", "Définir une stratégie Channel et la traduire en dispositifs concrets."),
+    real("ch", "Channel Performance", "Évaluation et développement de l’excellence de service d’un réseau", "Connaissance des partenaires, des critères de performance et des dispositifs de reconnaissance. Valoriser les savoir-faire, assurer la montée en compétences."),
+    real("ch", "Channel Performance", "Programme d’engagement des partenaires", "Accroître la fidélité et l’engagement des partenaires au travers de programmes d’accompagnement et de responsabilisation."),
+    real("cl", "Customer Performance", "Amélioration de l’expérience client", "Capacité à écouter les clients, définir le parcours client, identifier les irritants et structurer des plans d’amélioration."),
+    real("cl", "Customer Performance", "Programme de segmentation clients", "Mesurer la rentabilité réelle des clients et identifier les potentiels pour mettre en place des plans de développement ou de remédiation."),
+    real("cl", "Customer Performance", "Customer Success", "Mise en place d’équipes d’accompagnement au développement et à la satisfaction des clients majeurs."),
+])
+
 HOME = f'''
 <section class="hero">
   {TILES}
   <div class="wrap">
-    <span class="label">Channel &amp; Customer Performance</span>
+    <span class="label">Conseil en performance Channel &amp; Customer · B2B Tech</span>
     <h1 class="h1"><span>Accélérer la performance <span class="c-ch" style="display:inline">de vos partenaires.</span></span><span>Révéler la valeur <span class="c-cl" style="display:inline">de vos clients.</span></span></h1>
-    <p class="lead">Xpansio accompagne les acteurs de l’IT et de la bureautique qui vendent en B2B : structurer leur réseau de distribution, améliorer l’expérience de leurs clients et développer leur base installée.</p>
-    <div class="ctas"><a class="btn btn-primary" href="contact.html">Prendre rendez-vous {ARR}</a><a class="btn btn-ghost" href="expertises.html">Nos expertises</a></div>
-    <div class="chain-wrap">
-      <div class="chain" role="img" aria-label="Chaîne de distribution B2B : l’expérience channel couvre éditeurs, distributeurs et revendeurs ; l’expérience client couvre revendeurs et clients finaux.">
-        <span class="span ch">Expérience channel</span>
-        <span class="track" aria-hidden="true"><i></i><i></i><i></i></span>
-        <div class="node"><span class="k">01</span><b>Éditeurs et constructeurs</b><small>Conçoivent les solutions</small></div>
-        <div class="node"><span class="k">02</span><b>Distributeurs IT</b><small>Animent le réseau</small></div>
-        <div class="node"><span class="k">03</span><b>Revendeurs, intégrateurs, ESN</b><small>Vendent et installent</small></div>
-        <div class="node"><span class="k">04</span><b>Clients finaux</b><small>Entreprises utilisatrices</small></div>
-        <span class="span cl">Expérience client</span>
-      </div>
-      <div class="chain-legend" aria-hidden="true"><span class="label ch">● Expérience channel</span><span class="label cl">● Expérience client</span></div>
-    </div>
+    <p class="lead">Xpansio accompagne les constructeurs, éditeurs, distributeurs et revendeurs IT dans le développement de deux leviers de croissance : la performance de leurs réseaux de partenaires et la valeur de leur portefeuille clients.</p>
+    <p class="sub">Conseil stratégique et accompagnement opérationnel, du diagnostic à la mise en œuvre.</p>
+    <div class="ctas"><a class="btn btn-primary" href="#expertises">Découvrir nos expertises {ARR}</a><a class="btn btn-ghost" href="contact.html">Échanger sur vos enjeux</a></div>
   </div>
 </section>
 
-<section class="band alt">
+<section class="band alt" id="expertises">
   <div class="wrap">
-    {head("Nos expertises", "Deux métiers, une même conviction : la croissance se joue dans la relation.")}
+    {head("Nos expertises", "Deux expertises, deux leviers de croissance.")}
     <div class="duo">
       <a class="xcard ch" href="experience-channel.html">
         <span class="ico ch">{I_NET}</span>
-        <span class="label ch">Vente indirecte</span>
-        <h3>Expérience channel</h3>
-        <p>Transformer votre réseau de distribution en avantage concurrentiel durable, du recrutement des partenaires à leur animation au quotidien.</p>
-        <div class="chips"><span class="chip">Programmes partenaires</span><span class="chip">Animation de réseaux</span><span class="chip">Cartographie du channel</span><span class="chip">Parcours partenaire</span></div>
-        <p class="for">Pour les <b>éditeurs</b>, <b>constructeurs</b> et <b>distributeurs IT</b> qui s’appuient sur un réseau de distribution B2B.</p>
-        <span class="link">Découvrir {ARR}</span>
+        <span class="label ch">01 — Channel Performance</span>
+        <h3>Faites de votre réseau de partenaires un véritable levier de croissance.</h3>
+        <p>Un réseau performant ne se résume pas au nombre de partenaires recrutés. Il repose sur leur engagement, leurs compétences et leur capacité à développer durablement votre business.</p>
+        <p>Xpansio vous accompagne dans l’évaluation, la structuration et le développement de votre réseau de distribution indirecte.</p>
+        <div class="chips"><span class="chip">Audit réseau</span><span class="chip">Stratégie Channel</span><span class="chip">Programmes partenaires</span><span class="chip">Engagement et animation</span><span class="chip">Performance commerciale</span></div>
+        <p class="for">Pour les <b>constructeurs</b>, <b>éditeurs</b> et <b>distributeurs IT</b>.</p>
+        <span class="link">Découvrir l’expertise Channel {ARR}</span>
       </a>
       <a class="xcard cl" href="experience-client.html">
         <span class="ico cl">{I_USER}</span>
-        <span class="label cl">Vente directe</span>
-        <h3>Expérience client</h3>
-        <p>Fidéliser vos clients et développer votre capital client en sachant lesquels créent de la valeur, lesquels sont à risque et comment agir.</p>
-        <div class="chips"><span class="chip">Parcours client</span><span class="chip">Satisfaction</span><span class="chip">Segmentation</span><span class="chip">Gestion de crise</span></div>
-        <p class="for">Pour les <b>intégrateurs</b>, <b>ESN</b>, <b>revendeurs</b> et <b>concessionnaires bureautique</b>, et les éditeurs qui souhaitent optimiser leur capital client.</p>
-        <span class="link">Découvrir {ARR}</span>
+        <span class="label cl">02 — Customer Performance</span>
+        <h3>Développez la valeur de votre portefeuille clients.</h3>
+        <p>Tous vos clients ne contribuent pas de la même manière à votre rentabilité et à votre croissance. Encore faut-il disposer des bonnes données et des bons leviers d’action.</p>
+        <p>Xpansio vous aide à mieux comprendre votre base clients, identifier les opportunités de développement, sécuriser les comptes stratégiques et améliorer l’expérience client.</p>
+        <div class="chips"><span class="chip">Diagnostic de portefeuille</span><span class="chip">Rentabilité client</span><span class="chip">Segmentation</span><span class="chip">Fidélisation</span><span class="chip">Expérience client</span></div>
+        <p class="for">Pour les <b>revendeurs</b>, <b>intégrateurs</b>, <b>ESN</b> et <b>entreprises B2B</b> disposant d’une base clients récurrente.</p>
+        <span class="link">Découvrir l’expertise Customer {ARR}</span>
       </a>
     </div>
   </div>
 </section>
 
-
 <section class="band">
   <div class="wrap">
-    {head("La méthode", "Customer Portfolio Performance Framework<sup style='font-size:.4em;font-weight:500'>™</sup>", "Une approche en trois phases pour développer la valeur de votre base clients. Côté réseau, le <a href='experience-channel.html#methode' class='c-ch' style='text-decoration:none;font-weight:600'>Partner Performance Framework™</a> structure la transformation de votre programme partenaires.")}
+    {head("Notre approche", "De l’analyse à l’action, pour des résultats mesurables.", "Une démarche pragmatique qui combine connaissance du terrain, analyse des données et accompagnement opérationnel.")}
     <div class="steps">
-      <div class="step"><span class="n">01</span><h3>Comprendre</h3><ul><li>Écoute de la direction et des équipes</li><li>Écoute des clients et des partenaires</li><li>Cartographie des parcours</li></ul></div>
-      <div class="step"><span class="n">02</span><h3>Prioriser</h3><ul><li>Analyse des données CRM et ERP</li><li>Segmentation et Customer Capital Index</li><li>Comptes à valeur et comptes à risque</li></ul></div>
-      <div class="step"><span class="n">03</span><h3>Orchestrer</h3><ul><li>Plans de comptes stratégiques</li><li>Organisation et gouvernance</li><li>Pilotage par indicateurs</li></ul></div>
+      <div class="step"><span class="n">01</span><h3>Comprendre</h3><p>Écouter, analyser les données et identifier les enjeux.</p></div>
+      <div class="step"><span class="n">02</span><h3>Prioriser</h3><p>Identifier les leviers de performance et définir une feuille de route.</p></div>
+      <div class="step"><span class="n">03</span><h3>Accompagner</h3><p>Structurer les actions, mobiliser les équipes et mesurer les progrès.</p></div>
     </div>
   </div>
 </section>
 
 <section class="band alt">
   <div class="wrap">
-    {head("Nos projets", "Ils nous ont fait confiance.")}
-    <div class="pgrid">{PCARDS}
-    </div>
-    <div class="below"><a class="btn btn-ghost" href="projets.html">Voir tous les projets {ARR}</a></div>
+    {head("Réalisations", "Des expériences concrètes au service de votre performance.")}
+    <div class="pgrid">{REALISATIONS}</div>
+    <div class="below"><a class="btn btn-ghost" href="projets.html">Voir des projets en détail {ARR}</a></div>
   </div>
 </section>
 
-<section class="band" id="apropos">
-  <div class="wrap about">
-    <div class="portrait"><img src="assets/agnes.jpg" alt="Portrait d’Agnès Chabrier" width="800" height="800"></div>
-    <div class="sign"><b>Agnès Chabrier</b><span>Fondatrice d’Xpansio</span></div>
-    <h2 class="h2" style="max-width:22ch">Trente ans entre constructeurs, partenaires et clients finaux.</h2>
-    <p class="lead">Agnès a construit sa carrière au sein de grands groupes internationaux de la tech. Elle connaît chaque maillon de la chaîne : directions générales, partenaires, commerciaux, équipes techniques et clients.</p>
-    <div class="timeline"><span>Marketing</span><span>Channel</span><span>Expérience client</span><span>Programmes partenaires</span><span>Customer Success</span><span>Transformation</span><span>Animation de réseaux</span></div>
-    <div class="pillars">
-      <div><b>Vision stratégique</b><p>Une approche qui aligne croissance client et performance business.</p></div>
-      <div><b>Business first</b><p>Chaque recommandation vise un résultat et un retour sur investissement.</p></div>
-      <div><b>Expérience B2B</b><p>Des années de pratique dans des environnements B2B complexes.</p></div>
-      <div><b>Expertise tech</b><p>Une connaissance fine des éditeurs, ESN, intégrateurs, MSP et revendeurs IT.</p></div>
+<section class="band">
+  <div class="wrap">
+    {head("Pourquoi Xpansio ?", "Une connaissance de toute la chaîne de valeur, du constructeur au client final.")}
+    <div class="chain-wrap">
+      <div class="chain" role="img" aria-label="Chaîne de valeur B2B : Channel Performance couvre éditeurs et constructeurs, distributeurs et revendeurs ; Customer Performance couvre revendeurs et clients finaux.">
+        <span class="span ch">Channel Performance</span>
+        <span class="track" aria-hidden="true"><i></i><i></i><i></i></span>
+        <div class="node"><span class="k">01</span><b>Éditeurs et constructeurs</b><small>Conçoivent les solutions</small></div>
+        <div class="node"><span class="k">02</span><b>Distributeurs IT</b><small>Animent le réseau</small></div>
+        <div class="node"><span class="k">03</span><b>Revendeurs, intégrateurs et ESN</b><small>Vendent et installent</small></div>
+        <div class="node"><span class="k">04</span><b>Clients finaux</b><small>Entreprises utilisatrices</small></div>
+        <span class="span cl">Customer Performance</span>
+      </div>
+      <div class="chain-legend" aria-hidden="true"><span class="label ch">● Channel Performance</span><span class="label cl">● Customer Performance</span></div>
     </div>
   </div>
 </section>
-{cta()}
+
+<section class="band alt" id="apropos">
+  <div class="wrap about">
+    <span class="label">L’expertise Xpansio</span>
+    <h2 class="h2" style="max-width:24ch">Une double connaissance des réseaux de distribution et des enjeux clients.</h2>
+    <div class="portrait"><img src="assets/agnes.jpg" alt="Portrait d’Agnès Chabrier" width="800" height="800"></div>
+    <div class="sign"><b>Agnès Chabrier</b><span>Fondatrice</span></div>
+    <div class="bio">
+      <p>Forte de plus de 30 ans d’expérience dans l’écosystème IT et bureautique, au sein de distributeurs et de constructeurs internationaux, j’ai piloté des stratégies Channel, des programmes partenaires, des dispositifs marketing et des démarches d’amélioration de l’expérience client.</p>
+      <p>Cette expérience me permet d’aborder les enjeux de performance avec une vision à la fois stratégique et opérationnelle, en tenant compte des réalités des constructeurs comme de celles de leurs partenaires.</p>
+      <p class="conviction"><b>Ma conviction :</b> la performance durable repose sur la compréhension des acteurs, la pertinence des priorités et la capacité à transformer une stratégie en actions concrètes.</p>
+    </div>
+    <div class="timeline"><span>Marketing</span><span>Channel</span><span>Expérience client</span><span>Programmes partenaires</span><span>Customer Success</span><span>Transformation</span><span>Animation de réseaux</span></div>
+  </div>
+</section>
+
+<section class="band ink"><div class="wrap">
+  <div class="head"><span class="label">Prendre contact</span><h2 class="h2">Et si nous identifiions ensemble vos prochains leviers de croissance ?</h2>
+    <p class="lead">Vous souhaitez faire évoluer votre stratégie Channel, renforcer l’engagement de vos partenaires ou développer la valeur de votre portefeuille clients ?</p>
+    <p class="lead">Échangeons sur vos enjeux et les pistes d’amélioration possibles.</p>
+  </div>
+  <div class="ctas"><a class="btn btn-white" href="contact.html">Prendre rendez-vous {ARR}</a></div>
+  <p class="note">Premier échange de 30 minutes, sans engagement.</p>
+</div></section>
 '''
 
 # ---------- EXPERTISES ----------
@@ -494,7 +514,7 @@ LEGAL = f'''
 '''
 
 PAGES = [
-    ("index.html", "home", "Xpansio", "Xpansio, Channel & Customer Performance. Conseil en expérience channel et expérience client pour les acteurs B2B de l’IT et de la bureautique.", HOME),
+    ("index.html", "home", "Xpansio", "Xpansio, conseil en performance Channel & Customer pour les constructeurs, éditeurs, distributeurs et revendeurs IT : réseaux de partenaires et valeur du portefeuille clients.", HOME),
     ("expertises.html", "expertises", "Nos expertises · Xpansio", "Expérience channel et expérience client : les deux expertises d’Xpansio.", EXPERTISES),
     ("experience-channel.html", "channel", "Expérience channel · Xpansio", "Programmes partenaires, animation de réseaux de distribution, cartographie du channel et parcours partenaire.", CHANNEL),
     ("experience-client.html", "client", "Expérience client · Xpansio", "Parcours client, satisfaction, segmentation et gestion de la satisfaction en période de crise.", CLIENT),
