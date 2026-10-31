@@ -6,7 +6,7 @@ from icons import *
 
 SRC = os.path.dirname(os.path.abspath(__file__))
 # Clé publique Web3Forms (formulaire de contact), liée à l'adresse d'Agnès. Elle est faite pour être visible dans la page.
-WEB3FORMS_KEY = "A_COMPLETER"
+WEB3FORMS_KEY = "98890583-2366-4dbd-afb2-a1896cf89b4d"
 ROOT = os.path.dirname(SRC)
 
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
