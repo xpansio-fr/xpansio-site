@@ -29,8 +29,8 @@ def header(cur):
       <div class="drop-col"><span class="label">Pages</span><div class="drop-pages">{pages}</div></div>
       <div class="drop-col"><span class="label">Nos expertises</span>
         <div class="drop-exp">
-          <a class="ch" href="experience-channel.html"><span class="ico ch">{I_NET}</span><strong>Expérience channel</strong><span class="d">Programmes partenaires, parcours partenaire, animation de réseaux et Partner Performance Index™.</span></a>
-          <a class="cl" href="experience-client.html"><span class="ico cl">{I_USER}</span><strong>Expérience client</strong><span class="d">Parcours client, satisfaction, segmentation et gestion de crise.</span></a>
+          <a class="ch" href="experience-channel.html"><span class="ico ch">{I_NET}</span><strong>Channel Performance</strong><span class="d">Programmes partenaires, parcours partenaire, animation de réseaux et Partner Performance Index™.</span></a>
+          <a class="cl" href="experience-client.html"><span class="ico cl">{I_USER}</span><strong>Customer Performance</strong><span class="d">Parcours client, satisfaction, segmentation et gestion de crise.</span></a>
         </div>
       </div>
     </div>
@@ -41,7 +41,7 @@ FOOTER = '''<footer>
   <div class="wrap">
     <img class="logo" src="assets/logo-white.png" alt="xpansio" width="480" height="140">
     <p class="tagline">Accélérer la performance de vos partenaires.<br>Révéler la valeur de vos clients.</p>
-    <nav aria-label="Pied de page"><a href="index.html">Accueil</a><a href="experience-channel.html">Expérience channel</a><a href="experience-client.html">Expérience client</a><a href="projets.html">Nos projets</a><a href="contact.html">Contact</a><a href="https://www.linkedin.com/in/agnes-chabrier-7186971/" target="_blank" rel="noopener">LinkedIn</a></nav>
+    <nav aria-label="Pied de page"><a href="index.html">Accueil</a><a href="experience-channel.html">Channel Performance</a><a href="experience-client.html">Customer Performance</a><a href="projets.html">Nos projets</a><a href="contact.html">Contact</a><a href="https://www.linkedin.com/in/agnes-chabrier-7186971/" target="_blank" rel="noopener">LinkedIn</a></nav>
     <div class="foot-bottom"><span>© 2026 Xpansio · Agnès Chabrier, entrepreneure individuelle</span><a href="mentions-legales.html">Mentions légales et confidentialité</a></div>
   </div>
 </footer>'''
@@ -281,7 +281,7 @@ HOME = f'''
 </section>
 
 <section class="band ink"><div class="wrap">
-  <div class="head"><span class="label">Prendre contact</span><h2 class="h2">Et si nous identifiions ensemble vos prochains leviers de croissance ?</h2>
+  <div class="head"><span class="label">Prendre contact</span><h2 class="h2">Identifions ensemble vos prochains leviers de croissance.</h2>
     <p class="lead">Vous souhaitez faire évoluer votre stratégie Channel, renforcer l’engagement de vos partenaires ou développer la valeur de votre portefeuille clients ?</p>
     <p class="lead">Échangeons sur vos enjeux et les pistes d’amélioration possibles.</p>
   </div>
@@ -298,19 +298,19 @@ EXPERTISES = f'''
     <div class="duo">
       <a class="xcard ch" href="experience-channel.html">
         <span class="ico ch">{I_NET}</span><span class="label ch">Expertise 01</span>
-        <h3>Expérience channel</h3>
+        <h3>Channel Performance</h3>
         <p>Transformer votre réseau de distribution en avantage concurrentiel durable : un programme partenaires qui engage, fait progresser et fidélise.</p>
         <div class="chips"><span class="chip">Audit réseau</span><span class="chip">Programmes partenaires</span><span class="chip">Parcours partenaire</span><span class="chip">Animation et roadshows</span><span class="chip">Certifications</span><span class="chip">Partner Performance Index™</span></div>
         <p class="for">Constructeurs informatiques, éditeurs de logiciels, distributeurs IT.</p>
-        <span class="link">Voir l’expertise channel {ARR}</span>
+        <span class="link">Découvrir l’expertise Channel {ARR}</span>
       </a>
       <a class="xcard cl" href="experience-client.html">
         <span class="ico cl">{I_USER}</span><span class="label cl">Expertise 02</span>
-        <h3>Expérience client</h3>
+        <h3>Customer Performance</h3>
         <p>Vos futurs revenus sont déjà chez vos clients actuels. Nous vous aidons à les connaître, les fidéliser et les développer.</p>
         <div class="chips"><span class="chip">Parcours client</span><span class="chip">Satisfaction client</span><span class="chip">Segmentation</span><span class="chip">Gestion de crise</span><span class="chip">Programme VIP</span></div>
         <p class="for">Intégrateurs, ESN, revendeurs, concessionnaires bureautique, et éditeurs ou constructeurs en vente directe.</p>
-        <span class="link">Voir l’expertise client {ARR}</span>
+        <span class="link">Découvrir l’expertise Customer {ARR}</span>
       </a>
     </div>
   </div>
@@ -318,16 +318,16 @@ EXPERTISES = f'''
 <section class="band">
   <div class="wrap">
     {head("Quelle expertise pour vous ?", "Tout dépend de votre place dans la chaîne.")}
-    {issues([("Vous vendez via des partenaires","Éditeur, constructeur ou distributeur : votre croissance dépend de l’engagement de votre réseau. Expertise channel."),
+    {issues([("Vous vendez via des partenaires","Éditeur, constructeur ou distributeur : votre croissance dépend de l’engagement de votre réseau. Expertise Channel Performance."),
              ("Vous vendez en direct et en indirect","Les deux expertises se complètent : performance du réseau et valeur des clients finaux."),
-             ("Vous servez vos propres clients","Intégrateur, ESN, revendeur ou concessionnaire : votre base installée est votre premier levier. Expertise client.")])}
+             ("Vous servez vos propres clients","Intégrateur, ESN, revendeur ou concessionnaire : votre base installée est votre premier levier. Expertise Customer Performance.")])}
   </div>
 </section>
 {cta()}
 '''
 
 CHANNEL = f'''
-{page_hero([("index.html","Accueil"),("expertises.html","Nos expertises"),(None,"Expérience channel")], "Expérience channel",
+{page_hero([("index.html","Accueil"),("expertises.html","Nos expertises"),(None,"Channel Performance")], "Channel Performance",
   "Transformer votre réseau de distribution en avantage concurrentiel durable. Encore faut-il que vos partenaires aient l’envie et les moyens de vendre votre stratégie.",
   f'<span class="pill ch"><span class="ico ch">{I_NET}</span>Expertise 01</span>', cta_btn="Échangeons sur votre réseau de partenaires", tiles=HT["channel"])}
 <section class="band alt">
@@ -380,7 +380,7 @@ CHANNEL = f'''
 '''
 
 CLIENT = f'''
-{page_hero([("index.html","Accueil"),("expertises.html","Nos expertises"),(None,"Expérience client")], "Expérience client",
+{page_hero([("index.html","Accueil"),("expertises.html","Nos expertises"),(None,"Customer Performance")], "Customer Performance",
   "Vos meilleurs clients valent beaucoup plus que vous ne l’imaginez. Encore faut-il savoir qui ils sont, ce qu’ils vivent et comment les faire grandir avec vous.",
   f'<span class="pill cl"><span class="ico cl">{I_USER}</span>Expertise 02</span>', cta_btn="Échangeons sur votre base clients", tiles=HT["client"])}
 <section class="band alt">
@@ -436,7 +436,7 @@ def case(i, title, ctx, obj, livr, kpis):
     kp = ''.join(f'<div class="kpi"><div class="v">{v}</div><div class="l">{l}</div></div>' for v, l in kpis)
     alt = ' alt' if i % 2 == 0 else ''
     return f'''<section class="band{alt}"><div class="wrap">
-  <div class="head"><span class="tag cl">Expérience client · Solutions bureautiques et IT</span><h2 class="h2">{title}</h2></div>
+  <div class="head"><span class="tag cl">Customer Performance · Solutions bureautiques et IT</span><h2 class="h2">{title}</h2></div>
   <div class="case-cols">
     <div class="case-col"><span class="label">Contexte</span><p>{ctx}</p></div>
     <div class="case-col"><span class="label">Objectif</span><p>{obj}</p></div>
@@ -480,8 +480,8 @@ CONTACT = f'''
       <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
       <div class="field full center"><span class="flabel" id="lbl-sujet">Votre sujet</span>
         <div class="topics" role="radiogroup" aria-labelledby="lbl-sujet">
-          <input type="radio" name="sujet" id="s-ch" value="Expérience channel"><label for="s-ch">Expérience channel</label>
-          <input type="radio" name="sujet" id="s-cl" value="Expérience client"><label for="s-cl">Expérience client</label>
+          <input type="radio" name="sujet" id="s-ch" value="Channel Performance"><label for="s-ch">Channel Performance</label>
+          <input type="radio" name="sujet" id="s-cl" value="Customer Performance"><label for="s-cl">Customer Performance</label>
           <input type="radio" name="sujet" id="s-au" value="Autre" checked><label for="s-au">Autre</label>
         </div>
       </div>
@@ -515,9 +515,9 @@ LEGAL = f'''
 
 PAGES = [
     ("index.html", "home", "Xpansio", "Xpansio, conseil en performance Channel & Customer pour les constructeurs, éditeurs, distributeurs et revendeurs IT : réseaux de partenaires et valeur du portefeuille clients.", HOME),
-    ("expertises.html", "expertises", "Nos expertises · Xpansio", "Expérience channel et expérience client : les deux expertises d’Xpansio.", EXPERTISES),
-    ("experience-channel.html", "channel", "Expérience channel · Xpansio", "Programmes partenaires, animation de réseaux de distribution, cartographie du channel et parcours partenaire.", CHANNEL),
-    ("experience-client.html", "client", "Expérience client · Xpansio", "Parcours client, satisfaction, segmentation et gestion de la satisfaction en période de crise.", CLIENT),
+    ("expertises.html", "expertises", "Nos expertises · Xpansio", "Channel Performance et Customer Performance : les deux expertises d’Xpansio.", EXPERTISES),
+    ("experience-channel.html", "channel", "Channel Performance · Xpansio", "Programmes partenaires, animation de réseaux de distribution, cartographie du channel et parcours partenaire.", CHANNEL),
+    ("experience-client.html", "client", "Customer Performance · Xpansio", "Parcours client, satisfaction, segmentation et gestion de la satisfaction en période de crise.", CLIENT),
     ("projets.html", "projets", "Nos projets · Xpansio", "Projets réalisés par Xpansio et résultats obtenus.", PROJETS),
     ("contact.html", "contact", "Contact · Xpansio", "Contacter Xpansio pour un premier échange.", CONTACT),
     ("mentions-legales.html", "legal", "Mentions légales · Xpansio", "Mentions légales du site Xpansio.", LEGAL),
