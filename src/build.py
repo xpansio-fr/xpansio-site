@@ -151,10 +151,10 @@ PHOTOS = {
     "atelier": "photo-atelier.jpg",        # atelier au tableau
     "travail": "photo-travail.jpg",        # travail en équipe autour d'une table
     "restitution": "photo-restitution.jpg", # restitution devant l'équipe
-    "scene": "photo-agnes-scene.jpg",      # Agnès en conférence (logos de l'événement effacés)
-    "networking": "photo-networking.jpg",  # soirée d'échanges entre professionnels
-    "postit": "photo-atelier-postit.jpg",  # mur de post-it pendant un atelier
-    "conversation": "photo-conversation.jpg", # deux personnes qui discutent, lumière chaude
+    "carnet": "photo-carnet.jpg",          # consultant qui annote son carnet
+    "salle": "photo-salle.jpg",            # salle de réunion, analyse de données projetée
+    "dossier": "photo-dossier.jpg",        # séance de travail sur documents chiffrés
+    "dialogue": "photo-dialogue.jpg",      # échange en face à face
 }
 def collage(keys, note=None, cls=""):
     """Photos en éventail sous le texte du haut de page. Purement décoratif."""
@@ -171,10 +171,10 @@ HT = {
 }
 # Accueil : chaque photo mène au rail de la page qu'elle illustre.
 HOME_RAILS = [
-    ("scene", "#apropos", "À propos d’Xpansio"),
-    ("networking", "#expertises", "Nos expertises"),
-    ("postit", "#projets", "Les projets"),
-    ("conversation", "#contact", "Échanger sur vos besoins"),
+    ("carnet", "#apropos", "À propos d’Xpansio"),
+    ("salle", "#expertises", "Nos expertises"),
+    ("dossier", "#projets", "Les projets"),
+    ("dialogue", "#contact", "Échanger sur vos besoins"),
 ]
 def home_collage():
     cards = ''.join(
