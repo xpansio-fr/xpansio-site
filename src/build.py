@@ -74,6 +74,14 @@ SCRIPT = '''<script>
       el.classList.add('rv');io.observe(el);
     });
   }
+  /* Collage de l'accueil : léger effet de profondeur qui suit la souris */
+  var st=document.querySelector('.stack.links'),hero=document.querySelector('.hero');
+  if(st&&hero&&!reduce&&window.matchMedia('(hover:hover) and (pointer:fine)').matches){
+    var raf=0,mx=0,my=0;
+    hero.addEventListener('pointermove',function(e){var r=hero.getBoundingClientRect();mx=(e.clientX-r.left)/r.width-.5;my=(e.clientY-r.top)/r.height-.5;
+      if(!raf)raf=requestAnimationFrame(function(){raf=0;st.style.setProperty('--mx',mx.toFixed(3));st.style.setProperty('--my',my.toFixed(3));});});
+    hero.addEventListener('pointerleave',function(){st.style.setProperty('--mx',0);st.style.setProperty('--my',0);});
+  }
   var b=document.querySelector('.menu-btn'),d=document.getElementById('drop');
   function set(o){d.hidden=!o;b.setAttribute('aria-expanded',String(o));}
   if(b&&d){
@@ -143,6 +151,7 @@ PHOTOS = {
     "atelier": "photo-atelier.jpg",        # atelier au tableau
     "travail": "photo-travail.jpg",        # travail en équipe autour d'une table
     "restitution": "photo-restitution.jpg", # restitution devant l'équipe
+    "distribution": "photo-distribution.jpg", # entrepôt d'un distributeur
 }
 def collage(keys, note=None, cls=""):
     """Photos en éventail sous le texte du haut de page. Purement décoratif."""
@@ -157,7 +166,21 @@ HT = {
   "projets": collage(["travail", "restitution", "espace"], cls="sm"),
   "contact": collage(["atelier", "travail", "espace"], cls="sm"),
 }
-HOME_COLLAGE = collage(["espace", "atelier", "travail", "restitution"], ("Du diagnostic", "À la mise en œuvre"))
+# Accueil : chaque photo mène au rail de la page qu'elle illustre.
+HOME_RAILS = [
+    ("travail", "#expertises", "Nos expertises"),
+    ("atelier", "#approche", "Notre approche"),
+    ("restitution", "#realisations", "Réalisations"),
+    ("distribution", "#chaine", "Chaîne de valeur"),
+]
+def home_collage():
+    cards = ''.join(
+        f'<a class="ph p{i+1}" href="{h}" style="--i:{i}"><img src="assets/{PHOTOS[k]}" alt="" decoding="async">'
+        f'<span class="cap"><span class="n">0{i+1}</span><span class="t">{t}</span>{ARR}</span></a>'
+        for i, (k, h, t) in enumerate(HOME_RAILS))
+    note = '<span class="stack-note" aria-hidden="true"><small>Du diagnostic</small>À la mise en œuvre</span>'
+    return f'<nav class="stack n4 links" aria-label="Parcourir la page">{cards}{note}</nav>'
+HOME_COLLAGE = home_collage()
 
 # ---------- ACCUEIL ----------
 def real(cls, tag, title, text):
@@ -211,7 +234,7 @@ HOME = f'''
   </div>
 </section>
 
-<section class="band">
+<section class="band" id="approche">
   <div class="wrap">
     {head("Notre approche", "De l’analyse à l’action, pour des résultats mesurables.", "Une démarche pragmatique qui combine connaissance du terrain, analyse des données et accompagnement opérationnel.")}
     <div class="steps">
@@ -222,7 +245,7 @@ HOME = f'''
   </div>
 </section>
 
-<section class="band alt">
+<section class="band alt" id="realisations">
   <div class="wrap">
     {head("Réalisations", "Des expériences concrètes au service de votre performance.")}
     <div class="pgrid">{REALISATIONS}</div>
@@ -230,7 +253,7 @@ HOME = f'''
   </div>
 </section>
 
-<section class="band">
+<section class="band" id="chaine">
   <div class="wrap">
     {head("Pourquoi Xpansio ?", "Une connaissance de toute la chaîne de valeur, du constructeur au client final.")}
     <div class="chain-wrap">

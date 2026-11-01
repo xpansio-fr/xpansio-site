@@ -107,6 +107,14 @@
       el.classList.add('rv');io.observe(el);
     });
   }
+  /* Collage de l'accueil : léger effet de profondeur qui suit la souris */
+  var st=document.querySelector('.stack.links'),hero=document.querySelector('.hero');
+  if(st&&hero&&!reduce&&window.matchMedia('(hover:hover) and (pointer:fine)').matches){
+    var raf=0,mx=0,my=0;
+    hero.addEventListener('pointermove',function(e){var r=hero.getBoundingClientRect();mx=(e.clientX-r.left)/r.width-.5;my=(e.clientY-r.top)/r.height-.5;
+      if(!raf)raf=requestAnimationFrame(function(){raf=0;st.style.setProperty('--mx',mx.toFixed(3));st.style.setProperty('--my',my.toFixed(3));});});
+    hero.addEventListener('pointerleave',function(){st.style.setProperty('--mx',0);st.style.setProperty('--my',0);});
+  }
   var b=document.querySelector('.menu-btn'),d=document.getElementById('drop');
   function set(o){d.hidden=!o;b.setAttribute('aria-expanded',String(o));}
   if(b&&d){
