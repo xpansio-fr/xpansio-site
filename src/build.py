@@ -145,12 +145,8 @@ def targets(items, cls):
     return f'<div class="targets {cls}">' + ''.join(f'<span class="target"><i></i>{t}</span>' for t in items) + '</div>'
 
 # ---------- Collage de photos du terrain (haut de page) ----------
-# Photos Unsplash (licence Unsplash : usage commercial libre, sans attribution obligatoire).
+# Photos fournies par Agnès (petits logos de marques floutés).
 PHOTOS = {
-    "espace": "photo-espace.jpg",          # open space, équipe au travail
-    "atelier": "photo-atelier.jpg",        # atelier au tableau
-    "travail": "photo-travail.jpg",        # travail en équipe autour d'une table
-    "restitution": "photo-restitution.jpg", # restitution devant l'équipe
     "carnet": "photo-carnet.jpg",          # consultant qui annote son carnet
     "salle": "photo-salle.jpg",            # salle de réunion, analyse de données projetée
     "dossier": "photo-dossier.jpg",        # séance de travail sur documents chiffrés
@@ -160,15 +156,9 @@ def collage(keys, note=None, cls=""):
     """Photos en éventail sous le texte du haut de page. Purement décoratif."""
     imgs = ''.join(f'<span class="ph p{i+1}" style="--i:{i}"><img src="assets/{PHOTOS[k]}" alt="" loading="eager" decoding="async"></span>'
                    for i, k in enumerate(keys))
-    n = f'<span class="stack-note"><small>{note[0]}</small>{note[1]}</span>' if note else ''
-    return f'<div class="stack n{len(keys)} {cls}" aria-hidden="true">{imgs}{n}</div>'
-HT = {
-  "expertises": collage(["atelier", "travail", "restitution"], cls="sm"),
-  "channel": collage(["restitution", "atelier", "espace"], cls="sm"),
-  "client": collage(["espace", "travail", "atelier"], cls="sm"),
-  "projets": collage(["travail", "restitution", "espace"], cls="sm"),
-  "contact": collage(["atelier", "travail", "espace"], cls="sm"),
-}
+    return f'<div class="stack n{len(keys)} {cls}" aria-hidden="true">{imgs}</div>'
+# Seule la page Nos projets garde un petit collage (photos 1, 3 et 4 du carrousel de l'accueil).
+HT = {"projets": collage(["carnet", "dossier", "dialogue"], cls="sm")}
 # Accueil : chaque photo mène au rail de la page qu'elle illustre.
 HOME_RAILS = [
     ("carnet", "#apropos", "À propos d’Xpansio"),
@@ -211,7 +201,6 @@ HOME = f'''
 <section class="band" id="apropos">
   <div class="wrap about">
     <span class="label">À propos d’Xpansio</span>
-    <h2 class="h2" style="max-width:24ch">Une double connaissance des réseaux de distribution et des enjeux clients.</h2>
     <div class="portrait"><img src="assets/agnes.jpg" alt="Portrait d’Agnès Chabrier" width="800" height="800"></div>
     <div class="sign"><b>Agnès Chabrier</b><span>Fondatrice</span></div>
     <div class="bio">
@@ -300,7 +289,7 @@ HOME = f'''
 
 # ---------- EXPERTISES ----------
 EXPERTISES = f'''
-{page_hero([("index.html","Accueil"),(None,"Nos expertises")], "Nos expertises", "Xpansio intervient sur les deux relations qui font la croissance d’un acteur B2B : celle avec ses partenaires de distribution, et celle avec ses clients.", tiles=HT["expertises"])}
+{page_hero([("index.html","Accueil"),(None,"Nos expertises")], "Nos expertises", "Xpansio intervient sur les deux relations qui font la croissance d’un acteur B2B : celle avec ses partenaires de distribution, et celle avec ses clients.")}
 <section class="band alt">
   <div class="wrap">
     <div class="duo">
@@ -337,7 +326,7 @@ EXPERTISES = f'''
 CHANNEL = f'''
 {page_hero([("index.html","Accueil"),("expertises.html","Nos expertises"),(None,"Channel Performance")], "Channel Performance",
   "Transformer votre réseau de distribution en avantage concurrentiel durable. Encore faut-il que vos partenaires aient l’envie et les moyens de vendre votre stratégie.",
-  f'<span class="pill ch"><span class="ico ch">{I_NET}</span>Expertise 01</span>', cta_btn="Échangeons sur votre réseau de partenaires", tiles=HT["channel"])}
+  f'<span class="pill ch"><span class="ico ch">{I_NET}</span>Expertise 01</span>', cta_btn="Échangeons sur votre réseau de partenaires")}
 <section class="band alt">
   <div class="wrap">
     {head("Vos enjeux", "Le marché change plus vite que les réseaux.", cls="ch")}
@@ -390,7 +379,7 @@ CHANNEL = f'''
 CLIENT = f'''
 {page_hero([("index.html","Accueil"),("expertises.html","Nos expertises"),(None,"Customer Performance")], "Customer Performance",
   "Vos meilleurs clients valent beaucoup plus que vous ne l’imaginez. Encore faut-il savoir qui ils sont, ce qu’ils vivent et comment les faire grandir avec vous.",
-  f'<span class="pill cl"><span class="ico cl">{I_USER}</span>Expertise 02</span>', cta_btn="Échangeons sur votre base clients", tiles=HT["client"])}
+  f'<span class="pill cl"><span class="ico cl">{I_USER}</span>Expertise 02</span>', cta_btn="Échangeons sur votre base clients")}
 <section class="band alt">
   <div class="wrap">
     {head("Vos enjeux", "Tous les clients ne créent pas la même valeur.", cls="cl")}
@@ -474,7 +463,7 @@ PROJETS = f'''
 '''
 
 CONTACT = f'''
-{page_hero([("index.html","Accueil"),(None,"Contact")], "Alors, on travaille ensemble ?", "Un premier échange de 30 minutes pour comprendre vos enjeux, sans engagement. Réponse sous 48 heures ouvrées.", tiles=HT["contact"])}
+{page_hero([("index.html","Accueil"),(None,"Contact")], "Alors, on travaille ensemble ?", "Un premier échange de 30 minutes pour comprendre vos enjeux, sans engagement. Réponse sous 48 heures ouvrées.")}
 <section class="band alt">
   <div class="wrap">
     <dl class="coords" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));max-width:560px">
