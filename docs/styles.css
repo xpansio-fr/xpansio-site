@@ -498,9 +498,9 @@ footer nav a:hover{color:#fff;text-decoration:underline;text-underline-offset:4p
 /* Accueil : chaque photo est un lien vers un rail de la page */
 .stack.links{pointer-events:auto}
 .stack.links .ph{text-decoration:none;color:#fff}
-.stack.links .p1{--d:-14}.stack.links .p1 img{object-position:72% 50%}.stack.links .p2{--d:-24}.stack.links .p3{--d:24}.stack.links .p4{--d:14}
+.stack.links .p1{--d:-14}.stack.links .p1 img{object-position:50% 18%}.stack.links .p2{--d:-24}.stack.links .p3{--d:24}.stack.links .p4{--d:14}
 .stack.links .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,16,23,.6),transparent 34%);transition:opacity .4s;pointer-events:none}
-.stack .cap{position:absolute;z-index:1;left:16px;right:16px;top:14px;display:flex;align-items:center;gap:10px;font-weight:600;font-size:.9rem;line-height:1.25;text-shadow:0 1px 8px rgba(0,0,0,.25)}
+.stack .cap{text-align:left;position:absolute;z-index:1;left:16px;right:16px;top:14px;display:flex;align-items:center;gap:10px;font-weight:600;font-size:.9rem;line-height:1.25;text-shadow:0 1px 8px rgba(0,0,0,.25)}
 .stack .cap .n{font-family:var(--mono);font-weight:500;font-size:.66rem;letter-spacing:.12em;opacity:.8}
 .stack .cap .t{flex:1}
 .stack .cap svg{width:16px;height:16px;flex:none;opacity:0;transform:translateX(-8px);transition:opacity .35s,transform .35s}

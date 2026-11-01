@@ -151,7 +151,7 @@ PHOTOS = {
     "atelier": "photo-atelier.jpg",        # atelier au tableau
     "travail": "photo-travail.jpg",        # travail en équipe autour d'une table
     "restitution": "photo-restitution.jpg", # restitution devant l'équipe
-    "distribution": "photo-distribution.jpg", # entrepôt d'un distributeur
+    "scene": "photo-agnes-scene.jpg",      # Agnès en conférence (logos de l'événement effacés)
 }
 def collage(keys, note=None, cls=""):
     """Photos en éventail sous le texte du haut de page. Purement décoratif."""
@@ -168,10 +168,10 @@ HT = {
 }
 # Accueil : chaque photo mène au rail de la page qu'elle illustre.
 HOME_RAILS = [
+    ("scene", "#apropos", "À propos d’Xpansio"),
     ("travail", "#expertises", "Nos expertises"),
-    ("atelier", "#approche", "Notre approche"),
-    ("restitution", "#realisations", "Réalisations"),
-    ("distribution", "#chaine", "Chaîne de valeur"),
+    ("restitution", "#projets", "Les projets"),
+    ("atelier", "#contact", "Échanger sur vos besoins"),
 ]
 def home_collage():
     cards = ''.join(
@@ -204,6 +204,21 @@ HOME = f'''
     <div class="ctas"><a class="btn btn-primary" href="#expertises">Découvrir nos expertises {ARR}</a><a class="btn btn-ghost" href="contact.html">Échanger sur vos enjeux</a></div>
   </div>
   {HOME_COLLAGE}
+</section>
+
+<section class="band" id="apropos">
+  <div class="wrap about">
+    <span class="label">À propos d’Xpansio</span>
+    <h2 class="h2" style="max-width:24ch">Une double connaissance des réseaux de distribution et des enjeux clients.</h2>
+    <div class="portrait"><img src="assets/agnes.jpg" alt="Portrait d’Agnès Chabrier" width="800" height="800"></div>
+    <div class="sign"><b>Agnès Chabrier</b><span>Fondatrice</span></div>
+    <div class="bio">
+      <p>Forte de plus de 30 ans d’expérience dans l’écosystème IT et bureautique, au sein de distributeurs et de constructeurs internationaux, j’ai piloté des stratégies Channel, des programmes partenaires, des dispositifs marketing et des démarches d’amélioration de l’expérience client.</p>
+      <p>Cette expérience me permet d’aborder les enjeux de performance avec une vision à la fois stratégique et opérationnelle, en tenant compte des réalités des constructeurs comme de celles de leurs partenaires.</p>
+      <p class="conviction"><b>Ma conviction :</b> la performance durable repose sur la compréhension des acteurs, la pertinence des priorités et la capacité à transformer une stratégie en actions concrètes.</p>
+    </div>
+    <div class="timeline"><span>Marketing</span><span>Channel</span><span>Expérience client</span><span>Programmes partenaires</span><span>Customer Success</span><span>Transformation</span><span>Animation de réseaux</span></div>
+  </div>
 </section>
 
 <section class="band alt" id="expertises">
@@ -245,15 +260,15 @@ HOME = f'''
   </div>
 </section>
 
-<section class="band alt" id="realisations">
+<section class="band alt" id="projets">
   <div class="wrap">
-    {head("Réalisations", "Des expériences concrètes au service de votre performance.")}
+    {head("Les projets", "Des expériences concrètes au service de votre performance.")}
     <div class="pgrid">{REALISATIONS}</div>
     <div class="below"><a class="btn btn-ghost" href="projets.html">Voir des projets en détail {ARR}</a></div>
   </div>
 </section>
 
-<section class="band" id="chaine">
+<section class="band" id="pourquoi">
   <div class="wrap">
     {head("Pourquoi Xpansio ?", "Une connaissance de toute la chaîne de valeur, du constructeur au client final.")}
     <div class="chain-wrap">
@@ -271,22 +286,7 @@ HOME = f'''
   </div>
 </section>
 
-<section class="band alt" id="apropos">
-  <div class="wrap about">
-    <span class="label">L’expertise Xpansio</span>
-    <h2 class="h2" style="max-width:24ch">Une double connaissance des réseaux de distribution et des enjeux clients.</h2>
-    <div class="portrait"><img src="assets/agnes.jpg" alt="Portrait d’Agnès Chabrier" width="800" height="800"></div>
-    <div class="sign"><b>Agnès Chabrier</b><span>Fondatrice</span></div>
-    <div class="bio">
-      <p>Forte de plus de 30 ans d’expérience dans l’écosystème IT et bureautique, au sein de distributeurs et de constructeurs internationaux, j’ai piloté des stratégies Channel, des programmes partenaires, des dispositifs marketing et des démarches d’amélioration de l’expérience client.</p>
-      <p>Cette expérience me permet d’aborder les enjeux de performance avec une vision à la fois stratégique et opérationnelle, en tenant compte des réalités des constructeurs comme de celles de leurs partenaires.</p>
-      <p class="conviction"><b>Ma conviction :</b> la performance durable repose sur la compréhension des acteurs, la pertinence des priorités et la capacité à transformer une stratégie en actions concrètes.</p>
-    </div>
-    <div class="timeline"><span>Marketing</span><span>Channel</span><span>Expérience client</span><span>Programmes partenaires</span><span>Customer Success</span><span>Transformation</span><span>Animation de réseaux</span></div>
-  </div>
-</section>
-
-<section class="band ink"><div class="wrap">
+<section class="band ink" id="contact"><div class="wrap">
   <div class="head"><span class="label">Prendre contact</span><h2 class="h2">Identifions ensemble vos prochains leviers de croissance.</h2>
     <p class="lead">Vous souhaitez faire évoluer votre stratégie Channel, renforcer l’engagement de vos partenaires ou développer la valeur de votre portefeuille clients ?</p>
     <p class="lead">Échangeons sur vos enjeux et les pistes d’amélioration possibles.</p>
