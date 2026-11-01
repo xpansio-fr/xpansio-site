@@ -114,13 +114,13 @@ def cta(title="Parlons de vos partenaires et de vos clients.", text="Un premier 
 
 def page_hero(crumbs, title, lead, extra="", cta_btn=None, tiles=""):
     cr = '<span>/</span>'.join(f'<a href="{h}">{t}</a>' if h else f'<span>{t}</span>' for h, t in crumbs)
-    return f'''<section class="page-hero">{tiles}<div class="wrap">
+    return f'''<section class="page-hero{' has-stack' if tiles else ''}"><div class="wrap">
   <nav class="crumbs" aria-label="Fil d’Ariane">{cr}</nav>
   {extra}
   <h1 class="h1">{title}</h1>
   <p class="lead">{lead}</p>
   {f'<div class="ctas"><a class="btn btn-primary" href="contact.html">{cta_btn} {ARR}</a></div>' if cta_btn else ''}
-</div></section>'''
+</div>{tiles}</section>'''
 
 def issues(items):
     return '<div class="issues">' + ''.join(
@@ -136,44 +136,28 @@ def offers(items, cls):
 def targets(items, cls):
     return f'<div class="targets {cls}">' + ''.join(f'<span class="target"><i></i>{t}</span>' for t in items) + '</div>'
 
-# ---------- Mosaïque décorative du haut de l'accueil (partenaires à gauche, clients à droite) ----------
-PAL = {"ch": ("#E9ECFF", "#A8B2FA", "#7F8DF6"), "cl": ("#FFECE5", "#F8B7A3", "#F2906F"), "ne": ("#EFF2F6", "#CBD3DD", "#AEB8C6")}
-def _avatar(kind, v):
-    bg, fg, dk = PAL[kind]
-    hair = ['', f'<path d="M26 30c0-10 6-16 14-16s14 6 14 16c-4-6-9-8-14-8s-10 2-14 8z" fill="{dk}"/>',
-            f'<path d="M25 34c-1-13 6-21 15-21s16 8 15 21c-2-3-3-9-4-10-5 3-14 3-22 0-1 2-2 7-4 10z" fill="{dk}"/>',
-            f'<g fill="none" stroke="{dk}" stroke-width="2"><circle cx="34" cy="32" r="4"/><circle cx="46" cy="32" r="4"/><path d="M38 32h4"/></g>'][v % 4]
-    return (f'<svg viewBox="0 0 80 80"><rect width="80" height="80" fill="{bg}"/>'
-            f'<path d="M12 80c2-17 13-27 28-27s26 10 28 27z" fill="{fg}"/><circle cx="40" cy="32" r="14" fill="{fg}"/>{hair}</svg>')
-def _icon(kind, which):
-    bg, fg, dk = PAL[kind]
-    shapes = {
-        "net": f'<g stroke="{dk}" stroke-width="2.5" fill="{bg}"><path d="M40 26 24 52M40 26l16 26M24 52h32" fill="none"/><circle cx="40" cy="24" r="7"/><circle cx="23" cy="54" r="7"/><circle cx="57" cy="54" r="7"/></g>',
-        "bars": f'<g fill="{dk}"><rect x="20" y="46" width="8" height="14" rx="2"/><rect x="32" y="38" width="8" height="22" rx="2"/><rect x="44" y="30" width="8" height="30" rx="2"/><rect x="56" y="22" width="8" height="38" rx="2" fill="{fg}"/></g>',
-        "heart": f'<path d="M40 60S20 48 20 34a10 10 0 0 1 20-3 10 10 0 0 1 20 3c0 14-20 26-20 26z" fill="{dk}"/>',
-        "star": f'<path d="m40 18 6.5 13.5 14.5 2-10.5 10 2.5 14.5L40 51l-13 7 2.5-14.5L19 33.5l14.5-2z" fill="{dk}"/>',
-        "chat": f'<path d="M20 26a6 6 0 0 1 6-6h28a6 6 0 0 1 6 6v18a6 6 0 0 1-6 6H36l-10 9v-9a6 6 0 0 1-6-6z" fill="{dk}"/><g fill="{bg}"><circle cx="31" cy="35" r="2.5"/><circle cx="40" cy="35" r="2.5"/><circle cx="49" cy="35" r="2.5"/></g>',
-        "cal": f'<rect x="20" y="24" width="40" height="36" rx="6" fill="{dk}"/><rect x="20" y="24" width="40" height="10" rx="5" fill="{fg}"/><g fill="{bg}"><rect x="27" y="40" width="7" height="6" rx="1.5"/><rect x="37" y="40" width="7" height="6" rx="1.5"/><rect x="47" y="40" width="7" height="6" rx="1.5"/><rect x="27" y="49" width="7" height="6" rx="1.5"/></g><g stroke="{dk}" stroke-width="3" stroke-linecap="round"><path d="M30 19v8M50 19v8"/></g>',
-        "check": f'<circle cx="40" cy="40" r="20" fill="{dk}"/><path d="m31 40 6 6 12-13" fill="none" stroke="{bg}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>',
-    }
-    return f'<svg viewBox="0 0 80 80"><rect width="80" height="80" fill="{bg}"/>{shapes[which]}</svg>'
-def _tiles(side, items):
-    cells = []
-    for i, it in enumerate(items):
-        svg = _icon(it[0], it[1]) if isinstance(it[1], str) else _avatar(it[0], it[1])
-        cells.append(f'<span class="tile" style="--i:{i}">{svg}</span>')
-    return f'<div class="tiles {side}" aria-hidden="true">' + ''.join(cells) + '</div>'
-def _sm(l, r):
-    return _tiles("l sm", l) + _tiles("r sm", r)
-HT = {
-  "expertises": _sm([("ch",0),("ch","net"),("ne",2),("ch",3),("ch",1),("ch","bars")], [("cl","heart"),("cl",1),("cl",2),("ne",0),("cl","star"),("cl",3)]),
-  "channel": _sm([("ch",0),("ch","net"),("ne",3),("ch",2),("ch",1),("ne",0)], [("ch","bars"),("ch",3),("ne",1),("ch",0),("ch","star"),("ch",2)]),
-  "client": _sm([("cl",1),("cl","heart"),("ne",2),("cl",0),("cl",3),("ne",1)], [("cl","star"),("cl",2),("ne",0),("cl",1),("cl","check"),("cl",0)]),
-  "projets": _sm([("ch","bars"),("ne",1),("cl",0),("ch","check"),("ne",3),("cl",2)], [("cl","star"),("ch",2),("ne",0),("cl","bars"),("ch",1),("ne",2)]),
-  "contact": _sm([("ch","chat"),("ne",0),("cl",1),("ch","cal"),("cl",3),("ne",2)], [("cl","chat"),("ch",1),("ne",3),("cl","cal"),("ch",0),("ne","check")]),
+# ---------- Collage de photos du terrain (haut de page) ----------
+# Photos Unsplash (licence Unsplash : usage commercial libre, sans attribution obligatoire).
+PHOTOS = {
+    "espace": "photo-espace.jpg",          # open space, équipe au travail
+    "atelier": "photo-atelier.jpg",        # atelier au tableau
+    "travail": "photo-travail.jpg",        # travail en équipe autour d'une table
+    "restitution": "photo-restitution.jpg", # restitution devant l'équipe
 }
-TILES = _tiles("l", [("ch",0),("ne",2),("ch",3),("ch","net"),("ch",1),("ne",0),("ne",3),("ch",2),("ch","bars")]) + \
-        _tiles("r", [("cl",1),("cl","heart"),("ne",1),("ne",2),("cl",0),("cl",3),("cl","star"),("ne",0),("cl",2)])
+def collage(keys, note=None, cls=""):
+    """Photos en éventail sous le texte du haut de page. Purement décoratif."""
+    imgs = ''.join(f'<span class="ph p{i+1}" style="--i:{i}"><img src="assets/{PHOTOS[k]}" alt="" loading="eager" decoding="async"></span>'
+                   for i, k in enumerate(keys))
+    n = f'<span class="stack-note"><small>{note[0]}</small>{note[1]}</span>' if note else ''
+    return f'<div class="stack n{len(keys)} {cls}" aria-hidden="true">{imgs}{n}</div>'
+HT = {
+  "expertises": collage(["atelier", "travail", "restitution"], cls="sm"),
+  "channel": collage(["restitution", "atelier", "espace"], cls="sm"),
+  "client": collage(["espace", "travail", "atelier"], cls="sm"),
+  "projets": collage(["travail", "restitution", "espace"], cls="sm"),
+  "contact": collage(["atelier", "travail", "espace"], cls="sm"),
+}
+HOME_COLLAGE = collage(["espace", "atelier", "travail", "restitution"], ("Du diagnostic", "À la mise en œuvre"))
 
 # ---------- ACCUEIL ----------
 def real(cls, tag, title, text):
@@ -190,14 +174,13 @@ REALISATIONS = ''.join([
 
 HOME = f'''
 <section class="hero">
-  {TILES}
   <div class="wrap">
     <span class="label">Conseil en performance Channel &amp; Customer · B2B Tech</span>
-    <h1 class="h1"><span>Accélérer la performance <span class="c-ch" style="display:inline">de vos partenaires.</span></span><span>Révéler la valeur <span class="c-cl" style="display:inline">de vos clients.</span></span></h1>
+    <h1 class="h1"><span>Accélérer la performance <em>de vos partenaires.</em></span><span>Révéler la valeur <em>de vos clients.</em></span></h1>
     <p class="lead">Xpansio accompagne les constructeurs, éditeurs, distributeurs et revendeurs IT dans le développement de deux leviers de croissance : la performance de leurs réseaux de partenaires et la valeur de leur portefeuille clients.</p>
-    <p class="sub">Conseil stratégique et accompagnement opérationnel, du diagnostic à la mise en œuvre.</p>
     <div class="ctas"><a class="btn btn-primary" href="#expertises">Découvrir nos expertises {ARR}</a><a class="btn btn-ghost" href="contact.html">Échanger sur vos enjeux</a></div>
   </div>
+  {HOME_COLLAGE}
 </section>
 
 <section class="band alt" id="expertises">
