@@ -181,8 +181,7 @@ def home_collage():
         f'<a class="ph p{i+1}" href="{h}" style="--i:{i}"><img src="assets/{PHOTOS[k]}" alt="" decoding="async">'
         f'<span class="cap"><span class="n">0{i+1}</span><span class="t">{t}</span>{ARR}</span></a>'
         for i, (k, h, t) in enumerate(HOME_RAILS))
-    note = '<span class="stack-note" aria-hidden="true"><small>Du diagnostic</small>À la mise en œuvre</span>'
-    return f'<nav class="stack n4 links" aria-label="Parcourir la page">{cards}{note}</nav>'
+    return f'<nav class="stack n4 links" aria-label="Parcourir la page">{cards}</nav>'
 HOME_COLLAGE = home_collage()
 
 # ---------- ACCUEIL ----------
