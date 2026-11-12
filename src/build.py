@@ -29,8 +29,8 @@ def header(cur):
       <div class="drop-col"><span class="label">Pages</span><div class="drop-pages">{pages}</div></div>
       <div class="drop-col"><span class="label">Nos expertises</span>
         <div class="drop-exp">
-          <a class="ch" href="experience-channel.html"><span class="ico ch">{I_NET}</span><strong>Channel Performance</strong><span class="d">Programmes partenaires, parcours partenaire, animation de réseaux et Partner Performance Index™.</span></a>
-          <a class="cl" href="experience-client.html"><span class="ico cl">{I_USER}</span><strong>Customer Performance</strong><span class="d">Parcours client, satisfaction, segmentation et gestion de crise.</span></a>
+          <a class="ch" href="experience-channel.html"><span class="ico ch">{I_NET}</span><strong>Channel Performance</strong><span class="d">Parcours partenaires, programmes partenaires, stratégie de réseau, gestion de clubs de partenaires.</span></a>
+          <a class="cl" href="experience-client.html"><span class="ico cl">{I_USER}</span><strong>Customer Performance</strong><span class="d">Parcours client, satisfaction, segmentation, rétention.</span></a>
         </div>
       </div>
     </div>
@@ -252,8 +252,8 @@ HOME = f'''
         <span class="ico cl">{I_USER}</span>
         <span class="label cl">02 — Customer Performance</span>
         <h3>Développez la valeur de votre portefeuille clients.</h3>
-        <p>Tous vos clients ne contribuent pas de la même manière à votre rentabilité et à votre croissance. Encore faut-il disposer des bonnes données et des bons leviers d’action.</p>
-        <p>Xpansio vous aide à mieux comprendre votre base clients, identifier les opportunités de développement, sécuriser les comptes stratégiques et améliorer l’expérience client.</p>
+        <p>La performance client repose sur deux ambitions complémentaires : construire une expérience qui favorise la satisfaction et la fidélité, et mieux connaître son portefeuille pour identifier les risques et les opportunités de développement.</p>
+        <p>Xpansio vous accompagne dans l’écoute et la compréhension de vos clients, l’amélioration de leur parcours et le pilotage de leur valeur dans la durée.</p>
         <div class="chips"><span class="chip">Diagnostic de portefeuille</span><span class="chip">Rentabilité client</span><span class="chip">Segmentation</span><span class="chip">Fidélisation</span><span class="chip">Expérience client</span></div>
         <p class="for">Pour les <b>revendeurs</b>, <b>intégrateurs</b>, <b>ESN</b> et <b>entreprises B2B</b> disposant d’une base clients récurrente.</p>
         <span class="link">Découvrir l’expertise Customer {ARR}</span>
@@ -319,16 +319,14 @@ EXPERTISES = f'''
         <span class="ico ch">{I_NET}</span><span class="label ch">Expertise 01</span>
         <h3>Channel Performance</h3>
         <p>Transformer votre réseau de distribution en avantage concurrentiel durable : un programme partenaires qui engage, fait progresser et fidélise.</p>
-        <div class="chips"><span class="chip">Audit réseau</span><span class="chip">Programmes partenaires</span><span class="chip">Parcours partenaire</span><span class="chip">Animation et roadshows</span><span class="chip">Certifications</span><span class="chip">Partner Performance Index™</span></div>
-        <p class="for">Constructeurs informatiques, éditeurs de logiciels, distributeurs IT.</p>
+        <div class="chips"><span class="chip">Audit réseau</span><span class="chip">Indice de performance</span><span class="chip">Parcours partenaire</span><span class="chip">Programme partenaires</span><span class="chip">Certifications</span><span class="chip">Animation opérationnelle</span></div>
         <span class="link">Découvrir l’expertise Channel {ARR}</span>
       </a>
       <a class="xcard cl" href="experience-client.html">
         <span class="ico cl">{I_USER}</span><span class="label cl">Expertise 02</span>
         <h3>Customer Performance</h3>
         <p>Vos futurs revenus sont déjà chez vos clients actuels. Nous vous aidons à les connaître, les fidéliser et les développer.</p>
-        <div class="chips"><span class="chip">Parcours client</span><span class="chip">Satisfaction client</span><span class="chip">Segmentation</span><span class="chip">Gestion de crise</span><span class="chip">Programme VIP</span></div>
-        <p class="for">Intégrateurs, ESN, revendeurs, concessionnaires bureautique, et éditeurs ou constructeurs en vente directe.</p>
+        <div class="chips"><span class="chip">Parcours client</span><span class="chip">Satisfaction client</span><span class="chip">Segmentation et programme VIP</span><span class="chip">Développement et fidélisation</span></div>
         <span class="link">Découvrir l’expertise Customer {ARR}</span>
       </a>
     </div>
@@ -347,7 +345,7 @@ EXPERTISES = f'''
 
 CHANNEL = f'''
 {page_hero([("index.html","Accueil"),("expertises.html","Nos expertises"),(None,"Channel Performance")], "Channel Performance",
-  "Transformer votre réseau de distribution en avantage concurrentiel durable. Encore faut-il que vos partenaires aient l’envie et les moyens de vendre votre stratégie.",
+  "Transformer votre réseau de distribution en avantage concurrentiel durable.",
   f'<span class="pill ch"><span class="ico ch">{I_NET}</span>Expertise 01</span>', cta_btn="Échangeons sur votre réseau de partenaires")}
 <section class="band alt">
   <div class="wrap">
@@ -361,7 +359,7 @@ CHANNEL = f'''
   <div class="wrap">
     {head("Ce que nous faisons", "Cinq leviers pour un réseau plus performant.", "Du diagnostic à l’activation opérationnelle, des interventions ciblées ou des missions complètes selon la maturité de votre réseau.", cls="ch")}
     {offers([
-      (I_MAP,"Audit &amp; diagnostic réseau","Comprendre les forces, les attentes et les irritants de votre réseau.","Analyser la performance et le potentiel du réseau, écouter les partenaires, évaluer leur perception de la marque et identifier les points de friction tout au long de leur parcours.",["Performance","Écoute partenaires","Parcours","Opportunités"]),
+      (I_MAP,"Audit &amp; diagnostic réseau","Comprendre les forces, les attentes et les irritants de votre réseau.","Analyser la performance et le potentiel du réseau, écouter les partenaires, évaluer leur perception de la marque et identifier les points de friction tout au long de leur parcours.",["Performance","Écoute partenaires","Parcours"]),
       (I_LAYERS,"Stratégie &amp; programme partenaires","Construire une proposition de valeur différenciante pour votre réseau.","Définir la vision et la mission du réseau indirect, le positionnement de la marque auprès de ses partenaires et les engagements réciproques. Structurer un programme cohérent avec cette stratégie : segmentation, niveaux, bénéfices et dispositifs d’accompagnement.",["Vision","Positionnement","Segmentation","Niveaux &amp; bénéfices"]),
       (I_PATH,"Parcours &amp; développement partenaires","Accompagner vos partenaires à chaque étape de leur développement.","Concevoir des parcours adaptés au cycle de vie des partenaires : ciblage et recrutement, onboarding, développement des compétences et du business, accompagnement des partenaires stratégiques et, lorsque nécessaire, transmission ou rapprochement.",["Recrutement","Onboarding","Développement","Transmission"]),
       (I_HANDS,"Engagement &amp; valorisation","Renforcer la confiance, l’implication et la reconnaissance de vos partenaires.","Développer des communautés et des dispositifs de dialogue, associer les partenaires aux réflexions stratégiques et valoriser leurs engagements et leurs réalisations, notamment en matière d’excellence de service, de qualité et de RSE.",["Communautés","Reconnaissance","Excellence","RSE"]),
@@ -522,26 +520,26 @@ def case(i, title, ctx, obj, livr, kpis):
     <div class="case-col"><span class="label">Objectif</span><p>{obj}</p></div>
     <div class="case-col"><span class="label">Livrables</span><ul>{li}</ul></div>
   </div>
-  <div class="case-kpis">{kp}</div>
+  {f'<div class="case-kpis">{kp}</div>' if kp else ''}
 </div></section>'''
 
 PROJETS = f'''
-{page_hero([("index.html","Accueil"),(None,"Nos projets")], "Nos projets", "Des missions menées pour un acteur national des solutions bureautiques et IT, avec des résultats suivis sur deux ans.", tiles=HT["projets"])}
+{page_hero([("index.html","Accueil"),(None,"Nos projets")], "Nos projets", "Constructeur bureautique mondial, mission sur deux ans.", tiles=HT["projets"])}
 {case(0,"Programme d’écoute client",
   "Une base installée nationale confrontée à une hausse de l’insatisfaction et des résiliations.",
-  "Identifier les irritants clients et les prioriser.",
-  ["Enquêtes de satisfaction","Ateliers régionaux réunissant clients et collaborateurs","Cartographie du parcours client","Plan d’action en 7 chantiers"],
+  "Identifier les irritants clients et les hiérarchiser. Mettre en place des plans de remédiation.",
+  ["Enquêtes de satisfaction","Ateliers régionaux réunissant clients et collaborateurs","Cartographie du parcours client"],
   [("7","chantiers identifiés"),("+15&nbsp;pts","de NPS en 2 ans")])}
 {case(1,"Analyse de la base client",
-  "Une baisse de la rentabilité et des équipes démotivées.",
-  "Identifier les clients prioritaires et non rentables, puis mettre en place des plans d’action spécifiques.",
-  ["Analyse de la base clients (CRM)","Rentabilité par client (ERP, Power BI)","Segmentation VIP avec le Customer Capital Index","Plans d’action pour les clients non rentables"],
-  [("+50&nbsp;%","de rétention sur les clients VIP en 2 ans")])}
+  "Perte de clients, augmentation du churn, baisse de la rentabilité et équipes démotivées.",
+  "Identifier les clients prioritaires, puis mettre en place des plans d’actions spécifiques.",
+  ["Analyse de la base clients","Analyse de la rentabilité par client","Mise en place d’une segmentation clients (Customer Capital Index)","Plans d’actions associés"],
+  [])}
 {case(2,"Approche Customer Success",
   "Une position fragile sur les ETI et une activité en transformation vers l’IT.",
-  "Une équipe de suivi dédiée aux ETI à fort score CCI pour augmenter chiffre d’affaires, lifetime value et fidélité.",
-  ["Recrutement d’une équipe de Customer Success Managers","Plans de compte et matrice de risque","Trinôme commercial, technicien, administratif","Pilote de 12 mois, puis déploiement"],
-  [("+50&nbsp;%","de rétention en 2 ans"),("+20&nbsp;%","de lifetime value en 2 ans")])}
+  "Une équipe dédiée aux clients ETI à fort potentiel, mise en place d’indicateurs de Life Time Value et de suivi du risque client.",
+  ["Recrutement d’une équipe de Customer Success Managers","Plans de compte et matrice de risque","Trinôme commercial, technicien, administratif","Pilote de 12 mois"],
+  [])}
 {cta("Votre projet pourrait être le prochain.","Racontez-nous votre contexte : nous vous dirons comment nous pourrions vous aider.")}
 '''
 
