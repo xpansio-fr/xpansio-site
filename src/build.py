@@ -199,7 +199,11 @@ REAL = [
     ctx="Un constructeur sur un marché mature, des offres premium mais de plus en plus difficiles à différencier et une forte pression sur les prix.",
     ans="Définir une proposition de valeur réseau différenciante, donner aux équipes les moyens de la défendre et aligner les dispositifs.",
     defi="Un constructeur intervient sur un marché mature, avec des offres qui semblent de plus en plus comparables aux yeux des partenaires. Les discussions commerciales se concentrent sur le prix. Comment construire une proposition de valeur différenciante, crédible et défendable, puis faire en sorte qu’elle guide réellement la relation avec les partenaires ?",
-    reponse="Écouter les partenaires et les équipes internes, définir une proposition de valeur réseau différenciante, puis donner aux commerciaux les preuves et les arguments pour la défendre. Cette proposition est ensuite devenue le principe directeur de l’ensemble des dispositifs de la relation partenaires.",
+    reponse="La mission s’est concentrée sur la proposition de valeur destinée aux partenaires : les écouter, ainsi que les équipes internes, définir une proposition spécifique au réseau, donner aux commerciaux les preuves pour la défendre, puis en faire le principe directeur des dispositifs de la relation partenaires.",
+    vs=("Deux propositions de valeur, deux publics à convaincre",
+        "Dans la distribution indirecte, la valeur d’une offre pour le client final ne suffit pas à convaincre un partenaire de développer la marque. Les deux propositions se travaillent distinctement, tout en restant cohérentes.",
+        "Pour le partenaire", "Pourquoi investir dans cette relation plutôt qu’une autre ? Elle motive son engagement : rentabilité, développement, accompagnement, compétences.",
+        "Pour le client final", "Pourquoi choisir cette solution plutôt qu’une autre ? Elle permet au partenaire de convaincre ses clients : besoins métiers, performance, coût, service."),
     done=["Consultation des partenaires, des équipes internes et des responsables du réseau : attentes, critères de choix, conditions de création de valeur",
           "Définition d’une proposition de valeur réseau pertinente, différenciante, crédible et cohérente avec le positionnement du constructeur",
           "Analyses, données chiffrées et argumentaires pour permettre aux équipes commerciales de défendre la valeur plutôt que le prix",
@@ -277,6 +281,13 @@ def rgrid(rs):
 KINDS_NOTE = ('<p class="note"><b>Mission Xpansio</b> : intervention de conseil réalisée par Xpansio. '
               '<b>Expérience antérieure</b> : démarche conduite par Agnès Chabrier dans ses fonctions précédentes, avant la création d’Xpansio.</p>')
 
+def vs_block(r):
+    """Encadré facultatif : deux colonnes comparées (ex. valeur pour le partenaire / pour le client final)."""
+    if "vs" not in r: return ""
+    t, lead, a, pa, b, pb = r["vs"]; c = r["cls"]
+    return f'''{head("Le principe", t, lead, cls=c)}
+    <div class="vs" style="margin:0 auto clamp(56px,7vw,80px)"><div class="vs-col {c}"><span class="label {c}">{a}</span><p>{pa}</p></div><div class="vs-col"><span class="label">{b}</span><p>{pb}</p></div></div>'''
+
 def real_page(r):
     c = r["cls"]; exp, href = EXP[c]; ico = I_NET if c == "ch" else I_USER
     done = ''.join(f'<li>{x}</li>' for x in r["done"])
@@ -294,6 +305,7 @@ def real_page(r):
 </section>
 <section class="band">
   <div class="wrap">
+    {vs_block(r)}
     <div class="xp {c}"><span class="label {c}">{r.get("rlabel", "Résultats et enseignements")}</span><p>{r["result"]}</p>
       <p class="from"><b>L’expérience mobilisée :</b> {r["xp"]}</p></div>
     <div class="below"><a class="link {c}" href="{href}">Voir l’expertise {exp} {ARR}</a></div>
@@ -420,7 +432,7 @@ CHANNEL = f'''
     {head("Nos domaines d’intervention", "Quatre domaines, selon la maturité de votre réseau.", cls="ch")}
     {cards([
       (I_MAP,"Stratégie et pilotage du réseau","Diagnostiquer le réseau, fixer le cap, la gouvernance et les indicateurs de performance."),
-      (I_LAYERS,"Proposition de valeur et programme partenaires","Clarifier ce que vous apportez à vos partenaires, puis le traduire en niveaux, bénéfices et dispositifs."),
+      (I_LAYERS,"Proposition de valeur et programme partenaires","Clarifier ce que vous apportez à vos partenaires, distinct de la valeur de vos offres pour le client final, puis le traduire en dispositifs."),
       (I_PATH,"Parcours et engagement des partenaires","Recruter, intégrer, accompagner, rassembler et reconnaître vos partenaires dans la durée."),
       (I_CAP,"Compétences et performance commerciale","Développer les compétences et la vente par la valeur, avec des plans d’action adaptés."),
     ],"ch",4)}
