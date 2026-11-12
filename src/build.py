@@ -190,8 +190,8 @@ EXP = {"ch": ("Channel Performance", "experience-channel.html"), "cl": ("Custome
 
 REAL = [
   dict(slug="realisation-valeur-marque.html", cls="ch", kind="x",
-    title="Comment redonner de la valeur à une marque lorsque les partenaires ne parlent plus que de prix ?",
-    ctx="Un constructeur sur un marché mature, des offres difficiles à différencier et une forte pression sur les prix.",
+    title="Comment redonner de la valeur à une marque lorsque les discussions se concentrent sur le prix ?",
+    ctx="Un constructeur sur un marché mature, des offres premium mais de plus en plus difficiles à différencier et une forte pression sur les prix.",
     ans="Repenser la proposition de valeur pour le réseau et la traduire dans le programme partenaires.",
     defi="Un constructeur présent sur un marché mature, face à une forte pression concurrentielle. Aux yeux de ses partenaires, ses offres se distinguaient mal de celles de ses concurrents, et les négociations se concentraient sur le prix d’achat. Comment convaincre le réseau de privilégier une marque premium et d’en défendre la valeur ?",
     reponse="Repenser la proposition de valeur du fournisseur pour son réseau : ce que la marque apporte au développement de ses partenaires, au-delà de la marge. Puis traduire cette stratégie dans le programme partenaires.",
