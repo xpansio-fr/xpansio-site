@@ -657,3 +657,19 @@ footer nav a:hover{color:#fff;text-decoration:underline;text-underline-offset:4p
 .hero:has(.stack.cases) .wrap{padding-top:clamp(40px,5vw,64px)}
 .stack.cases{margin-top:clamp(32px,4vw,52px)}
 @media (min-width:761px){.stack.cases .p4 .cap{left:34px}.stack.cases .p3 .cap{left:24px}}
+/* Réalisations : aperçus cliquables, grilles à 1 ou 2 colonnes, encadré résultats */
+.pgrid.n2{grid-template-columns:repeat(2,minmax(0,1fr));max-width:980px;margin-inline:auto}
+.pgrid.n1{grid-template-columns:minmax(0,520px);justify-content:center}
+@media (max-width:960px){.pgrid.n2,.pgrid.n1{grid-template-columns:1fr;max-width:520px}}
+a.pcard{text-decoration:none;color:inherit;transition:transform .25s,box-shadow .25s}
+a.pcard:hover{transform:translateY(-3px);box-shadow:0 28px 60px -34px rgba(11,16,23,.35)}
+a.pcard:focus-visible{outline:2px solid var(--channel);outline-offset:3px}
+.pcard .ans{color:var(--ink-2);font-weight:500}
+.pcard .link{margin-top:4px}
+.link.ch{color:var(--channel-text)}.link.cl{color:var(--client-text)}
+.xp.ch{background:var(--channel-soft)}
+.xp .from{font-size:.9rem;color:var(--muted)}
+.xp .from b{color:var(--ink)}
+.case-col ul{text-align:left;list-style:disc;padding-left:1.1em}
+.band .about+.chain-wrap{margin-top:clamp(56px,7vw,80px)}
+.about .portrait{margin-top:0}
