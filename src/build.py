@@ -198,10 +198,22 @@ REAL = [
     done=["Analyse du positionnement et des enjeux économiques du réseau",
           "Construction d’une proposition de valeur partenaire",
           "Traduction dans les dispositifs d’accompagnement et de reconnaissance",
-          "Développement de communautés et d’initiatives autour des services",
+          "Développement d’initiatives et de valorisation des services",
           "Renforcement des compétences commerciales et de la vente par la valeur"],
     result="Un partenaire défend une marque lorsqu’il comprend ce qu’elle apporte à sa propre activité. La proposition de valeur se construit pour le réseau avant de se décliner en niveaux, remises et avantages.",
     xp="Mission de conseil Xpansio auprès d’un constructeur international. Le client n’est pas nommé, par confidentialité."),
+  dict(slug="realisation-clubs-partenaires.html", cls="ch", kind="x",
+    title="Comment rétablir la confiance d’un réseau de partenaires fragilisé ?",
+    ctx="Un changement de management et des crises successives avaient fragilisé l’implication des partenaires.",
+    ans="Créer des clubs partenaires pour redonner des responsabilités aux partenaires clés.",
+    defi="Un réseau en perte de confiance. Un changement de management et des crises multiples avaient fragilisé l’implication des partenaires. Comment rétablir la confiance et remobiliser durablement les partenaires ?",
+    reponse="Donner des responsabilités aux partenaires les plus importants, historiques et investis, à travers des clubs dédiés. En parallèle, renforcer l’accompagnement pour restaurer l’engagement.",
+    done=["Création de plusieurs clubs : clubs technologiques d’expertise et clubs de dirigeants, plus stratégiques",
+          "Charte du club élaborée avec les partenaires",
+          "Accès facilité au management de haut niveau et aux instances importantes",
+          "Accompagnement renforcé des partenaires, en parallèle des clubs"],
+    result="Des scores de satisfaction inédits à l’issue de ces rencontres, plébiscitées par tous.",
+    xp="Mission de conseil Xpansio. Le client n’est pas nommé, par confidentialité."),
   dict(slug="realisation-crise-clients-prioritaires.html", cls="cl", kind="a",
     title="Comment préserver la satisfaction client lorsque la crise impose des arbitrages ?",
     ctx="Une crise d’approvisionnement majeure : l’entreprise ne peut plus répondre normalement à toutes les demandes.",
@@ -243,7 +255,7 @@ REAL = [
     xp="Expérience professionnelle antérieure de la fondatrice, chez un constructeur international de solutions bureautiques et IT, avant la création d’Xpansio."),
 ]
 R = {r["slug"]: r for r in REAL}
-R1, R2, R3, R4 = (r["slug"] for r in REAL)
+R1, R5, R2, R3, R4 = (r["slug"] for r in REAL)
 
 def rcard(r):
     """Aperçu court d'une réalisation (accueil, page Nos réalisations, pages d'expertise)."""
@@ -253,7 +265,7 @@ def rcard(r):
             f'<span class="link {c}">Découvrir la réalisation {ARR}</span></a>')
 
 def rgrid(rs):
-    return f'<div class="pgrid{ {1: " n1", 4: " n2"}.get(len(rs), "")}">' + ''.join(rcard(r) for r in rs) + '</div>'
+    return f'<div class="pgrid{ {1: " n1", 2: " n2", 4: " n2", 5: " n2"}.get(len(rs), "")}">' + ''.join(rcard(r) for r in rs) + '</div>'
 
 KINDS_NOTE = ('<p class="note"><b>Mission Xpansio</b> : intervention de conseil réalisée par Xpansio. '
               '<b>Expérience antérieure</b> : démarche conduite par Agnès Chabrier dans ses fonctions précédentes, avant la création d’Xpansio.</p>')
@@ -296,7 +308,7 @@ REALISATIONS_PAGE = f'''
 
 # Accueil : quatre cartes « enjeux », chacune mène à la réalisation qui y répond. Titre au repos, réponse courte au survol (toujours visible sur mobile).
 HOME_CASES = [
-    ("dialogue", R1, "ch", "Channel Performance", "Vos partenaires sont-ils vraiment engagés ?",
+    ("dialogue", R5, "ch", "Channel Performance", "Vos partenaires sont-ils vraiment engagés ?",
      "Impliquez, accompagnez et valorisez vos partenaires pour construire une relation durable et développer leur engagement."),
     ("salle", R1, "ch", "Channel Performance", "Quelle valeur apportez-vous à vos partenaires ?",
      "Définissez une proposition de valeur réseau différenciante et traduisez-la en un programme partenaires cohérent."),
@@ -430,8 +442,8 @@ CHANNEL = f'''
 </section>
 <section class="band">
   <div class="wrap">
-    {head("Réalisation associée", "Ce que cela donne sur le terrain.", cls="ch")}
-    {rgrid([R[R1]])}
+    {head("Réalisations associées", "Ce que cela donne sur le terrain.", cls="ch")}
+    {rgrid([R[R5], R[R1]])}
   </div>
 </section>
 {cta("Et si votre programme partenaires devenait un avantage concurrentiel ?","Demandez une Executive Partner Review : 90 minutes pour analyser l’alignement de votre programme avec votre stratégie et ses leviers de création de valeur.")}
@@ -482,7 +494,7 @@ CLIENT = f'''
 REDIRECTS = {
     "projets.html": "realisations.html",
     "expertises.html": "index.html#expertises",
-    "cas-engagement-partenaires.html": R1,
+    "cas-engagement-partenaires.html": R5,
     "cas-valeur-reseau.html": R1,
     "cas-experience-client.html": R3,
     "cas-valeur-clients.html": R2,
