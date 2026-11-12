@@ -443,7 +443,7 @@ CHANNEL = f'''
     {head("Piloter le réseau", "Mesurer la performance du réseau, accompagner chaque partenaire.", "Deux niveaux de pilotage complémentaires, qui ne se remplacent pas.", cls="ch")}
     <div class="vs">
       <div class="vs-col ch"><span class="label ch">Performance globale du réseau</span><p>Chiffre d’affaires, parts de marché, couverture, croissance : où en est le réseau, et où va-t-il ?</p></div>
-      <div class="vs-col"><span class="label">Relation avec chaque partenaire</span><p>Le Partner Performance Index (PPI) structure le dialogue avec chaque partenaire : compétences, qualité de service, engagement, pratiques commerciales, capacité d’adaptation. Un outil de progrès, pas un classement.</p></div>
+      <div class="vs-col"><span class="label">Relation avec chaque partenaire</span><p>Le Partner Performance Index (PPI) structure le dialogue avec chaque partenaire : compétences, qualité de service, engagement, pratiques commerciales, capacité de transformation de ses activités. Un outil de progrès, pas un classement.</p></div>
     </div>
     <p class="note">Critères et pondérations sont définis avec vous, selon votre réseau et vos objectifs.</p>
   </div>
