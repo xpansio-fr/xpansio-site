@@ -181,19 +181,24 @@ def collage(keys, note=None, cls=""):
     return f'<div class="stack n{len(keys)} {cls}" aria-hidden="true">{imgs}</div>'
 # Seule la page Nos projets garde un petit collage (photos 1, 3 et 4 du carrousel de l'accueil).
 HT = {"projets": collage(["carnet", "dossier", "dialogue"], cls="sm")}
-# Accueil : chaque photo mène au rail de la page qu'elle illustre.
-HOME_RAILS = [
-    ("carnet", "#apropos", "À propos d’Xpansio"),
-    ("salle", "#expertises", "Nos expertises"),
-    ("dossier", "#projets", "Les projets"),
-    ("dialogue", "#contact", "Échanger sur vos besoins"),
+# Accueil : quatre cartes « cas d'usage », chacune mène à sa page. Titre au repos, réponse courte au survol (toujours visible sur mobile).
+HOME_CASES = [
+    ("dialogue", "cas-engagement-partenaires.html", "ch", "Channel Performance", "Vos partenaires sont-ils vraiment engagés ?",
+     "Impliquez, accompagnez et valorisez vos partenaires pour construire une relation durable et développer leur engagement."),
+    ("salle", "cas-valeur-reseau.html", "ch", "Channel Performance", "Quelle valeur apportez-vous à vos partenaires ?",
+     "Définissez une proposition de valeur réseau différenciante et traduisez-la en un programme partenaires cohérent."),
+    ("carnet", "cas-experience-client.html", "cl", "Customer Performance", "Vos clients sont-ils vraiment satisfaits ?",
+     "Écoutez vos clients, impliquez-les dans l’amélioration de leur parcours et transformez leurs irritants en actions concrètes."),
+    ("dossier", "cas-valeur-clients.html", "cl", "Customer Performance", "Connaissez-vous vraiment la valeur de vos clients ?",
+     "Identifiez les risques, les potentiels et les priorités pour fidéliser et développer durablement votre capital client."),
 ]
 def home_collage():
     cards = ''.join(
-        f'<a class="ph p{i+1}" href="{h}" style="--i:{i}"><img src="assets/{PHOTOS[k]}" alt="" decoding="async">'
-        f'<span class="cap"><span class="n">0{i+1}</span><span class="t">{t}</span>{ARR}</span></a>'
-        for i, (k, h, t) in enumerate(HOME_RAILS))
-    return f'<nav class="stack n4 links" aria-label="Parcourir la page">{cards}</nav>'
+        f'<a class="ph p{i+1} {c}" href="{h}" style="--i:{i}"><img src="assets/{PHOTOS[k]}" alt="" decoding="async">'
+        f'<span class="cap"><span class="ctag {c}">{tag}</span><span class="t">{t}</span>'
+        f'<span class="rev"><span class="a">{a}</span><span class="go">Découvrir le cas {ARR}</span></span></span></a>'
+        for i, (k, h, c, tag, t, a) in enumerate(HOME_CASES))
+    return f'<nav class="stack n4 links cases" aria-label="Quatre enjeux, quatre cas d’usage">{cards}</nav>'
 HOME_COLLAGE = home_collage()
 
 # ---------- ACCUEIL ----------
@@ -509,6 +514,128 @@ CLIENT = f'''
 {cta("Des clients mieux écoutés. Des relations plus solides. Un capital client qui se développe.","Échangeons sur vos enjeux de satisfaction, de fidélisation et de développement de votre portefeuille clients.","Échanger sur votre capital client")}
 '''
 
+
+# ---------- CAS D'USAGE (pages ouvertes depuis les cartes de l'accueil) ----------
+def case_page(cls, exp, exp_href, num, title, lead, enjeu, questions, demarche_title, demarche, leviers, leviers_note, benefices, extra="", cta_t="", cta_p=""):
+    q = ''.join(f'<li>{x}</li>' for x in questions)
+    lv = ''.join(f'<li class="chip">{x}</li>' for x in leviers)
+    note = f'<p class="note">{leviers_note}</p>' if leviers_note else ''
+    ico = I_NET if cls == "ch" else I_USER
+    return f'''
+{page_hero([("index.html","Accueil"),(exp_href, exp),(None,"Cas d’usage " + num)], title, lead,
+  f'<span class="pill {cls}"><span class="ico {cls}">{ico}</span>Cas d’usage {num} · {exp}</span>', cta_btn="Échanger sur cet enjeu", h1cls=" h1-long")}
+<section class="band alt">
+  <div class="wrap">
+    {head("L’enjeu", enjeu[0], enjeu[1], cls=cls)}
+    <ul class="qlist {cls}">{q}</ul>
+  </div>
+</section>
+<section class="band">
+  <div class="wrap">
+    {head("L’approche Xpansio", demarche_title, cls=cls)}
+    {demarche}
+  </div>
+</section>
+<section class="band alt">
+  <div class="wrap">
+    {head("Leviers d’intervention", "Des leviers choisis selon votre contexte.", cls=cls)}
+    <ul class="chips lv {cls}">{lv}</ul>
+    {note}
+    <p class="benef"><b>L’objectif :</b> {benefices}</p>
+  </div>
+</section>
+{extra}
+<section class="band{' alt' if extra else ''}">
+  <div class="wrap below-x">
+    <a class="link {cls}" href="{exp_href}">Voir l’expertise {exp} {ARR}</a>
+  </div>
+</section>
+{cta(cta_t, cta_p, "Échanger sur cet enjeu")}
+'''
+
+def numbered(items, cls):
+    return f'<ol class="nsteps {cls}">' + ''.join(f'<li><span class="n">0{i+1}</span><p>{x}</p></li>' for i, x in enumerate(items)) + '</ol>'
+
+CAS1 = case_page("ch", "Channel Performance", "experience-channel.html", "01",
+  "Vos partenaires sont-ils vraiment engagés ?",
+  "Impliquez, accompagnez et valorisez vos partenaires pour construire une relation durable et développer leur engagement.",
+  ("L’engagement ne se résume ni aux incentives ni à l’activation commerciale.",
+   "Remises, promotions et challenges peuvent stimuler l’activité à court terme. Ils ne suffisent pas à créer un partenariat dans lequel les deux parties ont intérêt à s’investir."),
+  ["Que vos partenaires attendent-ils réellement de vous ?", "Sont-ils associés aux réflexions et aux décisions qui concernent le réseau ?",
+   "Leur expertise et leurs réussites sont-elles reconnues ?", "Votre accompagnement contribue-t-il au développement de leur activité ?"],
+  "Construire l’engagement dans la durée.",
+  cards([(I_CHAT,"Écouter","Comprendre les attentes et les besoins du réseau."),
+         (I_HANDS,"Impliquer","Associer les partenaires aux réflexions et aux décisions."),
+         (I_CAP,"Faire progresser","Former et développer les compétences."),
+         (I_STAR,"Reconnaître","Valoriser l’expertise et les réussites des partenaires."),
+         (I_NET,"Rassembler","Créer des communautés, clubs et espaces de dialogue."),
+         (I_GROW,"Accompagner","Soutenir le développement de leur activité, dans la durée.")],"ch",3),
+  ["Écoute du réseau","Comités et groupes de travail partenaires","Parcours de compétences","Dispositifs de reconnaissance","Communautés et clubs","Plans d’accompagnement"],
+  "", "passer d’une relation essentiellement transactionnelle à une relation mutuellement bénéfique, fondée sur la confiance et la contribution réciproque.",
+  cta_t="Et si vos partenaires devenaient de vrais partenaires ?", cta_p="Échangeons sur l’engagement de votre réseau et les leviers adaptés à votre contexte.")
+
+CAS2 = case_page("ch", "Channel Performance", "experience-channel.html", "02",
+  "Quelle valeur apportez-vous à vos partenaires ?",
+  "Définissez une proposition de valeur réseau différenciante et traduisez-la en un programme partenaires cohérent.",
+  ("Un programme partenaires ne devrait pas commencer par ses niveaux et ses remises.",
+   "Avant de définir les niveaux, avantages, remises ou services d’un programme, un fournisseur doit clarifier la valeur spécifique qu’il apporte à son réseau."),
+  ["Pourquoi un partenaire aurait-il intérêt à développer son activité avec vous plutôt qu’avec un autre fournisseur ?"],
+  "De la proposition de valeur au programme partenaires.",
+  numbered(["Analyser les attentes, les critères de choix et les modèles économiques des partenaires.",
+            "Identifier les avantages différenciants du fournisseur pour son réseau.",
+            "Définir une proposition de valeur crédible, spécifique et adaptée.",
+            "La traduire dans un programme partenaires et des initiatives concrètes."],"ch")
+  + '''<div class="vs">
+      <div class="vs-col ch"><span class="label ch">Votre valeur pour le partenaire</span><p>Rentabilité, développement commercial, revenus récurrents, compétences, différenciation, accompagnement.</p></div>
+      <div class="vs-col"><span class="label">La valeur de votre offre pour le client final</span><p>Usages, bénéfices métiers, performance, fiabilité, maîtrise des coûts.</p></div>
+    </div>
+    <p class="note">Les deux sont liées, mais ne se confondent pas.</p>''',
+  ["Rentabilité et développement économique","Revenus récurrents","Génération de demande","Différenciation concurrentielle","Opportunités de services","Formation et accompagnement","Fiabilité et qualité de la relation","Accès à de nouveaux marchés"],
+  "Ces leviers sont des exemples, non une liste obligatoire : ils dépendent de votre marché et de vos partenaires.",
+  "donner à vos partenaires une raison claire et durable de s’investir avec vous, et un programme qui la rend concrète.",
+  cta_t="Votre programme partenaires dit-il pourquoi vous choisir ?", cta_p="Échangeons sur votre proposition de valeur réseau et sa traduction dans votre programme.")
+
+CAS3 = case_page("cl", "Customer Performance", "experience-client.html", "03",
+  "Vos clients sont-ils vraiment satisfaits ?",
+  "Écoutez vos clients, impliquez-les dans l’amélioration de leur parcours et transformez leurs irritants en actions concrètes.",
+  ("L’expérience client ne se limite pas à mesurer la satisfaction.",
+   "Elle consiste à comprendre la réalité vécue par les clients et à construire avec eux une meilleure expérience."),
+  ["Savez-vous ce que vivent réellement vos clients aux moments clés de la relation ?", "Quels irritants persistent sans être identifiés ?",
+   "Vos clients voient-ils les améliorations engagées suite à leurs remarques ?"],
+  "Faire du client un acteur de l’amélioration continue.",
+  cards([(I_CHAT,"Écouter","Connaître les clients, écouter et mesurer la satisfaction."),
+         (I_PATH,"Comprendre","Analyser le parcours client et les moments de vérité, identifier les irritants."),
+         (I_HANDS,"Co-construire","Ateliers associant clients et collaborateurs pour prioriser les chantiers."),
+         (I_GROW,"Suivre et informer","Suivre les actions et communiquer les progrès réalisés.")],"cl",4)
+  + '<p class="note">Une démarche fondée sur la transparence, la confiance et une relation de partenariat avec vos clients.</p>',
+  ["Dispositifs d’écoute","Mesure de la satisfaction","Cartographie du parcours","Ateliers clients et équipes","Priorisation des chantiers","Communication des progrès"],
+  "", "des clients mieux compris, des irritants traités en priorité et une relation fondée sur la confiance.",
+  extra='''<section class="band"><div class="wrap"><div class="xp cl"><span class="label cl">Expérience de la fondatrice</span>
+    <p>Agnès Chabrier a conduit des démarches d’écoute, d’analyse des parcours clients et d’amélioration continue dans ses fonctions antérieures de responsable Expérience Client, avant la création d’Xpansio.</p></div></div></section>''',
+  cta_t="Et si vos clients vous aidaient à mieux les servir ?", cta_p="Échangeons sur votre dispositif d’écoute et vos priorités d’amélioration.")
+
+CAS4 = case_page("cl", "Customer Performance", "experience-client.html", "04",
+  "Connaissez-vous vraiment la valeur de vos clients ?",
+  "Identifiez les risques, les potentiels et les priorités pour fidéliser et développer durablement votre capital client.",
+  ("La valeur d’un client ne se résume pas à son chiffre d’affaires.",
+   "La connaissance du portefeuille est un outil de décision stratégique : elle éclaire la fidélisation, le développement et l’allocation des ressources."),
+  ["Quels clients contribuent réellement à votre performance ?", "Lesquels présentent un risque de départ ?", "Où se trouvent vos potentiels de développement ?"],
+  "Des indicateurs adaptés, pas une formule standard.",
+  cards([(None,"Contribution économique","Rentabilité et poids dans l’activité."),
+         (None,"Fidélité et risque","Stabilité de la relation, exposition au départ."),
+         (None,"Potentiel","Opportunités de développement."),
+         (None,"Influence","Rôle de référence ou de prescripteur."),
+         (None,"Importance stratégique","Criticité de la relation pour l’entreprise.")],"cl",5)
+  + '<p class="note">Ces dimensions sont des exemples, non des critères systématiques. Xpansio vous aide à définir les indicateurs pertinents, analyser le portefeuille, identifier les priorités et construire les plans d’action.</p>',
+  ["Indicateurs du portefeuille","Analyse et segmentation","Priorisation","Plans de fidélisation","Plans de développement"],
+  "", "éclairer vos décisions de fidélisation, de développement et d’allocation des ressources.",
+  extra='''<section class="band"><div class="wrap"><div class="xp cl"><span class="label cl">Expérience de la fondatrice</span>
+    <h3>Quand la crise impose des choix : comment protéger ses relations clients stratégiques ?</h3>
+    <p>Lorsqu’une crise affecte fortement la capacité d’une entreprise à satisfaire ses clients, la connaissance du portefeuille devient un outil d’aide aux arbitrages. Dans une expérience professionnelle antérieure, Agnès Chabrier a conçu une segmentation stratégique pour mieux identifier les clients prioritaires dans un contexte de crise d’approvisionnement, en combinant plusieurs dimensions de la valeur client, au-delà du seul chiffre d’affaires.</p>
+    <p>Prioriser ne signifie pas abandonner les autres clients : les engagements contractuels, l’équité et les besoins critiques restent pris en compte.</p>
+    <p class="lesson"><b>L’enseignement :</b> une bonne connaissance du capital client facilite les arbitrages lorsque les ressources sont limitées.</p></div></div></section>''',
+  cta_t="Votre portefeuille clients guide-t-il vos décisions ?", cta_p="Échangeons sur la connaissance de votre capital client et vos priorités.")
+
 def case(i, title, ctx, obj, livr, kpis):
     li = ''.join(f'<li>{x}</li>' for x in livr)
     kp = ''.join(f'<div class="kpi"><div class="v">{v}</div><div class="l">{l}</div></div>' for v, l in kpis)
@@ -596,6 +723,10 @@ PAGES = [
     ("expertises.html", "expertises", "Nos expertises · Xpansio", "Channel Performance et Customer Performance : les deux expertises d’Xpansio.", EXPERTISES),
     ("experience-channel.html", "channel", "Channel Performance · Xpansio", "Programmes partenaires, animation de réseaux de distribution, cartographie du channel et parcours partenaire.", CHANNEL),
     ("experience-client.html", "client", "Customer Performance · Xpansio", "Satisfaction et expérience client, fidélisation et développement de la valeur du capital client : l’accompagnement Customer Performance d’Xpansio.", CLIENT),
+    ("cas-engagement-partenaires.html", "cas", "Vos partenaires sont-ils vraiment engagés ? · Xpansio", "Développer l’engagement des partenaires : écoute, implication, compétences, reconnaissance et accompagnement dans la durée.", CAS1),
+    ("cas-valeur-reseau.html", "cas", "Quelle valeur apportez-vous à vos partenaires ? · Xpansio", "Construire une proposition de valeur réseau différenciante et la traduire en un programme partenaires cohérent.", CAS2),
+    ("cas-experience-client.html", "cas", "Vos clients sont-ils vraiment satisfaits ? · Xpansio", "Faire du client un acteur de l’amélioration continue : écoute, parcours, irritants et plans d’amélioration.", CAS3),
+    ("cas-valeur-clients.html", "cas", "Connaissez-vous vraiment la valeur de vos clients ? · Xpansio", "Piloter et développer la valeur de son capital client : risques, potentiels et priorités.", CAS4),
     ("projets.html", "projets", "Nos projets · Xpansio", "Projets réalisés par Xpansio et résultats obtenus.", PROJETS),
     ("contact.html", "contact", "Contact · Xpansio", "Contacter Xpansio pour un premier échange.", CONTACT),
     ("mentions-legales.html", "legal", "Mentions légales · Xpansio", "Mentions légales du site Xpansio.", LEGAL),
