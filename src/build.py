@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 """Génère le site Xpansio v3 : dist/ (site à héberger) et artifact/ (accueil sans squelette)."""
 import os, shutil, sys
+import hashlib
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from icons import *
 
 SRC = os.path.dirname(os.path.abspath(__file__))
+# Version de la feuille de style : change à chaque modification de styles.css, ce qui force les navigateurs à recharger le style.
+CSS_V = hashlib.md5(open(os.path.join(SRC, "styles.css"), "rb").read()).hexdigest()[:8]
 # Clé publique Web3Forms (formulaire de contact), liée à l'adresse d'Agnès. Elle est faite pour être visible dans la page.
 WEB3FORMS_KEY = "98890583-2366-4dbd-afb2-a1896cf89b4d"
 ROOT = os.path.dirname(SRC)
@@ -103,7 +106,7 @@ SCRIPT = '''<script>
 
 def page(key, title, desc, body, full=True):
     head = (f'<title>{title}</title>\n<meta name="claude:viewport-fit-sides" content="cover">\n'
-            f'<meta name="description" content="{desc}">\n{FONTS}\n<link rel="stylesheet" href="styles.css">\n<link rel="icon" href="assets/favicon.png">')
+            f'<meta name="description" content="{desc}">\n{FONTS}\n<link rel="stylesheet" href="styles.css?v={CSS_V}">\n<link rel="icon" href="assets/favicon.png">')
     inner = f'{header(key)}\n<main>\n{body}\n</main>\n{FOOTER}\n{SCRIPT}'
     if not full:
         return head + '\n' + inner
