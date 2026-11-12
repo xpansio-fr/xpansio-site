@@ -6,3 +6,4 @@
 - Ne pas afficher le numéro de téléphone (bouton `tel:` uniquement), sauf dans les mentions légales où il est obligatoire.
 - Ne citer aucune entreprise cliente dans les références.
 - Typographie Montserrat, composition centrée, bleu = expérience channel, corail = expérience client.
+- Quand Agnès écrit, réponds-lui en français, très court, sans politesses ni explications techniques : dis seulement ce qui a changé et les choix que tu as faits toi-même.
