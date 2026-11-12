@@ -418,7 +418,7 @@ CHANNEL = f'''
 {page_hero([("index.html","Accueil"),(None,"Channel Performance")], "Channel Performance",
   ["Faire de votre réseau de distribution indirecte un avantage concurrentiel durable.",
    "Pour les constructeurs, éditeurs, distributeurs IT et réseaux de revendeurs B2B."],
-  f'<span class="pill ch"><span class="ico ch">{I_NET}</span>Expertise 01</span>', cta_btn="Prendre rendez-vous")}
+  f'<span class="pill ch"><span class="ico ch">{I_NET}</span>Expertise 01</span>', cta_btn="Prendre rendez-vous").replace('class="page-hero"', 'class="page-hero compact"', 1)}
 <section class="band alt">
   <div class="wrap">
     {head("Vos enjeux", "Le marché change plus vite que les réseaux.", cls="ch")}
@@ -461,7 +461,7 @@ CLIENT = f'''
 {page_hero([("index.html","Accueil"),(None,"Customer Performance")], "Votre capital client est votre premier actif. Encore faut-il en prendre toute la mesure.",
   ["Xpansio vous aide à mieux écouter vos clients, à renforcer leur fidélité et à développer la valeur de votre portefeuille.",
    "Pour les revendeurs, intégrateurs, ESN et entreprises B2B disposant d’une base clients récurrente."],
-  f'<span class="pill cl"><span class="ico cl">{I_USER}</span>Expertise 02 · Customer Performance</span>', cta_btn="Prendre rendez-vous", h1cls=" h1-long")}
+  f'<span class="pill cl"><span class="ico cl">{I_USER}</span>Expertise 02 · Customer Performance</span>', cta_btn="Prendre rendez-vous", h1cls=" h1-long").replace('class="page-hero"', 'class="page-hero compact"', 1)}
 <section class="band alt">
   <div class="wrap">
     {head("Vos enjeux", "Écouter, fidéliser, développer : trois enjeux liés.", cls="cl")}

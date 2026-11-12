@@ -675,7 +675,11 @@ a.pcard:focus-visible{outline:2px solid var(--channel);outline-offset:3px}
 .about .portrait{margin-top:0}
 .pgrid.n2>:last-child:nth-child(odd){grid-column:1/-1;justify-self:center;width:min(100%,478px)}
 /* Page Nos réalisations : introduction compacte, cartes alignées à gauche, de hauteur égale */
-.page-hero.compact .wrap{padding-block:clamp(32px,4vw,52px) clamp(20px,2.5vw,32px);gap:16px}
+/* Introductions compactes (Nos réalisations, Channel et Customer Performance) */
+.page-hero.compact .wrap{padding-block:clamp(28px,3.4vw,44px) clamp(32px,3.4vw,44px);gap:14px}
+.page-hero.compact:has(+.band.tight) .wrap{padding-bottom:clamp(20px,2.5vw,32px)}
+.page-hero.compact .ctas{margin-top:8px}
+.page-hero.compact+.band:not(.tight){padding-top:clamp(44px,5vw,64px)}
 .band.tight{padding-block:clamp(24px,3vw,36px) clamp(64px,8vw,96px);border-top:0}
 .band.tight .pcard{display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:12px;padding:30px}
 .band.tight .pcard .who{margin-top:-4px}
