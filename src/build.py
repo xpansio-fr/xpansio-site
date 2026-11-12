@@ -117,10 +117,15 @@ def head(label, title, lead=None, cls=""):
     l = f'<p class="lead">{lead}</p>' if lead else ''
     return f'<div class="head"><span class="label {cls}">{label}</span><h2 class="h2">{title}</h2>{l}</div>'
 
-def cta(title="Parlons de vos partenaires et de vos clients.", text="Un premier échange de 30 minutes pour faire le point sur vos enjeux, sans engagement.", btn="Prendre rendez-vous"):
+CTA_T = "Échangeons sur vos enjeux"
+CTA_P = "Vous souhaitez faire évoluer votre stratégie Channel, renforcer l’engagement de vos partenaires ou développer la valeur de votre portefeuille clients ? Échangeons sur vos priorités et les pistes d’amélioration possibles."
+CTA_NOTE = "Premier échange de 30 minutes, sans engagement."
+def cta():
+    """Appel à l'action unique, identique sur toutes les pages."""
     return f'''<section class="band ink"><div class="wrap">
-  {head("Contact", title, text)}
-  <div class="ctas"><a class="btn btn-white" href="contact.html">{btn} {ARR}</a></div>
+  {head("Contact", CTA_T, CTA_P)}
+  <div class="ctas"><a class="btn btn-white" href="contact.html">Prendre rendez-vous {ARR}</a></div>
+  <p class="note">{CTA_NOTE}</p>
 </div></section>'''
 
 def page_hero(crumbs, title, lead, extra="", cta_btn=None, tiles="", h1cls=""):
@@ -192,27 +197,29 @@ REAL = [
   dict(slug="realisation-valeur-marque.html", cls="ch", kind="x",
     title="Comment redonner de la valeur à une marque lorsque les discussions se concentrent sur le prix ?",
     ctx="Un constructeur sur un marché mature, des offres premium mais de plus en plus difficiles à différencier et une forte pression sur les prix.",
-    ans="Repenser la proposition de valeur pour le réseau et la traduire dans le programme partenaires.",
-    defi="Un constructeur présent sur un marché mature, face à une forte pression concurrentielle. Aux yeux de ses partenaires, ses offres se distinguaient mal de celles de ses concurrents, et les négociations se concentraient sur le prix d’achat. Comment convaincre le réseau de privilégier une marque premium et d’en défendre la valeur ?",
-    reponse="Repenser la proposition de valeur du fournisseur pour son réseau : ce que la marque apporte au développement de ses partenaires, au-delà de la marge. Puis traduire cette stratégie dans le programme partenaires.",
-    done=["Analyse du positionnement et des enjeux économiques du réseau",
-          "Construction d’une proposition de valeur partenaire",
-          "Traduction dans les dispositifs d’accompagnement et de reconnaissance",
-          "Développement d’initiatives et de valorisation des services",
-          "Renforcement des compétences commerciales et de la vente par la valeur"],
-    result="Un partenaire défend une marque lorsqu’il comprend ce qu’elle apporte à sa propre activité. La proposition de valeur se construit pour le réseau avant de se décliner en niveaux, remises et avantages.",
-    xp="Mission de conseil Xpansio auprès d’un constructeur international. Le client n’est pas nommé, par confidentialité."),
+    ans="Définir une proposition de valeur réseau différenciante, donner aux équipes les moyens de la défendre et aligner les dispositifs.",
+    defi="Un constructeur intervient sur un marché mature, avec des offres qui semblent de plus en plus comparables aux yeux des partenaires. Les discussions commerciales se concentrent sur le prix. Comment construire une proposition de valeur différenciante, crédible et défendable, puis faire en sorte qu’elle guide réellement la relation avec les partenaires ?",
+    reponse="Écouter les partenaires et les équipes internes, définir une proposition de valeur réseau différenciante, puis donner aux commerciaux les preuves et les arguments pour la défendre. Cette proposition est ensuite devenue le principe directeur de l’ensemble des dispositifs de la relation partenaires.",
+    done=["Consultation des partenaires, des équipes internes et des responsables du réseau : attentes, critères de choix, conditions de création de valeur",
+          "Définition d’une proposition de valeur réseau pertinente, différenciante, crédible et cohérente avec le positionnement du constructeur",
+          "Analyses, données chiffrées et argumentaires pour permettre aux équipes commerciales de défendre la valeur plutôt que le prix",
+          "Alignement des dispositifs : accompagnement, formation et compétences, outils d’aide à la vente, reconnaissance et valorisation",
+          "Alignement des orientations du réseau, des objectifs et outils contractuels, et des initiatives de dialogue avec les partenaires"],
+    rlabel="L’enseignement",
+    result="Une proposition de valeur différenciante n’a d’impact que lorsqu’elle est comprise, démontrée et incarnée par toute l’organisation. Définir la promesse est une première étape : donner aux équipes les moyens de la défendre et aligner les dispositifs sur cette promesse constitue le véritable travail de transformation.",
+    xp="Mission de conseil Xpansio auprès d’un constructeur. Le client n’est pas nommé, par confidentialité."),
   dict(slug="realisation-clubs-partenaires.html", cls="ch", kind="x",
     title="Comment rétablir la confiance d’un réseau de partenaires fragilisé ?",
     ctx="Un changement de management et des crises successives avaient fragilisé l’implication des partenaires.",
-    ans="Créer des clubs partenaires pour redonner des responsabilités aux partenaires clés.",
-    defi="Un réseau en perte de confiance. Un changement de management et des crises multiples avaient fragilisé l’implication des partenaires. Comment rétablir la confiance et remobiliser durablement les partenaires ?",
-    reponse="Donner des responsabilités aux partenaires les plus importants, historiques et investis, à travers des clubs dédiés. En parallèle, renforcer l’accompagnement pour restaurer l’engagement.",
-    done=["Création de plusieurs clubs : clubs technologiques d’expertise et clubs de dirigeants, plus stratégiques",
-          "Charte du club élaborée avec les partenaires",
-          "Accès facilité au management de haut niveau et aux instances importantes",
-          "Accompagnement renforcé des partenaires, en parallèle des clubs"],
-    result="Des scores de satisfaction inédits à l’issue de ces rencontres, plébiscitées par tous.",
+    ans="Créer et animer des clubs partenaires : un dialogue régulier, des experts, une implication dans la vie du réseau.",
+    defi="Un changement de management et des crises multiples avaient fragilisé la confiance du réseau. Or un réseau ne peut pas reposer uniquement sur une relation commerciale descendante : les partenaires ont besoin de partager leurs enjeux, de faire entendre leurs attentes, d’accéder à des expertises utiles et de participer à l’évolution du réseau.",
+    reponse="Créer et animer des clubs partenaires, clubs technologiques d’expertise et clubs de dirigeants plus stratégiques, pour instaurer un dialogue régulier, faire émerger des réflexions communes et renforcer l’implication des partenaires. Une charte a été élaborée avec eux, l’accès au management de haut niveau facilité, et l’accompagnement renforcé en parallèle.",
+    done=["Définition des objectifs et du positionnement des clubs",
+          "Sélection des thématiques et des participants",
+          "Préparation et animation des réunions, avec l’intervention d’experts sur les sujets identifiés",
+          "Recueil des attentes et des contributions des partenaires",
+          "Enquête de satisfaction après chaque réunion, exploitée pour préparer les rencontres suivantes"],
+    result="Les enquêtes réalisées après les rencontres font ressortir une appréciation très positive des échanges, notamment pour leur utilité stratégique, l’accès aux experts et la possibilité de dialoguer directement avec le constructeur. L’enseignement : un club partenaires n’est pas un simple événement relationnel, mais un dispositif de dialogue, d’écoute et de coconstruction qui aide le fournisseur à mieux comprendre son réseau, et les partenaires à contribuer à son évolution.",
     xp="Mission de conseil Xpansio. Le client n’est pas nommé, par confidentialité."),
   dict(slug="realisation-crise-clients-prioritaires.html", cls="cl", kind="a",
     title="Comment préserver la satisfaction client lorsque la crise impose des arbitrages ?",
@@ -287,12 +294,12 @@ def real_page(r):
 </section>
 <section class="band">
   <div class="wrap">
-    <div class="xp {c}"><span class="label {c}">Résultats et enseignements</span><p>{r["result"]}</p>
+    <div class="xp {c}"><span class="label {c}">{r.get("rlabel", "Résultats et enseignements")}</span><p>{r["result"]}</p>
       <p class="from"><b>L’expérience mobilisée :</b> {r["xp"]}</p></div>
     <div class="below"><a class="link {c}" href="{href}">Voir l’expertise {exp} {ARR}</a></div>
   </div>
 </section>
-{cta("Vous faites face à une situation comparable ?", "Échangeons sur votre contexte, lors d’un premier échange de 30 minutes sans engagement.", "Échanger sur votre situation")}
+{cta()}
 '''
 
 REALISATIONS_PAGE = f'''
@@ -303,7 +310,7 @@ REALISATIONS_PAGE = f'''
     {KINDS_NOTE}
   </div>
 </section>
-{cta("Votre situation pourrait être la prochaine.", "Racontez-nous votre contexte : nous vous dirons comment nous pourrions vous aider.")}
+{cta()}
 '''
 
 # Accueil : quatre cartes « enjeux », chacune mène à la réalisation qui y répond. Titre au repos, réponse courte au survol (toujours visible sur mobile).
@@ -333,7 +340,7 @@ HOME = f'''
     <span class="label">Conseil en performance Channel &amp; Customer · B2B Tech</span>
     <h1 class="h1"><span>Accélérer la performance <em>de vos partenaires.</em></span><span>Révéler la valeur <em>de vos clients.</em></span></h1>
     <p class="lead">Xpansio accompagne les constructeurs, éditeurs, distributeurs et revendeurs IT sur deux leviers de croissance : leurs réseaux de partenaires et leur portefeuille clients.</p>
-    <div class="ctas"><a class="btn btn-primary" href="#realisations">Découvrir nos réalisations {ARR}</a><a class="btn btn-ghost" href="contact.html">Échanger sur vos enjeux</a></div>
+    <div class="ctas"><a class="btn btn-primary" href="realisations.html">Découvrir nos réalisations {ARR}</a><a class="btn btn-ghost" href="contact.html">Échanger sur vos enjeux</a></div>
   </div>
   {HOME_COLLAGE}
 </section>
@@ -362,24 +369,19 @@ HOME = f'''
   </div>
 </section>
 
-<section class="band" id="realisations">
+<section class="band alt" id="fondatrice">
   <div class="wrap">
-    {head("Nos réalisations", "Ce qui a réellement été entrepris.")}
-    {rgrid(REAL)}
-    <div class="below"><a class="btn btn-ghost" href="realisations.html">Toutes nos réalisations {ARR}</a></div>
-  </div>
-</section>
-
-<section class="band alt" id="pourquoi">
-  <div class="wrap">
-    {head("Pourquoi Xpansio ?", "Une connaissance de toute la chaîne de valeur, du constructeur au client final.")}
+    {head("La fondatrice", "Une expérience de toute la chaîne de valeur IT")}
     <div class="about">
       <div class="portrait"><img src="assets/agnes.jpg" alt="Portrait d’Agnès Chabrier" width="800" height="800"></div>
-      <div class="sign"><b>Agnès Chabrier</b><span>Fondatrice</span></div>
+      <div class="sign"><b>Agnès Chabrier</b><span>Fondatrice d’Xpansio</span></div>
       <div class="bio">
-        <p>Plus de 30 ans dans l’écosystème IT et bureautique, chez des distributeurs et des constructeurs internationaux : stratégies Channel, programmes partenaires, expérience client et Customer Success.</p>
-        <p>Connaître de l’intérieur les réalités des constructeurs, des distributeurs, des revendeurs et des clients finaux permet d’articuler stratégie et exécution, en tenant compte des contraintes de chacun.</p>
+        <p>Plus de 30 ans d’expérience dans l’écosystème IT et bureautique, auprès de distributeurs et de constructeurs internationaux.</p>
+        <p>Des responsabilités en marketing, stratégie Channel, développement de programmes partenaires et expérience client, complétées aujourd’hui par des missions de conseil indépendantes.</p>
+        <p>Cette double connaissance des enjeux des fournisseurs et de leurs partenaires permet de concevoir des stratégies adaptées aux réalités du terrain et de les traduire en actions concrètes.</p>
+        <p class="conviction"><b>Ma conviction :</b> une stratégie ne crée de valeur que lorsqu’elle est comprise, partagée et mise en œuvre.</p>
       </div>
+      <div class="ctas"><a class="link" href="realisations.html">Découvrir mes réalisations {ARR}</a><a class="link" href="https://www.linkedin.com/in/agnes-chabrier-7186971/" target="_blank" rel="noopener">LinkedIn {ARR}</a></div>
     </div>
     <div class="chain-wrap">
       <div class="chain" role="img" aria-label="Chaîne de valeur B2B : Channel Performance couvre éditeurs et constructeurs, distributeurs et revendeurs ; Customer Performance couvre revendeurs et clients finaux.">
@@ -396,13 +398,7 @@ HOME = f'''
   </div>
 </section>
 
-<section class="band ink" id="contact"><div class="wrap">
-  <div class="head"><span class="label">Prendre contact</span><h2 class="h2">Identifions ensemble vos prochains leviers de croissance.</h2>
-    <p class="lead">Échangeons sur vos partenaires, vos clients et les pistes d’amélioration possibles.</p>
-  </div>
-  <div class="ctas"><a class="btn btn-white" href="contact.html">Prendre rendez-vous {ARR}</a></div>
-  <p class="note">Premier échange de 30 minutes, sans engagement.</p>
-</div></section>
+{cta()}
 '''
 
 # ---------- EXPERTISES ----------
@@ -410,7 +406,7 @@ CHANNEL = f'''
 {page_hero([("index.html","Accueil"),(None,"Channel Performance")], "Channel Performance",
   ["Faire de votre réseau de distribution indirecte un avantage concurrentiel durable.",
    "Pour les constructeurs, éditeurs, distributeurs IT et réseaux de revendeurs B2B."],
-  f'<span class="pill ch"><span class="ico ch">{I_NET}</span>Expertise 01</span>', cta_btn="Échangeons sur votre réseau de partenaires")}
+  f'<span class="pill ch"><span class="ico ch">{I_NET}</span>Expertise 01</span>', cta_btn="Prendre rendez-vous")}
 <section class="band alt">
   <div class="wrap">
     {head("Vos enjeux", "Le marché change plus vite que les réseaux.", cls="ch")}
@@ -446,14 +442,14 @@ CHANNEL = f'''
     {rgrid([R[R5], R[R1]])}
   </div>
 </section>
-{cta("Et si votre programme partenaires devenait un avantage concurrentiel ?","Demandez une Executive Partner Review : 90 minutes pour analyser l’alignement de votre programme avec votre stratégie et ses leviers de création de valeur.")}
+{cta()}
 '''
 
 CLIENT = f'''
 {page_hero([("index.html","Accueil"),(None,"Customer Performance")], "Votre capital client est votre premier actif. Encore faut-il en prendre toute la mesure.",
   ["Xpansio vous aide à mieux écouter vos clients, à renforcer leur fidélité et à développer la valeur de votre portefeuille.",
    "Pour les revendeurs, intégrateurs, ESN et entreprises B2B disposant d’une base clients récurrente."],
-  f'<span class="pill cl"><span class="ico cl">{I_USER}</span>Expertise 02 · Customer Performance</span>', cta_btn="Échanger sur votre capital client", h1cls=" h1-long")}
+  f'<span class="pill cl"><span class="ico cl">{I_USER}</span>Expertise 02 · Customer Performance</span>', cta_btn="Prendre rendez-vous", h1cls=" h1-long")}
 <section class="band alt">
   <div class="wrap">
     {head("Vos enjeux", "Écouter, fidéliser, développer : trois enjeux liés.", cls="cl")}
@@ -486,7 +482,7 @@ CLIENT = f'''
     {rgrid([R[R2], R[R3], R[R4]])}
   </div>
 </section>
-{cta("Des clients mieux écoutés. Des relations plus solides. Un capital client qui se développe.","Échangeons sur vos enjeux de satisfaction, de fidélisation et de développement de votre portefeuille clients.","Échanger sur votre capital client")}
+{cta()}
 '''
 
 # ---------- ANCIENNES ADRESSES ----------
@@ -507,7 +503,7 @@ def redirect_page(to):
             f'<p>Cette page a été déplacée : <a href="{to}">continuer vers la nouvelle page</a>.</p>\n</body>\n</html>\n')
 
 CONTACT = f'''
-{page_hero([("index.html","Accueil"),(None,"Contact")], "Alors, on travaille ensemble ?", "Un premier échange de 30 minutes pour comprendre vos enjeux, sans engagement. Réponse sous 48 heures ouvrées.")}
+{page_hero([("index.html","Accueil"),(None,"Contact")], CTA_T, [CTA_P, CTA_NOTE + " Réponse sous 48 heures ouvrées."])}
 <section class="band alt">
   <div class="wrap">
     <dl class="coords" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));max-width:560px">
