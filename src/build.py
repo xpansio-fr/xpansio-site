@@ -114,19 +114,19 @@ def head(label, title, lead=None, cls=""):
     l = f'<p class="lead">{lead}</p>' if lead else ''
     return f'<div class="head"><span class="label {cls}">{label}</span><h2 class="h2">{title}</h2>{l}</div>'
 
-def cta(title="Parlons de vos partenaires et de vos clients.", text="Un premier échange de 30 minutes pour faire le point sur vos enjeux, sans engagement."):
+def cta(title="Parlons de vos partenaires et de vos clients.", text="Un premier échange de 30 minutes pour faire le point sur vos enjeux, sans engagement.", btn="Prendre rendez-vous"):
     return f'''<section class="band ink"><div class="wrap">
   {head("Contact", title, text)}
-  <div class="ctas"><a class="btn btn-white" href="contact.html">Prendre rendez-vous {ARR}</a></div>
+  <div class="ctas"><a class="btn btn-white" href="contact.html">{btn} {ARR}</a></div>
 </div></section>'''
 
-def page_hero(crumbs, title, lead, extra="", cta_btn=None, tiles=""):
+def page_hero(crumbs, title, lead, extra="", cta_btn=None, tiles="", h1cls=""):
     cr = '<span>/</span>'.join(f'<a href="{h}">{t}</a>' if h else f'<span>{t}</span>' for h, t in crumbs)
     return f'''<section class="page-hero{' has-stack' if tiles else ''}"><div class="wrap">
   <nav class="crumbs" aria-label="Fil d’Ariane">{cr}</nav>
   {extra}
-  <h1 class="h1">{title}</h1>
-  <p class="lead">{lead}</p>
+  <h1 class="h1{h1cls}">{title}</h1>
+  {''.join(f'<p class="lead">{x}</p>' for x in (lead if isinstance(lead, list) else [lead]))}
   {f'<div class="ctas"><a class="btn btn-primary" href="contact.html">{cta_btn} {ARR}</a></div>' if cta_btn else ''}
 </div>{tiles}</section>'''
 
@@ -135,11 +135,33 @@ def issues(items):
         f'<div class="issue"><span class="num">0{i+1}</span><b>{t}</b><p>{p}</p></div>' for i, (t, p) in enumerate(items)) + '</div>'
 
 def offers(items, cls):
+    """Cartes de leviers : (icône, titre, texte, mots-clés) ou (icône, titre, accroche, texte, mots-clés) ; ces dernières sont numérotées."""
     out = []
-    for ico, t, p, tags in items:
+    for i, it in enumerate(items):
+        if len(it) == 5:
+            ico, t, hook, p, tags = it
+            n, hk = f'<span class="onum {cls}">0{i+1}</span>', f'<p class="hook">{hook}</p>'
+        else:
+            (ico, t, p, tags), n, hk = it, '', ''
         tg = ''.join(f'<li>{x}</li>' for x in tags)
-        out.append(f'<div class="offer {cls}"><span class="ico {cls}">{ico}</span><h3>{t}</h3><p>{p}</p><ul>{tg}</ul></div>')
+        out.append(f'<div class="offer {cls}"><span class="ico {cls}">{ico}</span>{n}<h3>{t}</h3>{hk}<p>{p}</p><ul>{tg}</ul></div>')
     return '<div class="offers">' + ''.join(out) + '</div>'
+
+def cards(items, cls, n=None):
+    """Cartes sobres : (icône ou None, titre, texte[, mots-clés en ligne])."""
+    out = []
+    for it in items:
+        ico, t, p = it[:3]
+        kw = f'<span class="kw {cls}">{it[3]}</span>' if len(it) > 3 else ''
+        ic = f'<span class="ico {cls}">{ico}</span>' if ico else ''
+        out.append(f'<div class="card {cls}">{ic}<h3>{t}</h3>{kw}<p>{p}</p></div>')
+    return f'<div class="cards{" n"+str(n) if n else ""}">' + ''.join(out) + '</div>'
+
+def loop(steps, cls, label):
+    """Schéma cyclique : étapes reliées, la dernière revient à la première."""
+    li = ''.join(f'<li class="lp"><span class="n">0{i+1}</span><b>{t}</b><p>{p}</p></li>' for i, (t, p) in enumerate(steps))
+    return (f'<div class="loop {cls}" role="group" aria-label="{label}"><ol>{li}</ol>'
+            f'<div class="loop-back" aria-hidden="true"><span>Un cycle continu</span></div></div>')
 
 def targets(items, cls):
     return f'<div class="targets {cls}">' + ''.join(f'<span class="target"><i></i>{t}</span>' for t in items) + '</div>'
@@ -330,20 +352,20 @@ CHANNEL = f'''
 <section class="band alt">
   <div class="wrap">
     {head("Vos enjeux", "Le marché change plus vite que les réseaux.", cls="ch")}
-    {issues([("Un modèle partenaire qui s’essouffle","Les revenus basculent vers les services et les marges hardware diminuent. Les remises et les fonds marketing ne suffisent plus à engager."),
-             ("Des partenaires référencés, pas engagés","Une minorité porte l’essentiel du chiffre d’affaires, et les nouvelles offres peinent à être vendues par le réseau."),
-             ("Des compétences à faire progresser","Les compétences deviennent le premier facteur de différenciation. Le réseau doit monter en expertise, de façon mesurable.")])}
+    {issues([("L’engagement ne s’achète plus avec des remises","Les remises et les fonds marketing ne suffisent pas à créer un engagement durable. Les partenaires privilégient les fournisseurs qui contribuent réellement à leur croissance, à leur rentabilité et à la fidélisation de leurs clients. La qualité de la relation, la confiance et leur implication dans les orientations stratégiques deviennent des leviers essentiels de différenciation."),
+             ("Des partenaires référencés, mais pas toujours engagés","Un réseau étendu ne garantit ni son dynamisme ni sa performance. Certains partenaires restent peu actifs, privilégient d’autres fournisseurs ou participent peu aux initiatives proposées. L’enjeu n’est pas seulement de recruter des partenaires, mais de développer leur engagement, leur contribution et leur fidélité dans la durée."),
+             ("De la technologie à la valeur métier","Cloud, cybersécurité, automatisation et intelligence artificielle multiplient les opportunités de développement. Mais la valeur ne réside pas dans la technologie elle-même : elle dépend de la capacité des partenaires à l’intégrer aux processus métiers de leurs clients et à démontrer des bénéfices concrets en matière de productivité, de performance et de maîtrise des coûts.")])}
   </div>
 </section>
 <section class="band">
   <div class="wrap">
-    {head("Ce que nous faisons", "Cinq leviers pour un réseau plus performant.", "Des interventions ciblées ou des missions complètes, selon la maturité de votre programme partenaires.", cls="ch")}
+    {head("Ce que nous faisons", "Cinq leviers pour un réseau plus performant.", "Du diagnostic à l’activation opérationnelle, des interventions ciblées ou des missions complètes selon la maturité de votre réseau.", cls="ch")}
     {offers([
-      (I_MAP,"Audit réseau","Diagnostic du programme existant : structure, performance, perception des partenaires et benchmark du marché.",["Cartographie","Voice of Partner","Benchmark"]),
-      (I_LAYERS,"Programme partenaires","Création ou refonte de votre programme : niveaux, critères, bénéfices, alignés sur votre stratégie.",["Niveaux","Bénéfices","Incentives"]),
-      (I_PATH,"Parcours partenaire","Du recrutement à l’onboarding, au développement et jusqu’au statut d’ambassadeur de votre marque.",["Recrutement","Onboarding","Ambassadeurs"]),
-      (I_SPARK,"Animation et roadshows","Plans d’animation du réseau et tournées partenaires pour lancer un programme, une offre ou une stratégie.",["Événements","Challenges","Communautés"]),
-      (I_STAR,"Certifications et formations","Des parcours de montée en compétences à valeur ajoutée, reconnus par le marché.",["Certifications","Formations","Expertise"]),
+      (I_MAP,"Audit &amp; diagnostic réseau","Comprendre les forces, les attentes et les irritants de votre réseau.","Analyser la performance et le potentiel du réseau, écouter les partenaires, évaluer leur perception de la marque et identifier les points de friction tout au long de leur parcours.",["Performance","Écoute partenaires","Parcours","Opportunités"]),
+      (I_LAYERS,"Stratégie &amp; programme partenaires","Construire une proposition de valeur différenciante pour votre réseau.","Définir la vision et la mission du réseau indirect, le positionnement de la marque auprès de ses partenaires et les engagements réciproques. Structurer un programme cohérent avec cette stratégie : segmentation, niveaux, bénéfices et dispositifs d’accompagnement.",["Vision","Positionnement","Segmentation","Niveaux &amp; bénéfices"]),
+      (I_PATH,"Parcours &amp; développement partenaires","Accompagner vos partenaires à chaque étape de leur développement.","Concevoir des parcours adaptés au cycle de vie des partenaires : ciblage et recrutement, onboarding, développement des compétences et du business, accompagnement des partenaires stratégiques et, lorsque nécessaire, transmission ou rapprochement.",["Recrutement","Onboarding","Développement","Transmission"]),
+      (I_HANDS,"Engagement &amp; valorisation","Renforcer la confiance, l’implication et la reconnaissance de vos partenaires.","Développer des communautés et des dispositifs de dialogue, associer les partenaires aux réflexions stratégiques et valoriser leurs engagements et leurs réalisations, notamment en matière d’excellence de service, de qualité et de RSE.",["Communautés","Reconnaissance","Excellence","RSE"]),
+      (I_SPARK,"Animation &amp; activation du réseau","Transformer la stratégie en actions et en dynamique commerciale.","Mobiliser les partenaires à travers des événements, des challenges, des campagnes conjointes, des outils d’aide à la vente et des plans d’action adaptés aux priorités du réseau.",["Événements","Challenges","Campagnes","Plans d’action"]),
     ],"ch")}
   </div>
 </section>
@@ -361,10 +383,53 @@ CHANNEL = f'''
     </div>
   </div>
 </section>
+<section class="band" id="ppi">
+  <div class="wrap">
+    <div class="head"><span class="label ch">Diagnostic et développement des partenaires</span><h2 class="h2">Partner Performance Index (PPI)</h2>
+      <p class="hook-lg ch">Évaluer les capacités de vos partenaires. Identifier leurs axes de progrès. Accompagner leur développement.</p>
+      <p class="lead">La performance d’un réseau repose aussi sur la solidité, les compétences et la capacité d’évolution de chacun de ses partenaires.</p>
+      <p class="lead">Le Partner Performance Index est un modèle de diagnostic proposé par Xpansio pour apprécier les forces, les axes de progrès et les besoins d’accompagnement des partenaires. Il vise à structurer un dialogue constructif entre le fournisseur et ses partenaires, à orienter les plans de développement et à suivre les progrès dans le temps.</p>
+    </div>
+    <h3 class="subhead">Les cinq dimensions du PPI</h3>
+    {cards([
+      (I_CAP,"Compétences et autonomie","Capacité à commercialiser, déployer et accompagner les solutions : compétences commerciales et techniques, certifications, autonomie opérationnelle."),
+      (I_SHIELD,"Excellence opérationnelle","Qualité des prestations, satisfaction des clients finaux, fiabilité du service et capacité à traiter efficacement les incidents."),
+      (I_HANDS,"Engagement et coopération","Qualité de la relation avec le constructeur, implication dans les programmes, utilisation des outils et réalisation des engagements partagés."),
+      (I_GROW,"Développement commercial","Maturité des pratiques commerciales : prospection, développement des comptes existants, valorisation des offres stratégiques. Les pratiques, et non le chiffre d’affaires réalisé."),
+      (I_SPARK,"Transformation et adaptation","Capacité à intégrer de nouvelles technologies, développer les offres de services, faire évoluer les modèles économiques et s’adapter au marché."),
+    ],"ch",5)}
+    <p class="note">Les critères, les modalités d’évaluation et d’éventuelles pondérations sont définis avec vous, selon les spécificités et les objectifs de votre réseau.</p>
+  </div>
+</section>
+<section class="band alt">
+  <div class="wrap">
+    {head("À quoi sert le PPI ?", "Un outil de dialogue et de progrès, pas un classement.", "Le PPI complète les indicateurs commerciaux et stratégiques du réseau (chiffre d’affaires, parts de marché, couverture, croissance) sans les remplacer. Il répond à une autre question : vos partenaires disposent-ils des compétences, des capacités et de l’accompagnement nécessaires pour se développer durablement ?", cls="ch")}
+    {cards([
+      (None,"Identifier les forces et les axes de progrès","Disposer d’une vision structurée des capacités et des besoins de chaque partenaire."),
+      (None,"Construire des plans de développement individualisés","Définir des actions adaptées : formation, accompagnement commercial, amélioration du service ou acquisition de nouvelles compétences."),
+      (None,"Suivre la progression dans le temps","Observer les évolutions des partenaires et apprécier les effets des actions d’accompagnement."),
+      (None,"Identifier les besoins collectifs du réseau","Consolider les diagnostics individuels pour repérer les besoins communs et adapter les dispositifs d’accompagnement du constructeur."),
+    ],"ch",4)}
+  </div>
+</section>
 <section class="band">
   <div class="wrap">
-    {head("Partner Performance Index<sup style='font-size:.4em;font-weight:500'>™</sup>", "La performance de chaque partenaire, en un score.", "Un indice sur 100 pour mesurer la maturité de chaque partenaire et piloter votre réseau.", cls="ch")}
-    <div class="dims" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))"><div class="dim">Business<small>30 % · croissance, offres stratégiques</small></div><div class="dim">Compétences<small>20 % · certifications, expertise</small></div><div class="dim">Excellence<small>20 % · qualité de service, satisfaction client</small></div><div class="dim">Engagement<small>20 % · événements, communautés</small></div><div class="dim">Transformation<small>10 % · nouveaux outils, RSE, cybersécurité</small></div></div>
+    {head("La démarche", "Une démarche d’amélioration continue, construite avec vos partenaires.", cls="ch")}
+    {loop([("Évaluer","Établir un diagnostic des capacités et de la maturité du partenaire."),
+           ("Partager","Confronter les résultats aux observations du partenaire et définir ensemble les priorités."),
+           ("Accompagner","Construire et mettre en œuvre un plan de développement ciblé."),
+           ("Mesurer les progrès","Suivre les évolutions et ajuster les actions.")],"ch","Démarche cyclique en quatre étapes : évaluer, partager, accompagner, mesurer les progrès, puis recommencer")}
+    <ul class="principles">
+      <li>Le PPI s’adapte au profil, au modèle économique et à la maturité de chaque partenaire.</li>
+      <li>Il favorise le dialogue entre le constructeur et son réseau, et révèle les besoins d’accompagnement individuels comme collectifs.</li>
+      <li>Les difficultés d’un partenaire peuvent aussi révéler des insuffisances dans les dispositifs d’accompagnement du constructeur.</li>
+      <li>La méthodologie est ajustée et validée avec vous lors de sa mise en œuvre.</li>
+    </ul>
+    <div class="ask ch">
+      <p class="q-t">Vous souhaitez mieux comprendre les forces et les besoins de développement de vos partenaires ?</p>
+      <p>Échangeons sur la manière de construire un diagnostic adapté à votre réseau et à vos enjeux.</p>
+      <div class="ctas"><a class="btn btn-primary" href="contact.html">Échanger sur votre réseau {ARR}</a></div>
+    </div>
   </div>
 </section>
 <section class="band alt">
@@ -377,55 +442,73 @@ CHANNEL = f'''
 '''
 
 CLIENT = f'''
-{page_hero([("index.html","Accueil"),("expertises.html","Nos expertises"),(None,"Customer Performance")], "Customer Performance",
-  "Vos meilleurs clients valent beaucoup plus que vous ne l’imaginez. Encore faut-il savoir qui ils sont, ce qu’ils vivent et comment les faire grandir avec vous.",
-  f'<span class="pill cl"><span class="ico cl">{I_USER}</span>Expertise 02</span>', cta_btn="Échangeons sur votre base clients")}
+{page_hero([("index.html","Accueil"),("expertises.html","Nos expertises"),(None,"Customer Performance")], "Votre capital client est votre premier actif. Encore faut-il en prendre toute la mesure.",
+  ["Satisfaction, fidélité, expérience vécue, potentiel de développement : la performance de votre capital client ne se résume pas au chiffre d’affaires qu’il génère.",
+   "Xpansio vous aide à mieux connaître vos clients, à renforcer durablement leur relation avec votre entreprise et à développer la valeur de votre portefeuille."],
+  f'<span class="pill cl"><span class="ico cl">{I_USER}</span>Expertise 02 · Customer Performance</span>', cta_btn="Échanger sur votre capital client", h1cls=" h1-long")}
 <section class="band alt">
   <div class="wrap">
-    {head("Vos enjeux", "Tous les clients ne créent pas la même valeur.", cls="cl")}
-    {issues([("Un traitement uniforme","Tous les clients sont traités de la même façon, sans distinction de valeur, de risque ni de cycle de renouvellement."),
-             ("Une rentabilité inconnue","Les clients rentables, et ceux qui détruisent la marge, ne sont pas identifiés."),
-             ("De la réaction plutôt que de l’anticipation","On subit les résiliations au lieu de les prévenir, avec des surcoûts et de l’insatisfaction.")])}
+    {head("Vos enjeux", "Écouter, fidéliser, développer : trois enjeux liés.", cls="cl")}
+    {issues([("Une expérience client insuffisamment maîtrisée","Les enquêtes de satisfaction ne suffisent pas toujours à comprendre ce que vivent réellement les clients. Sans écoute structurée et analyse des moments clés du parcours, certains irritants persistent et les attentes évoluent sans être identifiées."),
+             ("Une fidélité que l’on mesure trop tard","Un client qui renouvelle son contrat n’est pas nécessairement un client pleinement satisfait. Suivre les départs, identifier les signaux de fragilité et comprendre les raisons de la fidélité permet d’anticiper les risques plutôt que de réagir lorsqu’il est trop tard."),
+             ("Un capital client dont le potentiel reste sous-exploité","La croissance ne repose pas uniquement sur l’acquisition de nouveaux clients. Comprendre la structure du portefeuille, identifier les opportunités de développement et valoriser les clients qui recommandent l’entreprise permet de renforcer sa performance dans la durée.")])}
   </div>
 </section>
 <section class="band">
+  <div class="wrap">
+    {head("Performance du capital client", "Trois dimensions complémentaires.", cls="cl")}
+    {cards([
+      (I_CHAT,"Satisfaction &amp; expérience client","Comprendre les attentes, mesurer la satisfaction et identifier les améliorations prioritaires de l’expérience vécue.","Écoute client · Qualité perçue · Irritants"),
+      (I_SHIELD,"Fidélité &amp; stabilité du portefeuille","Mesurer la capacité de l’entreprise à conserver ses clients et à construire des relations durables.","Churn · Fidélité dans la durée · Évolution de la base clients"),
+      (I_GROW,"Développement &amp; valeur du capital client","Évaluer la dynamique commerciale du portefeuille, sa contribution à la performance de l’entreprise et sa capacité à générer de nouvelles opportunités.","Croissance · Contribution économique · Potentiel · Recommandation"),
+    ],"cl",3)}
+  </div>
+</section>
+<section class="band alt">
   <div class="wrap">
     {head("Ce que nous faisons", "Cinq leviers pour développer votre capital client.", "Des missions concrètes, menées avec vos équipes commerciales, techniques et de direction.", cls="cl")}
     {offers([
-      (I_PATH,"Parcours client","Modélisation de chaque étape, de la vente au renouvellement, pour repérer les irritants et les moments qui comptent.",["Cartographie","Irritants","Ateliers"]),
-      (I_HEART,"Satisfaction client","Un dispositif d’écoute régulier et des plans d’action priorisés, suivis dans le temps.",["NPS et CSAT","Écoute client","Plans d’action"]),
-      (I_SEG,"Segmentation client","Identifier vos VIP, vos clients à potentiel, à risque ou non rentables grâce au Customer Capital Index.",["CRM et ERP","Rentabilité","CCI"]),
-      (I_SHIELD,"Satisfaction en période de crise","Quand un incident ou une transformation fragilise la relation : écoute rapide, comptes prioritaires, plan de reconquête.",["Écoute d’urgence","Comptes sensibles","Reconquête"]),
-      (I_STAR,"Programme VIP et Customer Success","Une organisation dédiée à vos clients stratégiques pour réduire le churn et développer la base installée.",["Plans de comptes","CSM","Gouvernance"]),
+      (I_SIGNAL,"Diagnostic &amp; pilotage du capital client","Comprendre la santé et la dynamique de votre portefeuille.","Analyser la satisfaction, la fidélité, la structure et la valeur économique du portefeuille pour identifier les risques, les opportunités et les priorités d’action.",["Satisfaction","Churn","Structure du portefeuille","Valeur"]),
+      (I_CHAT,"Écoute &amp; expérience client","Comprendre les attentes et améliorer l’expérience vécue.","Structurer l’écoute client, analyser les moments clés du parcours, identifier les irritants et construire des plans d’amélioration concrets.",["Voix du client","Parcours","Irritants","Amélioration"]),
+      (I_SHIELD,"Fidélisation &amp; Customer Success","Renforcer la relation et anticiper les risques de départ.","Développer une démarche proactive d’accompagnement des clients, sécuriser les moments clés de la relation et favoriser l’adoption et la valeur d’usage des solutions.",["Fidélisation","Renouvellement","Proactivité","Valeur d’usage"]),
+      (I_GROW,"Développement du capital client","Identifier les opportunités et développer la valeur du portefeuille.","Analyser le potentiel des clients, structurer les actions de développement commercial et adapter les niveaux d’accompagnement aux besoins et aux enjeux économiques.",["Potentiel","Développement","Segmentation","Valeur économique"]),
+      (I_STAR,"Recommandation &amp; valorisation des clients","Faire de la satisfaction un levier de confiance et de développement.","Identifier les clients prêts à recommander l’entreprise et développer des dispositifs de références clients, témoignages, communautés et programmes ambassadeurs.",["Références","Ambassadeurs","Témoignages","Communautés"]),
     ],"cl")}
-  </div>
-</section>
-<section class="band alt">
-  <div class="wrap">
-    {head("Segmentation", "Six profils, six stratégies.", cls="cl")}
-    <div class="segs">
-      <div class="seg"><b>VIP</b><small>Haute valeur, haute fidélité.</small><em>À chouchouter</em></div>
-      <div class="seg"><b>Potentiel</b><small>Valeur croissante.</small><em>À développer</em></div>
-      <div class="seg"><b>Rentables</b><small>Stables et profitables.</small><em>À fidéliser</em></div>
-      <div class="seg"><b>Influents</b><small>Prescripteurs.</small><em>Ambassadeurs à activer</em></div>
-      <div class="seg"><b>Destructeurs de marge</b><small>Contrat non rentable.</small><em>Retour à la rentabilité</em></div>
-      <div class="seg"><b>À risque</b><small>Insatisfaits ou inactifs.</small><em>À réengager d’urgence</em></div>
-    </div>
   </div>
 </section>
 <section class="band">
   <div class="wrap">
-    {head("Customer Capital Index", "La valeur réelle de chaque client.", "Un score qui ne s’arrête pas au revenu généré, pour prioriser vos investissements commerciaux.", cls="cl")}
-    <div class="dims"><div class="dim">Valeur économique<small>Rentabilité, LTV, marge</small></div><div class="dim">Potentiel<small>Cross-sell, upsell</small></div><div class="dim">Fidélité<small>Ancienneté, renouvellement</small></div><div class="dim">Engagement<small>Usage des services</small></div><div class="dim">Influence<small>Recommandations</small></div><div class="dim">Risque<small>Insatisfaction, signaux faibles</small></div></div>
+    {head("Analyse du portefeuille", "Quatre axes de lecture, pas une typologie figée.", "Un même client peut être à la fois stratégique, fidèle, à fort potentiel et ambassadeur. Ces axes ne sont pas des catégories exclusives : ils se croisent pour éclairer vos décisions.", cls="cl")}
+    {cards([
+      (None,"Relation et satisfaction","Qualité de la relation, attentes et irritants."),
+      (None,"Fidélité et risque","Stabilité de la relation et signaux de départ."),
+      (None,"Valeur et potentiel","Contribution économique et opportunités de développement."),
+      (None,"Influence et recommandation","Capacité des clients à devenir des références ou des prescripteurs."),
+    ],"cl",4)}
+    <div class="usecases">
+      <h3 class="subhead">La segmentation, un outil de priorisation</h3>
+      <p>Mobilisée lorsque les enjeux le justifient, et non de façon systématique, elle aide notamment à :</p>
+      <ul class="chips"><li class="chip">Accompagner les clients stratégiques</li><li class="chip">Prioriser la fidélisation en cas de risque de départ</li><li class="chip">Sécuriser les renouvellements</li><li class="chip">Repérer les clients à potentiel</li><li class="chip">Adapter investissements et niveaux de service</li><li class="chip">Gérer une crise ou une forte baisse de satisfaction</li></ul>
+    </div>
   </div>
 </section>
-<section class="band alt">
+<section class="band alt" id="cci">
+  <div class="wrap">
+    <div class="head"><span class="label cl">Modèle d’analyse du portefeuille</span><h2 class="h2">Customer Capital Index (CCI)</h2>
+      <p class="hook-lg cl">Mieux comprendre votre portefeuille pour mieux orienter vos décisions.</p>
+      <p class="lead">Le Customer Capital Index est un modèle méthodologique proposé par Xpansio pour croiser plusieurs dimensions de la relation client. Il vise à enrichir le diagnostic du portefeuille, identifier les situations nécessitant une attention particulière et orienter les plans d’action.</p>
+    </div>
+    <div class="dims n5"><div class="dim">Satisfaction</div><div class="dim">Fidélité</div><div class="dim">Risque</div><div class="dim">Potentiel de développement</div><div class="dim">Contribution économique</div></div>
+    <p class="note">Les critères d’analyse sont adaptés aux enjeux, aux données disponibles et au modèle économique de chaque entreprise. Le CCI complète vos indicateurs de pilotage du portefeuille, sans les remplacer.</p>
+  </div>
+</section>
+<section class="band">
   <div class="wrap">
     {head("Pour qui", "Les entreprises qui servent leurs clients en direct.", cls="cl")}
     {targets(["Intégrateurs","ESN","Revendeurs IT","Concessionnaires bureautique","Éditeurs et constructeurs en direct"],"c-cl")}
   </div>
 </section>
-{cta("Vos futurs revenus sont déjà chez vos clients.","Parlons de votre base installée, de vos clients prioritaires et de vos objectifs de fidélisation.")}
+{cta("Des clients mieux écoutés. Des relations plus solides. Un capital client qui se développe.","Échangeons sur vos enjeux de satisfaction, de fidélisation et de développement de votre portefeuille clients.","Échanger sur votre capital client")}
 '''
 
 def case(i, title, ctx, obj, livr, kpis):
@@ -514,7 +597,7 @@ PAGES = [
     ("index.html", "home", "Xpansio", "Xpansio, conseil en performance Channel & Customer pour les constructeurs, éditeurs, distributeurs et revendeurs IT : réseaux de partenaires et valeur du portefeuille clients.", HOME),
     ("expertises.html", "expertises", "Nos expertises · Xpansio", "Channel Performance et Customer Performance : les deux expertises d’Xpansio.", EXPERTISES),
     ("experience-channel.html", "channel", "Channel Performance · Xpansio", "Programmes partenaires, animation de réseaux de distribution, cartographie du channel et parcours partenaire.", CHANNEL),
-    ("experience-client.html", "client", "Customer Performance · Xpansio", "Parcours client, satisfaction, segmentation et gestion de la satisfaction en période de crise.", CLIENT),
+    ("experience-client.html", "client", "Customer Performance · Xpansio", "Satisfaction et expérience client, fidélisation et développement de la valeur du capital client : l’accompagnement Customer Performance d’Xpansio.", CLIENT),
     ("projets.html", "projets", "Nos projets · Xpansio", "Projets réalisés par Xpansio et résultats obtenus.", PROJETS),
     ("contact.html", "contact", "Contact · Xpansio", "Contacter Xpansio pour un premier échange.", CONTACT),
     ("mentions-legales.html", "legal", "Mentions légales · Xpansio", "Mentions légales du site Xpansio.", LEGAL),
