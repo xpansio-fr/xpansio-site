@@ -315,8 +315,8 @@ def real_page(r):
 '''
 
 REALISATIONS_PAGE = f'''
-{page_hero([("index.html","Accueil"),(None,"Nos réalisations")], "Nos réalisations", "Des situations réelles : ce qui a été entrepris, et ce qu’on en retient.")}
-<section class="band alt">
+{page_hero([("index.html","Accueil"),(None,"Nos réalisations")], "Nos réalisations", "Des enjeux concrets. Des réponses adaptées. Des expériences de terrain.").replace('class="page-hero"', 'class="page-hero compact"', 1)}
+<section class="band alt tight">
   <div class="wrap">
     {rgrid(REAL)}
     {KINDS_NOTE}
