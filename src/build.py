@@ -236,7 +236,7 @@ REAL = [
           "Conception d’une segmentation des clients prioritaires",
           "Proposition de modalités d’accompagnement différenciées",
           "Identification des conditions nécessaires à la mise en œuvre"],
-    result="La démarche et la segmentation ont été conçues ; leur déploiement opérationnel complet a été freiné par des contraintes de systèmes d’information. L’enseignement : une bonne connaissance du capital client facilite les arbitrages lorsque les ressources sont limitées.",
+    result="La démarche et la segmentation ont été conçues. Les clients les plus importants ont été identifiés dans les outils pour une prise en charge dédiée.",
     xp="Expérience professionnelle antérieure de la fondatrice, chez un constructeur international de solutions bureautiques et IT, avant la création d’Xpansio."),
   dict(slug="realisation-au-dela-du-nps.html", cls="cl", kind="a",
     title="Et si mesurer le NPS ne suffisait plus à fidéliser les clients ?",
@@ -262,7 +262,7 @@ REAL = [
           "Structuration des interactions avec les équipes commerciales et techniques",
           "Définition des processus de suivi des clients",
           "Expérimentation du dispositif et analyse des enseignements"],
-    result="Il s’agissait d’un pilote. Son déploiement généralisé n’a pas été poursuivi, pour des raisons d’organisation et d’investissement. L’enseignement : le Customer Success demande des rôles clairs, une coordination entre équipes et un engagement de l’organisation dans la durée.",
+    result="Il s’agissait d’un pilote. Son déploiement n’a pas été généralisé pour des raisons d’organisation, mais des équipes dédiées ont été maintenues, dans le même esprit, pour développer les services IT. L’enseignement : le Customer Success demande des rôles clairs, une coordination entre équipes et un engagement de l’organisation dans la durée.",
     xp="Expérience professionnelle antérieure de la fondatrice, chez un constructeur international de solutions bureautiques et IT, avant la création d’Xpansio."),
 ]
 R = {r["slug"]: r for r in REAL}
@@ -485,7 +485,7 @@ CLIENT = f'''
   <div class="wrap">
     {head("Analyse du portefeuille", "Customer Capital Index (CCI)", "Un modèle d’analyse qui croise plusieurs dimensions de la relation client, pour éclairer les priorités et les plans d’action.", cls="cl")}
     <div class="dims n5"><div class="dim">Satisfaction</div><div class="dim">Fidélité</div><div class="dim">Risque</div><div class="dim">Potentiel de développement</div><div class="dim">Contribution économique</div></div>
-    <p class="note">Ces dimensions sont des exemples, pas une recette universelle : les critères sont adaptés à vos enjeux, à vos données et à votre modèle économique.</p>
+    <p class="note">Ces dimensions sont des exemples, pas une méthodologie universelle : les critères sont adaptés à vos enjeux, à vos données et à votre modèle économique.</p>
   </div>
 </section>
 <section class="band">
