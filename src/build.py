@@ -11,8 +11,12 @@ def parcours_block():
     return f'''<figure class="parcours">
       <h3 class="subhead">Le parcours vécu par vos clients</h3>
       <p class="parcours-sub">Exemple illustratif : revendeur ou intégrateur IT, de la découverte au renouvellement.</p>
-      <p class="swipe">Faites défiler le schéma pour voir tout le parcours, ou <a href="assets/parcours-client.svg" target="_blank" rel="noopener">ouvrez-le en grand</a>.</p>
-      <div class="parcours-scroll" tabindex="0" role="region" aria-label="Parcours client, défilable horizontalement">{parcours.svg()}</div>
+      <p class="swipe">Utilisez les flèches ou faites glisser le schéma pour voir tout le parcours, ou <a href="assets/parcours-client.svg" target="_blank" rel="noopener">ouvrez-le en grand</a>.</p>
+      <div class="parcours-view">
+        <button class="pc-nav pc-prev" type="button" aria-label="Voir le début du parcours" disabled><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="parcours-scroll" tabindex="0" role="region" aria-label="Parcours client, défilable horizontalement">{parcours.svg()}</div>
+        <button class="pc-nav pc-next" type="button" aria-label="Voir la suite du parcours"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
       <figcaption>{parcours.LEGEND}</figcaption>
     </figure>'''
 
@@ -97,6 +101,18 @@ SCRIPT = '''<script>
       if(!raf)raf=requestAnimationFrame(function(){raf=0;st.style.setProperty('--mx',mx.toFixed(3));st.style.setProperty('--my',my.toFixed(3));});});
     hero.addEventListener('pointerleave',function(){st.style.setProperty('--mx',0);st.style.setProperty('--my',0);});
   }
+  /* Parcours client : flèches et glisser-déposer pour faire défiler le schéma */
+  document.querySelectorAll('.parcours-view').forEach(function(v){
+    var sc=v.querySelector('.parcours-scroll'),pv=v.querySelector('.pc-prev'),nx=v.querySelector('.pc-next');
+    function upd(){var max=sc.scrollWidth-sc.clientWidth;v.classList.toggle('no-scroll',max<4);pv.disabled=sc.scrollLeft<4;nx.disabled=sc.scrollLeft>max-4;}
+    function go(d){sc.scrollBy({left:d*sc.clientWidth*.7,behavior:reduce?'auto':'smooth'});}
+    pv.addEventListener('click',function(){go(-1);});nx.addEventListener('click',function(){go(1);});
+    sc.addEventListener('scroll',upd,{passive:true});window.addEventListener('resize',upd);upd();
+    var down=false,x0=0,l0=0;
+    sc.addEventListener('pointerdown',function(e){if(e.pointerType!=='mouse')return;down=true;x0=e.clientX;l0=sc.scrollLeft;sc.classList.add('drag');});
+    window.addEventListener('pointermove',function(e){if(down)sc.scrollLeft=l0-(e.clientX-x0);});
+    window.addEventListener('pointerup',function(){down=false;sc.classList.remove('drag');});
+  });
   var b=document.querySelector('.menu-btn'),d=document.getElementById('drop');
   function set(o){d.hidden=!o;b.setAttribute('aria-expanded',String(o));}
   if(b&&d){

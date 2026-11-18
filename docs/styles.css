@@ -705,3 +705,15 @@ a.pcard:focus-visible{outline:2px solid var(--channel);outline-offset:3px}
 .parcours-scroll svg{display:block;width:100%;min-width:1500px;height:auto}
 .parcours figcaption{max-width:900px;margin:8px auto 0;text-align:center;font-size:.84rem;color:var(--ink-2);line-height:1.65}
 @media (max-width:760px){.parcours-scroll{padding:16px 12px}.parcours-scroll svg{min-width:1300px}}
+.parcours-view{position:relative;min-width:0}
+.parcours>*{min-width:0}
+.parcours-scroll{cursor:grab;user-select:none;-webkit-user-select:none}
+.parcours-scroll.drag{cursor:grabbing}
+.pc-nav{position:absolute;top:50%;z-index:2;width:44px;height:44px;margin-top:-22px;border-radius:50%;border:0;background:var(--ink);color:#fff;display:grid;place-items:center;cursor:pointer;box-shadow:0 10px 24px -12px rgba(11,16,23,.6);transition:opacity .2s,background .2s}
+.pc-nav svg{width:18px;height:18px}
+.pc-nav:hover{background:var(--client)}
+.pc-nav:focus-visible{outline:2px solid var(--client);outline-offset:3px}
+.pc-nav:disabled{opacity:0;pointer-events:none}
+.pc-prev{left:-14px}.pc-next{right:-14px}
+.parcours-view.no-scroll .pc-nav{display:none}
+@media (max-width:760px){.pc-prev{left:4px}.pc-next{right:4px}.pc-nav{width:38px;height:38px;margin-top:-19px}}
