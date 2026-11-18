@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Auto-diagnostic : votre client est-il en bonne santé ? | Xpansio</title>
+<meta name="description" content="12 questions, 5 minutes : évaluez la santé de la relation avec l'un de vos clients clés et repérez les signaux de risque avant l'échéance du contrat.">
+<style>
+  /* ===== Couleurs : à ajuster pour coller à la charte du site ===== */
+  :root{
+    --primary:#1F3A5F;      /* titres, boutons */
+    --accent:#2E6DA4;       /* éléments actifs */
+    --bg:#F5F8FB;           /* fond de page */
+    --card:#FFFFFF;
+    --text:#1E2A36;
+    --muted:#5F6B78;
+    --line:#D8E1EA;
+    --ok:#2E8B57; --warn:#D9932B; --risk:#C0392B;
+    --radius:12px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--text);background:var(--bg);line-height:1.5}
+  .wrap{max-width:820px;margin:0 auto;padding:32px 20px 64px}
+  header.intro h1{color:var(--primary);font-size:1.9rem;margin:0 0 8px}
+  header.intro p.lead{font-size:1.1rem;color:var(--muted);margin:0 0 20px}
+  .how{display:flex;gap:12px;flex-wrap:wrap;margin:0 0 28px;padding:0;list-style:none}
+  .how li{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:10px 14px;font-size:.92rem;flex:1 1 180px}
+  .how b{color:var(--primary)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px 22px 8px;margin:0 0 18px}
+  .card h2{font-size:1.1rem;color:var(--primary);margin:0 0 4px}
+  .card .sub{color:var(--muted);font-size:.9rem;margin:0 0 14px}
+  fieldset{border:0;margin:0 0 18px;padding:0}
+  legend{font-weight:600;margin-bottom:8px;padding:0}
+  legend .num{display:inline-block;min-width:28px;color:var(--accent)}
+  .opts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  @media (max-width:640px){.opts{grid-template-columns:1fr 1fr}}
+  .opt{position:relative}
+  .opt input{position:absolute;opacity:0;inset:0;pointer-events:none}
+  .opt label{display:block;height:100%;border:1px solid var(--line);border-radius:10px;padding:9px 10px;font-size:.86rem;cursor:pointer;background:#FAFCFE;transition:.15s}
+  .opt input:focus-visible + label{outline:2px solid var(--accent);outline-offset:2px}
+  .opt input:checked + label{border-color:var(--accent);background:#E7F0F9;box-shadow:inset 0 0 0 1px var(--accent)}
+  .na{font-size:.8rem;color:var(--muted);margin-top:6px}
+  .na label{cursor:pointer}
+  .alerts label{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px dashed var(--line);cursor:pointer;font-size:.95rem}
+  .alerts label:last-child{border-bottom:0}
+  .alerts input{margin-top:4px;accent-color:var(--risk);width:18px;height:18px;flex:none}
+  .progress{position:sticky;top:0;background:var(--bg);padding:10px 0;z-index:5}
+  .bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+  .bar span{display:block;height:100%;width:0;background:var(--accent);transition:width .25s}
+  .progress small{color:var(--muted)}
+  .btn{display:inline-block;background:var(--primary);color:#fff;border:0;border-radius:10px;padding:14px 22px;font-size:1rem;font-weight:600;cursor:pointer;text-decoration:none}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+  .btn.secondary{background:transparent;color:var(--primary);border:1px solid var(--primary)}
+  .center{text-align:center}
+  .hint{color:var(--muted);font-size:.88rem;margin-top:8px}
+  #result{display:none}
+  .score-box{display:flex;gap:24px;align-items:center;flex-wrap:wrap}
+  .gauge{width:150px;height:150px;border-radius:50%;display:grid;place-items:center;flex:none}
+  .gauge div{width:118px;height:118px;border-radius:50%;background:var(--card);display:grid;place-items:center;text-align:center}
+  .gauge strong{font-size:2.3rem;color:var(--primary);line-height:1}
+  .gauge small{color:var(--muted)}
+  .status{display:inline-block;padding:4px 12px;border-radius:20px;color:#fff;font-weight:600;font-size:.95rem}
+  .dims{margin:18px 0 8px}
+  .dim{margin:0 0 12px}
+  .dim .lbl{display:flex;justify-content:space-between;font-size:.92rem}
+  .dim .track{height:10px;background:var(--line);border-radius:5px;overflow:hidden;margin-top:4px}
+  .dim .fill{height:100%;border-radius:5px}
+  .alert-list{background:#FDECEA;border:1px solid #F3C2BC;border-radius:10px;padding:12px 16px;margin:14px 0}
+  .alert-list b{color:var(--risk)}
+  .advice{counter-reset:a;list-style:none;padding:0;margin:0}
+  .advice li{counter-increment:a;position:relative;padding:12px 0 12px 44px;border-bottom:1px solid var(--line)}
+  .advice li:last-child{border-bottom:0}
+  .advice li::before{content:counter(a);position:absolute;left:0;top:12px;width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:700}
+  .advice b{color:var(--primary)}
+  .cta{background:var(--primary);color:#fff;border-radius:var(--radius);padding:24px;margin-top:18px}
+  .cta h2{color:#fff;margin:0 0 8px;font-size:1.25rem}
+  .cta p{margin:0 0 16px;opacity:.92}
+  .cta .btn{background:#fff;color:var(--primary)}
+  .cta .btn.secondary{background:transparent;color:#fff;border-color:#fff;margin-left:8px}
+  .note{color:var(--muted);font-size:.82rem;margin-top:18px}
+  .err{color:var(--risk);font-weight:600}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="intro">
+  <h1>Votre client est-il vraiment en bonne santé&nbsp;?</h1>
+  <p class="lead">Un client qui renouvelle n'est pas forcément un client satisfait. Cet auto-diagnostic vous aide à repérer les signaux faibles avant l'échéance du contrat.</p>
+  <ul class="how">
+    <li><b>1.</b> Pensez à <b>un client important</b> de votre portefeuille.</li>
+    <li><b>2.</b> Répondez à <b>12 questions</b> (5 minutes), le plus honnêtement possible.</li>
+    <li><b>3.</b> Obtenez un <b>score de santé</b>, vos signaux d'alerte et <b>3 pistes d'action</b>.</li>
+  </ul>
+</header>
+
+<div class="progress" aria-hidden="true">
+  <div class="bar"><span id="pbar"></span></div>
+  <small id="ptext">0 / 12 questions</small>
+</div>
+
+<form id="diag" novalidate>
+  <div id="questions"></div>
+
+  <section class="card alerts">
+    <h2>Signaux d'alerte</h2>
+    <p class="sub">Cochez ce que vous constatez aujourd'hui chez ce client (aucune case si rien ne s'applique).</p>
+    <div id="alerts"></div>
+  </section>
+
+  <section class="card">
+    <h2>Échéance du contrat</h2>
+    <p class="sub">Dans combien de temps arrive la fin du contrat principal ou son renouvellement&nbsp;?</p>
+    <div class="opts" id="term"></div>
+    <div style="height:14px"></div>
+  </section>
+
+  <div class="center">
+    <button type="submit" class="btn" id="go" disabled>Voir mon résultat</button>
+    <p class="hint" id="hint">Répondez aux 12 questions pour obtenir votre résultat.</p>
+  </div>
+</form>
+
+<section id="result" aria-live="polite">
+  <div class="card">
+    <h2>Votre résultat</h2>
+    <div class="score-box">
+      <div class="gauge" id="gauge"><div><span><strong id="score">0</strong><br><small>/ 100</small></span></div></div>
+      <div>
+        <span class="status" id="status"></span>
+        <p id="statusText" style="margin:10px 0 0"></p>
+        <p id="priority" style="margin:6px 0 0;font-weight:600"></p>
+      </div>
+    </div>
+    <div id="alertBox"></div>
+    <div class="dims" id="dims"></div>
+  </div>
+
+  <div class="card">
+    <h2>Vos 3 pistes d'action prioritaires</h2>
+    <ol class="advice" id="advice"></ol>
+  </div>
+
+  <div class="cta">
+    <h2>Allons plus loin sur l'ensemble de votre portefeuille</h2>
+    <p>Ce diagnostic porte sur un seul client et 12 critères. La version complète en compte plus de 30, avec des signaux d'alerte, un calibrage adapté à votre activité et un tableau de bord de tout votre portefeuille, avec le chiffre d'affaires à risque. Je vous propose un débrief de 30 minutes, offert et sans engagement, pour lire vos résultats ensemble.</p>
+    <a class="btn" href="https://xpansio.fr/contact.html">Réserver mon débrief offert</a>
+    <button type="button" class="btn secondary" id="again">Évaluer un autre client</button>
+  </div>
+
+  <p class="note">Résultat indicatif, calculé uniquement à partir de vos réponses. Aucune donnée n'est enregistrée ni transmise : tout se passe dans votre navigateur.</p>
+</section>
+
+</div>
+
+<script>
+(function(){
+  /* ---------- Modèle (version courte du Health Score Xpansio) ---------- */
+  var DIMS = [
+    {id:"sol", name:"Solutions & adoption", w:25},
+    {id:"irr", name:"Irritants", w:20},
+    {id:"rel", name:"Relation", w:20},
+    {id:"val", name:"Valeur ressentie", w:25},
+    {id:"eng", name:"Engagement", w:10}
+  ];
+  // Échelle unique : 0 = mauvais, 2 = insuffisant, 4 = bon, 5 = excellent. c = coefficient.
+  var Q = [
+    {d:"sol", c:3, t:"Ce client utilise-t-il vraiment les solutions et services qu'il a achetés ?",
+     o:["Très peu ou pas du tout","Une minorité d'utilisateurs","La majorité des utilisateurs","Intensivement, c'est critique pour lui"]},
+    {d:"sol", c:3, t:"Est-il satisfait des solutions et services en place ?",
+     o:["Très insatisfait","Moyennement satisfait","Satisfait","Très satisfait"]},
+    {d:"sol", c:2, t:"Quelle part de ses besoins IT vous confie-t-il ?",
+     o:["Une seule brique, sans service","Une brique + maintenance ou support","Plusieurs briques ou domaines","Vous êtes son partenaire IT global"]},
+    {d:"irr", c:3, t:"Comment se passe la résolution de ses incidents techniques ?",
+     o:["Incidents qui traînent, sans visibilité","Lente, il doit relancer","Dans les délais","Rapide, il est informé à chaque étape"]},
+    {d:"irr", c:3, t:"Vos engagements de service (délais d'intervention, SLA) sont-ils tenus ?",
+     o:["Souvent non","Quelques dépassements","Oui","Oui, et vos interventions sont saluées"], na:"Pas d'engagement de service contractuel"},
+    {d:"irr", c:2, t:"Comment sont traitées ses demandes administratives (factures, contrat, commandes) ?",
+     o:["En retard, nombreuses relances","Avec retard","Dans les délais","Rapidement, sans relance"]},
+    {d:"rel", c:2, t:"Quelle est votre relation avec le décideur ?",
+     o:["Tendue","Distante, peu de contacts","Bonne","Il vous soutient activement"]},
+    {d:"rel", c:3, t:"Le décideur est-il satisfait de votre collaboration ?",
+     o:["Insatisfait","Moyennement","Satisfait","Très satisfait"]},
+    {d:"rel", c:1, t:"Avez-vous d'autres soutiens chez ce client (direction, DSI, achats, métiers) ?",
+     o:["Aucun contact en dehors du décideur","D'autres contacts, mais neutres","Un soutien","Plusieurs soutiens à différents niveaux"]},
+    {d:"val", c:3, t:"Ses objectifs (ceux qui ont motivé l'achat) sont-ils atteints ?",
+     o:["Non, il est déçu","Partiellement","Oui","Dépassés"], na:"Aucun objectif n'a été défini"},
+    {d:"val", c:2, t:"Quand avez-vous fait le point avec lui sur la valeur apportée (revue de compte) ?",
+     o:["Jamais","Il y a plus de 6 mois","Dans les 6 derniers mois","Ce trimestre, chiffres à l'appui"]},
+    {d:"eng", c:2, t:"Accepterait-il de vous recommander ?",
+     o:["Non","Il accepterait d'être cité","Témoignage écrit ou vidéo","Il interviendrait lors d'un événement"]}
+  ];
+  var SCORES=[0,2,4,5];
+  var ALERTS=[
+    {id:"a1", t:"Il a évoqué une résiliation, un appel d'offres ou la consultation d'un concurrent."},
+    {id:"a2", t:"Un incident critique reste non résolu, avec un impact sur son activité."},
+    {id:"a3", t:"Le décideur a exprimé son insatisfaction."},
+    {id:"a4", t:"Un nouveau décideur est arrivé, et il ne vous est pas favorable."},
+    {id:"a5", t:"Il paie avec des retards répétés, sans litige de votre côté."}
+  ];
+  var TERMS=["Moins de 6 mois","6 à 12 mois","Plus de 12 mois","Je ne sais pas"];
+  var TH_OK=70, TH_WARN=50;
+
+  var ADVICE={
+    sol:"<b>Relancer l'adoption.</b> Organisez une session de prise en main avec les utilisateurs clés, partagez les bonnes pratiques et mesurez l'usage réel. Un client qui n'utilise pas ce qu'il paie ne renouvelle pas.",
+    irr:"<b>Traiter les irritants en priorité.</b> Faites le point sur les tickets et demandes en cours, nommez un responsable de leur résolution et informez le client de l'avancement. Un irritant non traité efface vite tous les efforts commerciaux.",
+    rel:"<b>Élargir et réchauffer la relation.</b> Planifiez un échange avec le décideur centré sur ses enjeux, pas sur vos offres, et identifiez un second soutien (direction, DSI, métiers) pour ne pas dépendre d'un seul interlocuteur.",
+    val:"<b>Rendre la valeur visible.</b> Préparez une revue de compte avec des indicateurs concrets : gains, disponibilité, incidents évités, projets livrés. Un client ne valorise que ce qu'on lui montre.",
+    eng:"<b>Renforcer l'implication du client.</b> Associez-le davantage : enquête de satisfaction, invitation à un événement, puis, une fois la relation consolidée, proposition de témoignage. Un client impliqué est un client attaché."
+  };
+  var ALERT_ADVICE={
+    a1:"<b>Contre-attaque commerciale immédiate.</b> Le client prépare un départ : rencontrez le décideur rapidement, écoutez ses motifs sans vous défendre, et présentez un plan concret avant la date de décision.",
+    a2:"<b>Escalade de l'incident critique.</b> Mobilisez un responsable technique, donnez une date de résolution et appelez vous-même le client à chaque étape. La façon dont vous gérez une crise compte autant que la résolution.",
+    a3:"<b>Rencontrer le décideur sans attendre.</b> Une insatisfaction exprimée est une chance : le client vous donne l'occasion de corriger. Proposez un plan d'action écrit et un suivi rapproché.",
+    a4:"<b>Reconstruire la relation avec le nouveau décideur.</b> Demandez un rendez-vous de présentation, rappelez la valeur apportée jusqu'ici avec des chiffres, et appuyez-vous sur vos autres soutiens dans l'entreprise.",
+    a5:"<b>Comprendre les retards de paiement.</b> Ils signalent souvent une difficulté financière ou un désengagement. Abordez le sujet avec tact et vérifiez qu'ils ne cachent pas une insatisfaction."
+  };
+  var GOOD=[
+    "<b>Ancrer un rituel de suivi.</b> Planifiez une revue de compte chaque trimestre ou chaque semestre, avec quelques indicateurs simples : c'est ce qui permet de détecter tôt le moindre changement.",
+    "<b>Étendre le diagnostic à tout votre portefeuille.</b> Ce client va bien, mais les autres ? Évaluez vos 20 à 30 premiers comptes pour repérer ceux qui risquent de partir avant leur échéance."
+  ];
+  var KEEP="<b>Consolider et développer.</b> Ce client est en bonne santé : c'est le moment d'en parler en revue de compte, d'identifier ses prochains projets et de lui proposer d'être client référent.";
+
+  /* ---------- Construction du formulaire ---------- */
+  var qBox=document.getElementById("questions");
+  DIMS.forEach(function(d){
+    var sec=document.createElement("section"); sec.className="card";
+    sec.innerHTML="<h2>"+d.name+"</h2>";
+    Q.forEach(function(q,i){
+      if(q.d!==d.id) return;
+      var fs=document.createElement("fieldset");
+      var h='<legend><span class="num">'+(i+1)+'.</span>'+q.t+'</legend><div class="opts">';
+      q.o.forEach(function(lab,k){
+        h+='<div class="opt"><input type="radio" name="q'+i+'" id="q'+i+'_'+k+'" value="'+SCORES[k]+'"><label for="q'+i+'_'+k+'">'+lab+'</label></div>';
+      });
+      h+='</div>';
+      if(q.na){ h+='<div class="na"><input type="radio" name="q'+i+'" id="q'+i+'_na" value="na"> <label for="q'+i+'_na">Non applicable : '+q.na+'</label></div>'; }
+      fs.innerHTML=h; sec.appendChild(fs);
+    });
+    qBox.appendChild(sec);
+  });
+  var aBox=document.getElementById("alerts");
+  ALERTS.forEach(function(a){
+    aBox.insertAdjacentHTML("beforeend",'<label><input type="checkbox" name="'+a.id+'"> <span>'+a.t+'</span></label>');
+  });
+  var tBox=document.getElementById("term");
+  TERMS.forEach(function(t,k){
+    tBox.insertAdjacentHTML("beforeend",'<div class="opt"><input type="radio" name="term" id="t'+k+'" value="'+k+'"'+(k===3?' checked':'')+'><label for="t'+k+'">'+t+'</label></div>');
+  });
+
+  /* ---------- Progression ---------- */
+  var form=document.getElementById("diag"), go=document.getElementById("go"), hint=document.getElementById("hint");
+  function answered(){ var n=0; Q.forEach(function(q,i){ if(form.querySelector('input[name="q'+i+'"]:checked')) n++; }); return n; }
+  function update(){
+    var n=answered();
+    document.getElementById("pbar").style.width=(n/Q.length*100)+"%";
+    document.getElementById("ptext").textContent=n+" / "+Q.length+" questions";
+    go.disabled=n<Q.length;
+    hint.textContent=n<Q.length?("Encore "+(Q.length-n)+" question"+(Q.length-n>1?"s":"")+" pour obtenir votre résultat."):"C'est prêt !";
+  }
+  form.addEventListener("change",update);
+
+  /* ---------- Calcul ---------- */
+  function color(s){ return s>=TH_OK?"var(--ok)":(s>=TH_WARN?"var(--warn)":"var(--risk)"); }
+  form.addEventListener("submit",function(e){
+    e.preventDefault(); if(answered()<Q.length) return;
+    var num={},den={};
+    DIMS.forEach(function(d){num[d.id]=0;den[d.id]=0;});
+    Q.forEach(function(q,i){
+      var v=form.querySelector('input[name="q'+i+'"]:checked').value;
+      if(v==="na") return;
+      num[q.d]+=Number(v)*q.c; den[q.d]+=5*q.c;
+    });
+    var dimScores={}, gNum=0, gDen=0;
+    DIMS.forEach(function(d){
+      if(den[d.id]>0){ dimScores[d.id]=num[d.id]/den[d.id]*100; gNum+=dimScores[d.id]*d.w; gDen+=d.w; }
+    });
+    var score=gDen?Math.round(gNum/gDen):0;
+    var alerts=ALERTS.filter(function(a){return form.querySelector('input[name="'+a.id+'"]').checked;});
+    var term=Number(form.querySelector('input[name="term"]:checked').value);
+
+    var status,txt,col;
+    if(alerts.length>0){ status="À risque"; col="var(--risk)";
+      txt="Au moins un signal d'alerte est présent : quel que soit le score, ce client doit être traité en priorité."; }
+    else if(score>=TH_OK){ status="Sain"; col="var(--ok)"; txt="La relation est solide. Restez attentif, et profitez-en pour développer le compte."; }
+    else if(score>=TH_WARN){ status="À surveiller"; col="var(--warn)"; txt="Des fragilités apparaissent. Elles peuvent se transformer en risque si elles ne sont pas traitées."; }
+    else { status="À risque"; col="var(--risk)"; txt="Plusieurs dimensions de la relation sont dégradées. Le renouvellement n'est pas acquis."; }
+
+    var prio="";
+    if(status==="À risque" && term===0) prio="Priorité : urgente, l'échéance approche.";
+    else if(status==="À risque" || (status==="À surveiller" && term===0)) prio="Priorité : à sécuriser rapidement.";
+    else if(status==="À surveiller") prio="Priorité : à surveiller dans les prochains mois.";
+    else prio="Priorité : consolider et développer.";
+
+    document.getElementById("score").textContent=score;
+    document.getElementById("gauge").style.background="conic-gradient("+col+" "+(score*3.6)+"deg, var(--line) 0)";
+    var st=document.getElementById("status"); st.textContent=status; st.style.background=col;
+    document.getElementById("statusText").textContent=txt;
+    document.getElementById("priority").textContent=prio;
+
+    var ab=document.getElementById("alertBox");
+    ab.innerHTML=alerts.length?('<div class="alert-list"><b>'+alerts.length+' signal'+(alerts.length>1?'s':'')+' d\'alerte</b><ul style="margin:6px 0 0;padding-left:18px">'+alerts.map(function(a){return "<li>"+a.t+"</li>";}).join("")+'</ul></div>'):"";
+
+    var dh="";
+    DIMS.forEach(function(d){
+      if(dimScores[d.id]===undefined){ dh+='<div class="dim"><div class="lbl"><span>'+d.name+'</span><span>non évalué</span></div><div class="track"></div></div>'; return; }
+      var s=Math.round(dimScores[d.id]);
+      dh+='<div class="dim"><div class="lbl"><span>'+d.name+'</span><span>'+s+' / 100</span></div><div class="track"><div class="fill" style="width:'+s+'%;background:'+color(s)+'"></div></div></div>';
+    });
+    document.getElementById("dims").innerHTML=dh;
+
+    // 3 conseils : alertes d'abord, puis dimensions sous le seuil "Sain" classées par écart pondéré, sinon consolider
+    var adv=alerts.map(function(a){return ALERT_ADVICE[a.id];});
+    DIMS.filter(function(d){return dimScores[d.id]!==undefined && dimScores[d.id]<TH_OK;})
+        .sort(function(a,b){return (100-dimScores[b.id])*b.w-(100-dimScores[a.id])*a.w;})
+        .forEach(function(d){adv.push(ADVICE[d.id]);});
+    if(adv.length<3) adv.push(KEEP);
+    GOOD.forEach(function(g){ if(adv.length<3) adv.push(g); });
+    document.getElementById("advice").innerHTML=adv.slice(0,3).map(function(a){return "<li>"+a+"</li>";}).join("");
+
+    form.style.display="none";
+    document.querySelector(".progress").style.display="none";
+    var res=document.getElementById("result"); res.style.display="block";
+    res.scrollIntoView({behavior:"smooth"});
+  });
+
+  document.getElementById("again").addEventListener("click",function(){
+    form.reset(); document.getElementById("t3").checked=true; update();
+    document.getElementById("result").style.display="none";
+    form.style.display="block"; document.querySelector(".progress").style.display="block";
+    window.scrollTo({top:0,behavior:"smooth"});
+  });
+  update();
+})();
+</script>
+</body>
+</html>
