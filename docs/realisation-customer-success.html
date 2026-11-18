@@ -6,8 +6,18 @@
 <title>Comment transformer un client Print en client Print + IT grâce au Customer Success ? · Xpansio</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="Une base installée importante dans l’impression, mais une relation centrée sur les équipements.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Xpansio">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="Comment transformer un client Print en client Print + IT grâce au Customer Success ? · Xpansio">
+<meta property="og:description" content="Une base installée importante dans l’impression, mais une relation centrée sur les équipements.">
+<meta property="og:url" content="https://xpansio.fr/realisation-customer-success.html">
+<meta property="og:image" content="https://xpansio.fr/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Montserrat:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="styles.css?v=1d518cce">
+<link rel="stylesheet" href="styles.css?v=a0893b24">
 <link rel="icon" href="assets/favicon.png">
 </head>
 <body>
@@ -53,6 +63,7 @@
     <div class="xp cl"><span class="label cl">Résultats et enseignements</span><p>Il s’agissait d’un pilote. Son déploiement n’a pas été généralisé pour des raisons d’organisation, mais des équipes dédiées ont été maintenues, dans le même esprit, pour développer les services IT. L’enseignement : le Customer Success demande des rôles clairs, une coordination entre équipes et un engagement de l’organisation dans la durée.</p>
       <p class="from"><b>L’expérience mobilisée :</b> Expérience professionnelle antérieure de la fondatrice, chez un constructeur international de solutions bureautiques et IT, avant la création d’Xpansio.</p></div>
     <div class="below"><a class="link cl" href="experience-client.html">Voir l’expertise Customer Performance <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
+    <p class="autodiag-line">Et l’un de vos clients, est-il vraiment en bonne santé ? <a class="link cl" href="auto-diagnostic.html">Faire l’auto-diagnostic <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
   </div>
 </section>
 <section class="band ink"><div class="wrap">
@@ -66,7 +77,7 @@
   <div class="wrap">
     <img class="logo" src="assets/logo-white.png" alt="xpansio" width="480" height="140">
     <p class="tagline">Accélérer la performance de vos partenaires.<br>Révéler la valeur de vos clients.</p>
-    <nav aria-label="Pied de page"><a href="index.html">Accueil</a><a href="experience-channel.html">Channel Performance</a><a href="experience-client.html">Customer Performance</a><a href="realisations.html">Nos réalisations</a><a href="contact.html">Contact</a><a href="https://www.linkedin.com/in/agnes-chabrier-7186971/" target="_blank" rel="noopener">LinkedIn</a></nav>
+    <nav aria-label="Pied de page"><a href="index.html">Accueil</a><a href="experience-channel.html">Channel Performance</a><a href="experience-client.html">Customer Performance</a><a href="realisations.html">Nos réalisations</a><a href="auto-diagnostic.html">Auto-diagnostic client</a><a href="contact.html">Contact</a><a href="https://www.linkedin.com/in/agnes-chabrier-7186971/" target="_blank" rel="noopener">LinkedIn</a></nav>
     <div class="foot-bottom"><span>© 2026 Xpansio · Agnès Chabrier, entrepreneure individuelle</span><a href="mentions-legales.html">Mentions légales et confidentialité</a></div>
   </div>
 </footer>
@@ -115,6 +126,12 @@
     document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!d.hidden){set(false);b.focus();}});
   }
   var f=document.querySelector('form.form');
+  /* Arrivée depuis l'auto-diagnostic (contact.html?sujet=customer-performance) : sujet et message pré-remplis */
+  if(f&&/[?&]sujet=customer-performance(&|$)/.test(location.search)){
+    var sc=document.getElementById('s-cl'),fm=document.getElementById('f-msg');
+    if(sc)sc.checked=true;
+    if(fm&&!fm.value)fm.value="Je viens de faire l’auto-diagnostic et je souhaite un débrief.";
+  }
   if(f){f.addEventListener('submit',function(e){
     e.preventDefault();var msg=f.querySelector('.form-msg');
     var btn=f.querySelector('button[type=submit]');btn.disabled=true;

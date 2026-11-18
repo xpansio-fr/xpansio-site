@@ -44,7 +44,7 @@ FOOTER = '''<footer>
   <div class="wrap">
     <img class="logo" src="assets/logo-white.png" alt="xpansio" width="480" height="140">
     <p class="tagline">Accélérer la performance de vos partenaires.<br>Révéler la valeur de vos clients.</p>
-    <nav aria-label="Pied de page"><a href="index.html">Accueil</a><a href="experience-channel.html">Channel Performance</a><a href="experience-client.html">Customer Performance</a><a href="realisations.html">Nos réalisations</a><a href="contact.html">Contact</a><a href="https://www.linkedin.com/in/agnes-chabrier-7186971/" target="_blank" rel="noopener">LinkedIn</a></nav>
+    <nav aria-label="Pied de page"><a href="index.html">Accueil</a><a href="experience-channel.html">Channel Performance</a><a href="experience-client.html">Customer Performance</a><a href="realisations.html">Nos réalisations</a><a href="auto-diagnostic.html">Auto-diagnostic client</a><a href="contact.html">Contact</a><a href="https://www.linkedin.com/in/agnes-chabrier-7186971/" target="_blank" rel="noopener">LinkedIn</a></nav>
     <div class="foot-bottom"><span>© 2026 Xpansio · Agnès Chabrier, entrepreneure individuelle</span><a href="mentions-legales.html">Mentions légales et confidentialité</a></div>
   </div>
 </footer>'''
@@ -94,6 +94,12 @@ SCRIPT = '''<script>
     document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!d.hidden){set(false);b.focus();}});
   }
   var f=document.querySelector('form.form');
+  /* Arrivée depuis l'auto-diagnostic (contact.html?sujet=customer-performance) : sujet et message pré-remplis */
+  if(f&&/[?&]sujet=customer-performance(&|$)/.test(location.search)){
+    var sc=document.getElementById('s-cl'),fm=document.getElementById('f-msg');
+    if(sc)sc.checked=true;
+    if(fm&&!fm.value)fm.value="Je viens de faire l’auto-diagnostic et je souhaite un débrief.";
+  }
   if(f){f.addEventListener('submit',function(e){
     e.preventDefault();var msg=f.querySelector('.form-msg');
     var btn=f.querySelector('button[type=submit]');btn.disabled=true;
@@ -104,10 +110,29 @@ SCRIPT = '''<script>
 })();
 </script>'''
 
-def page(key, title, desc, body, full=True):
+SITE = "https://xpansio.fr/"
+def og(fn, title, desc):
+    """Aperçu des liens partagés (LinkedIn, WhatsApp, Teams…) : titre, description, image du logo."""
+    url = SITE + ("" if fn == "index.html" else fn)
+    return (f'<meta property="og:type" content="website">\n<meta property="og:site_name" content="Xpansio">\n<meta property="og:locale" content="fr_FR">\n'
+            f'<meta property="og:title" content="{title}">\n<meta property="og:description" content="{desc}">\n<meta property="og:url" content="{url}">\n'
+            f'<meta property="og:image" content="{SITE}assets/og-image.png">\n<meta property="og:image:width" content="1200">\n<meta property="og:image:height" content="630">\n'
+            f'<meta name="twitter:card" content="summary_large_image">')
+
+def ver(f):
+    """Version d'un fichier : change à chaque modification, ce qui force les navigateurs à le recharger."""
+    return hashlib.md5(open(os.path.join(SRC, f), "rb").read()).hexdigest()[:8]
+
+# Feuilles de style et scripts propres à certaines pages
+PAGE_CSS = {"autodiag": ["autodiag.css"]}
+PAGE_JS = {"autodiag": ["autodiag.js"]}
+
+def page(key, title, desc, body, full=True, fn="index.html"):
+    extra_css = ''.join(f'\n<link rel="stylesheet" href="{f}?v={ver(f)}">' for f in PAGE_CSS.get(key, []))
+    extra_js = ''.join(f'\n<script src="{f}?v={ver(f)}"></script>' for f in PAGE_JS.get(key, []))
     head = (f'<title>{title}</title>\n<meta name="claude:viewport-fit-sides" content="cover">\n'
-            f'<meta name="description" content="{desc}">\n{FONTS}\n<link rel="stylesheet" href="styles.css?v={CSS_V}">\n<link rel="icon" href="assets/favicon.png">')
-    inner = f'{header(key)}\n<main>\n{body}\n</main>\n{FOOTER}\n{SCRIPT}'
+            f'<meta name="description" content="{desc}">\n{og(fn, title, desc)}\n{FONTS}\n<link rel="stylesheet" href="styles.css?v={CSS_V}">{extra_css}\n<link rel="icon" href="assets/favicon.png">')
+    inner = f'{header(key)}\n<main>\n{body}\n</main>\n{FOOTER}\n{SCRIPT}{extra_js}'
     if not full:
         return head + '\n' + inner
     return (f'<!doctype html>\n<html lang="fr">\n<head>\n<meta charset="utf-8">\n'
@@ -281,6 +306,10 @@ def rgrid(rs):
 KINDS_NOTE = ('<p class="note"><b>Mission Xpansio</b> : intervention de conseil réalisée par Xpansio. '
               '<b>Expérience antérieure</b> : démarche conduite par Agnès Chabrier dans ses fonctions précédentes, avant la création d’Xpansio.</p>')
 
+# Fiches qui renvoient vers l'auto-diagnostic, et la ligne ajoutée en fin de fiche
+AUTODIAG_FICHES = {"realisation-au-dela-du-nps.html", "realisation-crise-clients-prioritaires.html", "realisation-customer-success.html"}
+AUTODIAG_LINE = f'<p class="autodiag-line">Et l’un de vos clients, est-il vraiment en bonne santé ? <a class="link cl" href="auto-diagnostic.html">Faire l’auto-diagnostic {ARR}</a></p>'
+
 def vs_block(r):
     """Encadré facultatif : deux colonnes comparées (ex. valeur pour le partenaire / pour le client final)."""
     if "vs" not in r: return ""
@@ -309,6 +338,7 @@ def real_page(r):
     <div class="xp {c}"><span class="label {c}">{r.get("rlabel", "Résultats et enseignements")}</span><p>{r["result"]}</p>
       <p class="from"><b>L’expérience mobilisée :</b> {r["xp"]}</p></div>
     <div class="below"><a class="link {c}" href="{href}">Voir l’expertise {exp} {ARR}</a></div>
+    {AUTODIAG_LINE if r["slug"] in AUTODIAG_FICHES else ""}
   </div>
 </section>
 {cta()}
@@ -378,6 +408,7 @@ HOME = f'''
         <span class="link">Découvrir l’expertise Customer {ARR}</span>
       </a>
     </div>
+    <div class="duo-sub"><span></span><p>Votre client est-il vraiment en bonne santé ? <a class="link cl" href="auto-diagnostic.html">Faire l’auto-diagnostic {ARR}</a></p></div>
   </div>
 </section>
 
@@ -486,6 +517,11 @@ CLIENT = f'''
     {head("Analyse du portefeuille", "Customer Capital Index (CCI)", "Un modèle d’analyse qui croise plusieurs dimensions de la relation client, pour éclairer les priorités et les plans d’action.", cls="cl")}
     <div class="dims n5"><div class="dim">Satisfaction</div><div class="dim">Fidélité</div><div class="dim">Risque</div><div class="dim">Potentiel de développement</div><div class="dim">Contribution économique</div></div>
     <p class="note">Ces dimensions sont des exemples, pas une méthodologie universelle : les critères sont adaptés à vos enjeux, à vos données et à votre modèle économique.</p>
+    <div class="ask cl">
+      <p class="q-t">Votre client est-il vraiment en bonne santé ? Faites le test en 5 minutes</p>
+      <p>12 questions sur l’un de vos clients : un score de santé, vos signaux d’alerte et 3 pistes d’action.</p>
+      <div class="ctas"><a class="btn btn-primary" href="auto-diagnostic.html">Faire l’auto-diagnostic {ARR}</a></div>
+    </div>
   </div>
 </section>
 <section class="band">
@@ -562,12 +598,87 @@ LEGAL = f'''
 </section>
 '''
 
+AUTODIAG = f'''
+{page_hero([("index.html","Accueil"),("experience-client.html","Customer Performance"),(None,"Auto-diagnostic")], "Votre client est-il vraiment en bonne santé ?",
+  "Un client qui renouvelle n’est pas forcément un client satisfait. Cet auto-diagnostic vous aide à repérer les signaux faibles avant l’échéance du contrat.",
+  f'<span class="pill cl"><span class="ico cl">{I_USER}</span>Auto-diagnostic · Customer Performance</span>').replace('class="page-hero"', 'class="page-hero compact"', 1)}
+<section class="band alt tight">
+  <div class="wrap">
+<div id="auto-diagnostic">
+  <ul class="how">
+    <li><b>1.</b> Pensez à <b>un client important</b> de votre portefeuille.</li>
+    <li><b>2.</b> Répondez à <b>12 questions</b> (5 minutes), le plus honnêtement possible.</li>
+    <li><b>3.</b> Obtenez un <b>score de santé</b>, vos signaux d'alerte et <b>3 pistes d'action</b>.</li>
+  </ul>
+
+<div class="progress" aria-hidden="true">
+  <div class="bar"><span id="pbar"></span></div>
+  <small id="ptext">0 / 12 questions</small>
+</div>
+
+<form id="diag" novalidate>
+  <div id="questions"></div>
+
+  <section class="card alerts">
+    <h2>Signaux d'alerte</h2>
+    <p class="sub">Cochez ce que vous constatez aujourd'hui chez ce client (aucune case si rien ne s'applique).</p>
+    <div id="alerts"></div>
+  </section>
+
+  <section class="card">
+    <h2>Échéance du contrat</h2>
+    <p class="sub">Dans combien de temps arrive la fin du contrat principal ou son renouvellement&nbsp;?</p>
+    <div class="opts" id="term"></div>
+    <div style="height:14px"></div>
+  </section>
+
+  <div class="center">
+    <button type="submit" class="btn" id="go" disabled>Voir mon résultat</button>
+    <p class="hint" id="hint">Répondez aux 12 questions pour obtenir votre résultat.</p>
+  </div>
+</form>
+
+<section id="result" aria-live="polite">
+  <div class="card">
+    <h2>Votre résultat</h2>
+    <div class="score-box">
+      <div class="gauge" id="gauge"><div><span><strong id="score">0</strong><br><small>/ 100</small></span></div></div>
+      <div>
+        <span class="status" id="status"></span>
+        <p id="statusText" style="margin:10px 0 0"></p>
+        <p id="priority" style="margin:6px 0 0;font-weight:600"></p>
+      </div>
+    </div>
+    <div id="alertBox"></div>
+    <div class="dims" id="dims"></div>
+  </div>
+
+  <div class="card">
+    <h2>Vos 3 pistes d'action prioritaires</h2>
+    <ol class="advice" id="advice"></ol>
+  </div>
+
+  <div class="cta">
+    <h2>Allons plus loin sur l'ensemble de votre portefeuille</h2>
+    <p>Ce diagnostic porte sur un seul client et 12 critères. La version complète en compte plus de 30, avec des signaux d'alerte, un calibrage adapté à votre activité et un tableau de bord de tout votre portefeuille, avec le chiffre d'affaires à risque. Je vous propose un débrief de 30 minutes, offert et sans engagement, pour lire vos résultats ensemble.</p>
+    <a class="btn" href="contact.html?sujet=customer-performance">Réserver mon débrief offert</a>
+    <button type="button" class="btn secondary" id="again">Évaluer un autre client</button>
+  </div>
+
+  <p class="note">Résultat indicatif, calculé uniquement à partir de vos réponses. Aucune donnée n'est enregistrée ni transmise : tout se passe dans votre navigateur.</p>
+</section>
+</div>
+  </div>
+</section>
+'''
+
 PAGES = [
     ("index.html", "home", "Xpansio", "Xpansio, conseil en performance Channel & Customer pour les constructeurs, éditeurs, distributeurs et revendeurs IT : réseaux de partenaires et valeur du portefeuille clients.", HOME),
     ("experience-channel.html", "channel", "Channel Performance · Xpansio", "Stratégie de réseau, proposition de valeur et programmes partenaires, parcours et engagement des partenaires : l’expertise Channel Performance d’Xpansio.", CHANNEL),
     ("experience-client.html", "client", "Customer Performance · Xpansio", "Écoute et satisfaction, expérience client, fidélisation et Customer Success, développement du capital client : l’expertise Customer Performance d’Xpansio.", CLIENT),
     ("realisations.html", "realisations", "Nos réalisations · Xpansio", "Des situations réelles en Channel et Customer Performance : contexte, démarche, réalisations et enseignements.", REALISATIONS_PAGE),
 ] + [(r["slug"], "realisations", r["title"] + " · Xpansio", r["ctx"], real_page(r)) for r in REAL] + [
+    ("auto-diagnostic.html", "autodiag", "Auto-diagnostic : votre client est-il vraiment en bonne santé ? · Xpansio", "12 questions, 5 minutes : évaluez la santé de la relation avec l’un de vos clients clés et repérez les signaux de risque avant l’échéance du contrat.", AUTODIAG),
     ("contact.html", "contact", "Contact · Xpansio", "Contacter Xpansio pour un premier échange.", CONTACT),
     ("mentions-legales.html", "legal", "Mentions légales · Xpansio", "Mentions légales du site Xpansio.", LEGAL),
 ]
@@ -579,12 +690,13 @@ if __name__ == "__main__":
         d = os.path.join(ROOT, out)
         shutil.rmtree(d, ignore_errors=True)
         os.makedirs(os.path.join(d, "assets"))
-        shutil.copy(os.path.join(SRC, "styles.css"), d)
+        for f in ["styles.css", "autodiag.css", "autodiag.js"]:
+            shutil.copy(os.path.join(SRC, f), d)
         for f in os.listdir(os.path.join(SRC, "assets")):
             shutil.copy(os.path.join(SRC, "assets", f), os.path.join(d, "assets", f))
         for fn, key, title, desc, body in PAGES:
             with open(os.path.join(d, fn), "w") as fh:
-                fh.write(page(key, title, desc, body, full_home or fn != "index.html"))
+                fh.write(page(key, title, desc, body, full_home or fn != "index.html", fn))
         for fn, to in REDIRECTS.items():
             open(os.path.join(d, fn), "w").write(redirect_page(to))
     d = os.path.join(ROOT, "docs")
