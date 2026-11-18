@@ -139,12 +139,13 @@ SCRIPT = '''<script>
 </script>'''
 
 SITE = "https://xpansio.fr/"
+OG_IMG = {}   # fichier → (image, largeur, hauteur) ; sinon le logo
 def og(fn, title, desc):
     """Aperçu des liens partagés (LinkedIn, WhatsApp, Teams…) : titre, description, image du logo."""
     url = SITE + ("" if fn == "index.html" else fn)
     return (f'<meta property="og:type" content="website">\n<meta property="og:site_name" content="Xpansio">\n<meta property="og:locale" content="fr_FR">\n'
             f'<meta property="og:title" content="{title}">\n<meta property="og:description" content="{desc}">\n<meta property="og:url" content="{url}">\n'
-            f'<meta property="og:image" content="{SITE}assets/og-image.png">\n<meta property="og:image:width" content="1200">\n<meta property="og:image:height" content="630">\n'
+            f'<meta property="og:image" content="{SITE}{OG_IMG.get(fn, ("assets/og-image.png",))[0]}">\n<meta property="og:image:width" content="{OG_IMG.get(fn, (0, 1200))[1]}">\n<meta property="og:image:height" content="{OG_IMG.get(fn, (0, 0, 630))[2]}">\n'
             f'<meta name="twitter:card" content="summary_large_image">')
 
 def ver(f):
@@ -278,6 +279,32 @@ REAL = [
           "Enquête de satisfaction après chaque réunion, exploitée pour préparer les rencontres suivantes"],
     result="Les enquêtes réalisées après les rencontres font ressortir une appréciation très positive des échanges, notamment pour leur utilité stratégique, l’accès aux experts et la possibilité de dialoguer directement avec le constructeur. L’enseignement : un club partenaires n’est pas un simple événement relationnel, mais un dispositif de dialogue, d’écoute et de coconstruction qui aide le fournisseur à mieux comprendre son réseau, et les partenaires à contribuer à son évolution.",
     xp="Mission de conseil Xpansio. Le client n’est pas nommé, par confidentialité."),
+  dict(slug="realisation-certification-qualite-service.html", cls="ch", kind="x",
+    title="La qualité de service de vos partenaires est-elle à la hauteur de votre marque ?",
+    ctx="Un constructeur IT dont l’offre est vendue et maintenue par un réseau de partenaires.",
+    ans="Concevoir un programme de certification qui fait progresser le réseau et valorise les meilleurs partenaires auprès de leurs clients.",
+    # Rubriques propres à cette fiche (texte fourni par Agnès, repris tel quel)
+    cols=[("Le contexte", "<p>Un constructeur IT dont l’offre est vendue et maintenue par un réseau de partenaires. Pour le client final, la qualité du service rendu par le partenaire, c’est la qualité de la marque. Or le constructeur n’avait pas de vision objective et comparable de la qualité de service de ses partenaires.</p>"),
+          ("L’enjeu", "<p>Mesurer cette qualité de façon juste et partagée, repérer les bonnes pratiques, aider chaque partenaire à progresser, et adapter l’accompagnement du constructeur au niveau de chacun.</p>"),
+          ("L’approche", "<ul><li>Conception d’une grille d’audit sur 7 domaines : support client, compétences et certifications, outils et supervision, déploiement et logistique, coopération, connaissance de la base installée, RSE.</li>"
+                          "<li>Conception de la méthode de notation : score par domaine et score global, comparés à la moyenne du réseau.</li>"
+                          "<li>Conception d’un programme de certification à 3 niveaux, que le partenaire peut utiliser dans sa communication.</li>"
+                          "<li>Conception du rapport d’audit type, avec un plan d’action personnalisé construit avec chaque partenaire.</li>"
+                          "<li>Mise à disposition de ces outils aux équipes techniques du constructeur, chargées de réaliser les audits sur le terrain.</li></ul>")],
+    livrables=["La grille de notation et sa méthode.",
+               "Le modèle de rapport d’audit : synthèse, analyse par domaine, recommandations, plan d’action.",
+               "Le certificat et les outils de visibilité commerciale.",
+               "Une vision consolidée du réseau, pour piloter l’accompagnement."],
+    figure=("assets/audit-qualite-services.webp", 1600, 860,
+            "Exemple de synthèse d’audit qualité de services d’un partenaire : score par domaine comparé au réseau, radar de maturité et certification. Données fictives.",
+            "Exemple de livrable, données fictives."),
+    resultats=["75 partenaires audités par les équipes techniques du constructeur dès la première année, à partir de la grille et de la méthode conçues pendant la mission.",
+               "Une certification reçue comme une vraie reconnaissance par les partenaires :<blockquote class=\"pquote ch\"><p>« Nous sommes fiers de concrétiser notre partenariat avec notre fournisseur par la remise de notre certificat officiel. Cette distinction vient récompenser la constance de notre engagement mutuel. »</p><span class=\"by\">— Dirigeant d’un intégrateur IT</span></blockquote>",
+               "Des axes de progrès clairs et partagés, notamment sur la supervision à distance et la connaissance de la base installée : des leviers directs de satisfaction pour les clients finaux."],
+    rlabel="Ce qu’il faut retenir",
+    result="Un audit n’est utile que s’il fait progresser. Comparer chaque partenaire au réseau, reconnaître les meilleurs et construire un plan d’action avec chacun transforme un contrôle en levier d’engagement. Et la qualité de service des partenaires devient un argument commercial, pour eux comme pour la marque.",
+    xp="Mission de conseil Xpansio auprès d’un constructeur. Le client n’est pas nommé, par confidentialité.",
+    og_image=("assets/og-audit-qualite-services.jpg", 1200, 645)),
   dict(slug="realisation-crise-clients-prioritaires.html", cls="cl", kind="a",
     title="Comment préserver la satisfaction client lorsque la crise impose des arbitrages ?",
     ctx="Une crise d’approvisionnement majeure : l’entreprise ne peut plus répondre normalement à toutes les demandes.",
@@ -319,7 +346,8 @@ REAL = [
     xp="Expérience professionnelle antérieure de la fondatrice, chez un constructeur international de solutions bureautiques et IT, avant la création d’Xpansio."),
 ]
 R = {r["slug"]: r for r in REAL}
-R1, R5, R2, R3, R4 = (r["slug"] for r in REAL)
+OG_IMG.update({r["slug"]: r["og_image"] for r in REAL if "og_image" in r})
+R1, R5, R6, R2, R3, R4 = (r["slug"] for r in REAL)
 
 def rcard(r):
     """Aperçu court d'une réalisation (accueil, page Nos réalisations, pages d'expertise)."""
@@ -329,7 +357,7 @@ def rcard(r):
             f'<span class="link {c}">Découvrir la réalisation {ARR}</span></a>')
 
 def rgrid(rs):
-    return f'<div class="pgrid{ {1: " n1", 2: " n2", 4: " n2", 5: " n2"}.get(len(rs), "")}">' + ''.join(rcard(r) for r in rs) + '</div>'
+    return f'<div class="pgrid{ {1: " n1", 2: " n2", 4: " n2", 5: " n2", 6: " n2"}.get(len(rs), "")}">' + ''.join(rcard(r) for r in rs) + '</div>'
 
 KINDS_NOTE = ('<p class="note"><b>Mission Xpansio</b> : intervention de conseil réalisée par Xpansio. '
               '<b>Expérience antérieure</b> : démarche conduite par Agnès Chabrier dans ses fonctions précédentes, avant la création d’Xpansio.</p>')
@@ -347,23 +375,38 @@ def vs_block(r):
 
 def real_page(r):
     c = r["cls"]; exp, href = EXP[c]; ico = I_NET if c == "ch" else I_USER
-    done = ''.join(f'<li>{x}</li>' for x in r["done"])
+    if "cols" in r:
+        cols = ''.join(f'<div class="case-col"><span class="label {c}">{t}</span>{h}</div>' for t, h in r["cols"])
+    else:
+        done = ''.join(f'<li>{x}</li>' for x in r["done"])
+        cols = (f'<div class="case-col"><span class="label {c}">Le défi</span><p>{r["defi"]}</p></div>'
+                f'<div class="case-col"><span class="label {c}">La réponse apportée</span><p>{r["reponse"]}</p></div>'
+                f'<div class="case-col"><span class="label {c}">Ce qui a été réalisé</span><ul>{done}</ul></div>')
+    extra = ""
+    if "livrables" in r:
+        extra += f'<div class="deliv-box"><span class="label {c}">Les livrables</span><ul>' + ''.join(f'<li>{x}</li>' for x in r["livrables"]) + '</ul></div>'
+    if "figure" in r:
+        src, w, h, alt, cap = r["figure"]
+        extra += f'<figure class="shot"><img src="{src}" width="{w}" height="{h}" alt="{alt}" loading="lazy" decoding="async"><figcaption>{cap}</figcaption></figure>'
+    res = ""
+    if "resultats" in r:
+        res = f'<div class="results"><span class="label {c}">Les résultats</span><ul>' + ''.join(f'<li>{x}</li>' for x in r["resultats"]) + '</ul></div>'
     return f'''
 {page_hero([("index.html","Accueil"),("realisations.html","Nos réalisations"),(None, exp)], r["title"], r["ctx"],
   f'<span class="pill {c}"><span class="ico {c}">{ico}</span>{KIND[r["kind"]]} · {exp}</span>', h1cls=" h1-long")}
 <section class="band alt">
   <div class="wrap">
     <div class="case-cols">
-      <div class="case-col"><span class="label {c}">Le défi</span><p>{r["defi"]}</p></div>
-      <div class="case-col"><span class="label {c}">La réponse apportée</span><p>{r["reponse"]}</p></div>
-      <div class="case-col"><span class="label {c}">Ce qui a été réalisé</span><ul>{done}</ul></div>
+      {cols}
     </div>
+    {extra}
     {parcours_block() if r.get("parcours") else ""}
   </div>
 </section>
 <section class="band">
   <div class="wrap">
     {vs_block(r)}
+    {res}
     <div class="xp {c}"><span class="label {c}">{r.get("rlabel", "Résultats et enseignements")}</span><p>{r["result"]}</p>
       <p class="from"><b>L’expérience mobilisée :</b> {r["xp"]}</p></div>
     <div class="below"><a class="link {c}" href="{href}">Voir l’expertise {exp} {ARR}</a></div>
@@ -511,7 +554,7 @@ CHANNEL = f'''
 <section class="band">
   <div class="wrap">
     {head("Réalisations associées", "Ce que cela donne sur le terrain.", cls="ch")}
-    {rgrid([R[R5], R[R1]])}
+    {rgrid([R[R5], R[R1], R[R6]])}
   </div>
 </section>
 {cta()}
