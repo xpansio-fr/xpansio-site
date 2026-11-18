@@ -254,7 +254,7 @@ REAL = [
     title="Comment redonner de la valeur à une marque lorsque les discussions se concentrent sur le prix ?",
     ctx="Un constructeur sur un marché mature, des offres premium mais de plus en plus difficiles à différencier et une forte pression sur les prix.",
     ans="Définir une proposition de valeur réseau différenciante, donner aux équipes les moyens de la défendre et aligner les dispositifs.",
-    defi="Un constructeur intervient sur un marché mature, avec des offres qui semblent de plus en plus comparables aux yeux des partenaires. Les discussions commerciales se concentrent sur le prix. Comment construire une proposition de valeur différenciante, crédible et défendable, puis faire en sorte qu’elle guide réellement la relation avec les partenaires ?",
+    defi="Aux yeux des partenaires, les offres semblent de plus en plus comparables, et les discussions commerciales se concentrent sur le prix. Comment construire une proposition de valeur différenciante, crédible et défendable, puis faire en sorte qu’elle guide réellement la relation avec les partenaires ?",
     reponse="La mission s’est concentrée sur la proposition de valeur destinée aux partenaires : les écouter, ainsi que les équipes internes, définir une proposition spécifique au réseau, donner aux commerciaux les preuves pour la défendre, puis en faire le principe directeur des dispositifs de la relation partenaires.",
     vs=("Deux propositions de valeur, deux publics à convaincre",
         "Dans la distribution indirecte, la valeur d’une offre pour le client final ne suffit pas à convaincre un partenaire de développer la marque. Les deux propositions se travaillent distinctement, tout en restant cohérentes.",
@@ -276,7 +276,7 @@ REAL = [
     title="Comment rétablir la confiance d’un réseau de partenaires fragilisé ?",
     ctx="Un changement de management et des crises successives avaient fragilisé l’implication des partenaires.",
     ans="Créer et animer des clubs partenaires : un dialogue régulier, des experts, une implication dans la vie du réseau.",
-    defi="Un changement de management et des crises multiples avaient fragilisé la confiance du réseau. Or un réseau ne peut pas reposer uniquement sur une relation commerciale descendante : les partenaires ont besoin de partager leurs enjeux, de faire entendre leurs attentes, d’accéder à des expertises utiles et de participer à l’évolution du réseau.",
+    defi="Un réseau ne peut pas reposer uniquement sur une relation commerciale descendante : les partenaires ont besoin de partager leurs enjeux, de faire entendre leurs attentes, d’accéder à des expertises utiles et de participer à l’évolution du réseau.",
     reponse="Créer et animer des clubs partenaires, clubs technologiques d’expertise et clubs de dirigeants plus stratégiques, pour instaurer un dialogue régulier, faire émerger des réflexions communes et renforcer l’implication des partenaires. Une charte a été élaborée avec eux, l’accès au management de haut niveau facilité, et l’accompagnement renforcé en parallèle.",
     done=["Définition des objectifs et du positionnement des clubs",
           "Sélection des thématiques et des participants",
@@ -298,7 +298,7 @@ REAL = [
     ctx="Un constructeur IT dont l’offre est vendue et maintenue par un réseau de partenaires.",
     ans="Concevoir un programme de certification qui fait progresser le réseau et valorise les meilleurs partenaires auprès de leurs clients.",
     # Rubriques propres à cette fiche (texte fourni par Agnès, repris tel quel)
-    cols=[("Le contexte", "<p>Un constructeur IT dont l’offre est vendue et maintenue par un réseau de partenaires. Pour le client final, la qualité du service rendu par le partenaire, c’est la qualité de la marque. Or le constructeur n’avait pas de vision objective et comparable de la qualité de service de ses partenaires.</p>"),
+    cols=[("Le contexte", "<p>Pour le client final, la qualité du service rendu par le partenaire, c’est la qualité de la marque. Or le constructeur n’avait pas de vision objective et comparable de la qualité de service de ses partenaires.</p>"),
           ("L’enjeu", "<p>Mesurer cette qualité de façon juste et partagée, repérer les bonnes pratiques, aider chaque partenaire à progresser, et adapter l’accompagnement du constructeur au niveau de chacun.</p>"),
           ("L’approche", "<ul><li>Conception d’une grille d’audit sur 7 domaines : support client, compétences et certifications, outils et supervision, déploiement et logistique, coopération, connaissance de la base installée, RSE.</li>"
                           "<li>Conception de la méthode de notation : score par domaine et score global, comparés à la moyenne du réseau.</li>"
@@ -323,7 +323,7 @@ REAL = [
     title="Comment préserver la satisfaction client lorsque la crise impose des arbitrages ?",
     ctx="Une crise d’approvisionnement majeure : l’entreprise ne peut plus répondre normalement à toutes les demandes.",
     ans="Mieux connaître le portefeuille pour identifier les clients prioritaires et orienter la fidélisation.",
-    defi="Une crise majeure d’approvisionnement dégrade la qualité de service et la satisfaction des clients. L’entreprise ne peut plus répondre normalement à toutes les demandes. Comment préserver les relations stratégiques lorsque les ressources sont contraintes et qu’il faut arbitrer ?",
+    defi="Une crise majeure d’approvisionnement dégrade la qualité de service et la satisfaction des clients. Comment préserver les relations stratégiques lorsque les ressources sont contraintes et qu’il faut arbitrer ?",
     reponse="Améliorer la connaissance du portefeuille clients pour identifier les situations prioritaires, en combinant plusieurs dimensions de la valeur client au-delà du seul chiffre d’affaires. Prioriser ne signifie pas abandonner : engagements contractuels, équité et besoins critiques restent pris en compte.",
     done=["Analyse du portefeuille clients",
           "Définition de critères de valeur stratégique adaptés au contexte : économiques, relationnels, fidélité",
@@ -332,11 +332,11 @@ REAL = [
           "Identification des conditions nécessaires à la mise en œuvre"],
     result="La démarche et la segmentation ont été conçues. Les clients les plus importants ont été identifiés dans les outils pour une prise en charge dédiée.",
     xp="Expérience professionnelle antérieure de la fondatrice, chez un constructeur international de solutions bureautiques et IT, avant la création d’Xpansio."),
-  dict(slug="realisation-au-dela-du-nps.html", cls="cl", kind="a", parcours=True,
+  dict(slug="realisation-au-dela-du-nps.html", cls="cl", kind="a",
     title="Et si mesurer le NPS ne suffisait plus à fidéliser les clients ?",
     ctx="Des mesures de satisfaction existent, mais elles n’expliquent pas l’insatisfaction et ne déclenchent pas d’améliorations.",
     ans="Passer de la mesure à une démarche structurée d’amélioration de l’expérience client.",
-    defi="L’entreprise mesure la satisfaction de ses clients, mais ces mesures ne suffisent pas à identifier les causes profondes de l’insatisfaction, ni à déclencher des améliorations concrètes. Comment transformer l’écoute client en actions qui améliorent réellement l’expérience ?",
+    defi="Les causes profondes de l’insatisfaction restent mal identifiées, et l’écoute ne se traduit pas en améliorations concrètes. Comment transformer l’écoute client en actions qui améliorent réellement l’expérience ?",
     reponse="Passer d’une logique de mesure à une démarche structurée d’amélioration : comprendre les irritants, les traiter avec les clients et les équipes, puis rendre les progrès visibles.",
     done=["Analyse des enquêtes et des retours clients",
           "Identification des irritants et des moments critiques du parcours",
@@ -349,7 +349,7 @@ REAL = [
     title="Comment transformer un client Print en client Print + IT grâce au Customer Success ?",
     ctx="Une base installée importante dans l’impression, mais une relation centrée sur les équipements.",
     ans="Concevoir et expérimenter une approche Customer Success pour développer la valeur des comptes existants.",
-    defi="Une entreprise dispose d’une base installée importante dans l’impression, mais peine à développer une relation plus globale avec ses clients et à identifier les opportunités IT. Comment dépasser une relation centrée sur les équipements ?",
+    defi="L’entreprise peine à développer une relation plus globale avec ses clients et à identifier les opportunités IT. Comment élargir la relation au-delà de l’impression ?",
     reponse="Concevoir et expérimenter une approche Customer Success : mieux connaître les besoins des clients, mieux les accompagner et faire émerger de nouvelles opportunités.",
     done=["Identification des comptes et segments pertinents",
           "Définition du rôle et des missions des Customer Success Managers",
@@ -594,7 +594,7 @@ CLIENT = f'''
   <div class="wrap">
     {head("Vos enjeux", "Écouter, fidéliser, développer : trois enjeux liés.", cls="cl")}
     {issues([("Une expérience client insuffisamment maîtrisée","Les enquêtes ne disent pas toujours ce que vivent réellement les clients, ni quels irritants persistent."),
-             ("Une fidélité que l’on mesure trop tard","Un client qui renouvelle n’est pas forcément satisfait. Mieux vaut repérer les signaux de fragilité avant le départ."),
+             ("Une fidélité que l’on mesure trop tard","Un client satisfait en apparence n’est pas forcément un client qui renouvelle. Mieux vaut repérer les signaux de fragilité avant le départ."),
              ("Un potentiel client sous-exploité","La croissance ne repose pas que sur l’acquisition : votre base installée recèle des opportunités de développement.")])}
   </div>
 </section>
@@ -689,7 +689,7 @@ LEGAL = f'''
   <div class="wrap legal">
     <div><h2>Éditeur du site</h2><p>Agnès Chabrier, entrepreneure individuelle, exerçant sous le nom commercial Xpansio.</p><p>Adresse : 6 rue André Sabatier, 92000 Nanterre<br>SIRET : 939 844 700 00012<br>Téléphone : 06 89 89 41 19<br>Contact : via le <a href="contact.html">formulaire de contact</a></p><p>Directrice de la publication : Agnès Chabrier.</p></div>
     <div><h2>Hébergement</h2><p>GitHub, Inc. (service GitHub Pages)<br>88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis<br>github.com</p></div>
-    <div><h2>Propriété intellectuelle</h2><p>L’ensemble des contenus de ce site (textes, logo, visuels, méthode Customer Portfolio Performance Framework™) est la propriété d’Xpansio. Toute reproduction sans autorisation est interdite.</p></div>
+    <div><h2>Propriété intellectuelle</h2><p>L’ensemble des contenus de ce site (textes, logo, visuels) est la propriété d’Xpansio. Toute reproduction sans autorisation est interdite.</p></div>
     <div><h2>Données personnelles</h2><p>Les informations transmises via le formulaire de contact servent uniquement à répondre à votre demande. Elles ne sont ni vendues ni cédées à des tiers, et sont conservées au maximum trois ans après le dernier échange. Les messages du formulaire sont transmis par email via le service Web3Forms.</p><p>Conformément au RGPD, vous disposez d’un droit d’accès, de rectification et de suppression de vos données. Pour l’exercer, écrivez-nous via le <a href="contact.html">formulaire de contact</a>. Vous pouvez aussi adresser une réclamation à la CNIL.</p></div>
     <div><h2>Cookies</h2><p>Ce site ne dépose pas de cookie publicitaire ni de traceur de mesure d’audience.</p></div>
   </div>
