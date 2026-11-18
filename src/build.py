@@ -600,7 +600,7 @@ LEGAL = f'''
 
 AUTODIAG = f'''
 {page_hero([("index.html","Accueil"),("experience-client.html","Customer Performance"),(None,"Auto-diagnostic")], "Votre client est-il vraiment en bonne santé ?",
-  "Un client qui renouvelle n’est pas forcément un client satisfait. Cet auto-diagnostic vous aide à repérer les signaux faibles avant l’échéance du contrat.",
+  "Un client satisfait en apparence n’est pas forcément un client qui renouvelle. Cet auto-diagnostic vous aide à repérer les signaux faibles avant l’échéance du contrat.",
   f'<span class="pill cl"><span class="ico cl">{I_USER}</span>Auto-diagnostic · Customer Performance</span>').replace('class="page-hero"', 'class="page-hero compact"', 1)}
 <section class="band alt tight">
   <div class="wrap">
