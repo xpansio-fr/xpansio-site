@@ -560,6 +560,10 @@ CHANNEL = f'''
       (I_PATH,"Parcours et engagement des partenaires","Recruter, intégrer, accompagner, rassembler et reconnaître vos partenaires dans la durée."),
       (I_CAP,"Compétences et performance commerciale","Développer les compétences et la vente par la valeur, avec des plans d’action adaptés."),
     ],"ch",4)}
+    <figure class="shot">
+      <a href="assets/parcours-partenaire-grand.webp" target="_blank" rel="noopener" title="Ouvrir l’image en grand"><img src="assets/parcours-partenaire.webp" width="1600" height="900" alt="Exemple de livrable de diagnostic réseau : courbe d’expérience des partenaires sur 12 étapes, carte de chaleur par partenaire et principaux enseignements. Données fictives." loading="lazy" decoding="async"></a>
+      <figcaption>Exemple de livrable : la cartographie du parcours partenaire, consolidée à l’échelle du réseau (données fictives). <a href="assets/parcours-partenaire-grand.webp" target="_blank" rel="noopener">Agrandir</a></figcaption>
+    </figure>
   </div>
 </section>
 <section class="band alt" id="ppi">

@@ -756,3 +756,5 @@ a.pcard:focus-visible{outline:2px solid var(--channel);outline-offset:3px}
 .res-lead .kpi .l{max-width:14ch;margin-inline:auto}
 .res-sub{font-size:1rem;letter-spacing:-.01em;line-height:1.4;margin-top:10px;text-align:center}
 @media (max-width:560px){.res-lead{flex-direction:column;align-items:stretch}}
+.shot a{display:block;cursor:zoom-in}
+.shot figcaption a{display:inline;color:var(--channel-text);font-weight:600;cursor:pointer}
