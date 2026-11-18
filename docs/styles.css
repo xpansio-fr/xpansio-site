@@ -748,3 +748,11 @@ a.pcard:focus-visible{outline:2px solid var(--channel);outline-offset:3px}
 @media (min-width:761px){.stack.cases.n6 .cap{left:16px;right:16px}.stack.cases.n6 .p5 .cap,.stack.cases.n6 .p6 .cap{left:22px;right:12px}.stack.cases.n6 .p1 .cap{right:10px}.stack.cases.n6 .p2 .cap{right:20px}.stack.cases.n6 .p3 .cap{right:22px}}
 @media (max-width:1330px) and (min-width:761px){.stack.n6{transform:scale(.86);transform-origin:50% 100%;margin-top:-20px}}
 @media (max-width:1060px) and (min-width:761px){.stack.n6{transform:scale(.7);margin-top:-90px}}
+/* Section Résultats : paragraphes, chiffre clé, intertitre des citations */
+.results>p,.res-lead p{font-size:.94rem;color:var(--ink-2);line-height:1.7}
+.res-lead{display:flex;gap:20px;align-items:center}
+.res-lead .case-kpis{margin:0;flex:none}
+.res-lead .kpi{min-width:150px;text-align:center}
+.res-lead .kpi .l{max-width:14ch;margin-inline:auto}
+.res-sub{font-size:1rem;letter-spacing:-.01em;line-height:1.4;margin-top:10px;text-align:center}
+@media (max-width:560px){.res-lead{flex-direction:column;align-items:stretch}}

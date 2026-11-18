@@ -7,3 +7,4 @@
 - Ne citer aucune entreprise cliente dans les références.
 - Typographie Montserrat, composition centrée, bleu = expérience channel, corail = expérience client.
 - Quand Agnès écrit, réponds-lui en français, très court, sans politesses ni explications techniques : dis seulement ce qui a changé et les choix que tu as faits toi-même.
+- Vocabulaire des réalisations : dans une citation de partenaire, garder « fournisseur » (c'est ainsi que les partenaires parlent du constructeur ou de l'éditeur) ; dans le texte qui décrit le client d'Agnès, écrire « constructeur ».

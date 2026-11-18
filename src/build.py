@@ -265,6 +265,10 @@ REAL = [
           "Analyses, données chiffrées et argumentaires pour permettre aux équipes commerciales de défendre la valeur plutôt que le prix",
           "Alignement des dispositifs : accompagnement, formation et compétences, outils d’aide à la vente, reconnaissance et valorisation",
           "Alignement des orientations du réseau, des objectifs et outils contractuels, et des initiatives de dialogue avec les partenaires"],
+    res_intro="Il est encore tôt pour mesurer l’impact chiffré dans la durée, et les données restent confidentielles. Les premiers effets sont déjà visibles :",
+    resultats=["des équipes commerciales plus sereines, qui consacrent leur temps au développement du business et à l’accompagnement des partenaires plutôt qu’à la négociation sur les prix ;",
+               "des partenaires plus sûrs de la valeur de leur offre face à leurs propres clients ;",
+               "un impact positif constaté sur les ventes de produits de la marque."],
     rlabel="L’enseignement",
     result="Une proposition de valeur différenciante n’a d’impact que lorsqu’elle est comprise, démontrée et incarnée par toute l’organisation. Définir la promesse est une première étape : donner aux équipes les moyens de la défendre et aligner les dispositifs sur cette promesse constitue le véritable travail de transformation.",
     xp="Mission de conseil Xpansio auprès d’un constructeur. Le client n’est pas nommé, par confidentialité."),
@@ -279,7 +283,15 @@ REAL = [
           "Préparation et animation des réunions, avec l’intervention d’experts sur les sujets identifiés",
           "Recueil des attentes et des contributions des partenaires",
           "Enquête de satisfaction après chaque réunion, exploitée pour préparer les rencontres suivantes"],
-    result="Les enquêtes réalisées après les rencontres font ressortir une appréciation très positive des échanges, notamment pour leur utilité stratégique, l’accès aux experts et la possibilité de dialoguer directement avec le constructeur. L’enseignement : un club partenaires n’est pas un simple événement relationnel, mais un dispositif de dialogue, d’écoute et de coconstruction qui aide le fournisseur à mieux comprendre son réseau, et les partenaires à contribuer à son évolution.",
+    res_html=('<div class="res-lead"><div class="case-kpis"><div class="kpi"><div class="v">100&nbsp;%</div><div class="l">des participants très satisfaits</div></div></div>'
+              '<p>Lors de la dernière réunion du club des dirigeants, qui réunit les 15 partenaires les plus moteurs et les plus influents du réseau, après une période de crise : <b>100&nbsp;%</b> des participants se sont déclarés très satisfaits dans l’enquête menée à l’issue de la réunion.</p></div>'
+              '<p>Les participants soulignent en particulier l’utilité stratégique des échanges, l’accès à des experts et le dialogue direct avec le constructeur.</p>'
+              '<h3 class="res-sub">Ce que disent les partenaires du dispositif mis en place</h3>'
+              '<blockquote class="pquote ch"><p>« Ces moments-là sont bien plus qu’une réunion. C’est un rappel qu’avoir rejoint la dynamique de ce fournisseur, c’était le bon choix. »</p><span class="by">— Dirigeant d’un partenaire du réseau</span></blockquote>'
+              '<blockquote class="pquote ch"><p>« Merci aux équipes de notre fournisseur pour leur accueil, leur disponibilité et la qualité des échanges. »</p><span class="by">— Dirigeant d’un partenaire du réseau</span></blockquote>'
+              '<blockquote class="pquote ch"><p>« Ce trophée nous donne encore plus envie d’aller chercher le suivant. »</p><span class="by">— Partenaire récompensé lors de la remise des trophées du réseau</span></blockquote>'),
+    rlabel="L’enseignement",
+    result="Un club partenaires n’est pas un simple événement relationnel, mais un dispositif de dialogue, d’écoute et de coconstruction qui aide le constructeur à mieux comprendre son réseau, et les partenaires à contribuer à son évolution.",
     xp="Mission de conseil Xpansio. Le client n’est pas nommé, par confidentialité."),
   dict(slug="realisation-certification-qualite-service.html", cls="ch", kind="x",
     title="La qualité de service de vos partenaires est-elle à la hauteur de votre marque ?",
@@ -391,8 +403,11 @@ def real_page(r):
         src, w, h, alt, cap = r["figure"]
         extra += f'<figure class="shot"><img src="{src}" width="{w}" height="{h}" alt="{alt}" loading="lazy" decoding="async"><figcaption>{cap}</figcaption></figure>'
     res = ""
-    if "resultats" in r:
-        res = f'<div class="results"><span class="label {c}">Les résultats</span><ul>' + ''.join(f'<li>{x}</li>' for x in r["resultats"]) + '</ul></div>'
+    if any(k in r for k in ("resultats", "res_html")):
+        res = (f'<div class="results"><span class="label {c}">Les résultats</span>'
+               + (f'<p>{r["res_intro"]}</p>' if "res_intro" in r else "")
+               + ('<ul>' + ''.join(f'<li>{x}</li>' for x in r["resultats"]) + '</ul>' if "resultats" in r else "")
+               + r.get("res_html", "") + '</div>')
     return f'''
 {page_hero([("index.html","Accueil"),("realisations.html","Nos réalisations"),(None, exp)], r["title"], r["ctx"],
   f'<span class="pill {c}"><span class="ico {c}">{ico}</span>{KIND[r["kind"]]} · {exp}</span>', h1cls=" h1-long")}
