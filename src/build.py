@@ -447,7 +447,7 @@ HOME_CASES = [
 def home_collage():
     cards = ''.join(
         f'<a class="ph p{i+1} {c}" href="{h}" style="--i:{i}"><img src="assets/{PHOTOS[k]}" alt="" decoding="async">'
-        f'<span class="cap"><span class="ctag {c}">{tag}</span><span class="t">{t}</span>'
+        f'<span class="cap"><span class="ctag {c}">{tag}</span><span class="t">{t.replace(" ?", "&nbsp;?")}</span>'
         f'<span class="rev"><span class="a">{a}</span><span class="go">Voir la réalisation {ARR}</span></span></span></a>'
         for i, (k, h, c, tag, t, a) in enumerate(HOME_CASES))
     return f'<nav class="stack n6 links cases" aria-label="Six enjeux, et les réalisations qui y répondent">{cards}</nav>'
