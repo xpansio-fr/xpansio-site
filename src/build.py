@@ -4,6 +4,18 @@ import os, shutil, sys
 import hashlib
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from icons import *
+import parcours
+
+def parcours_block():
+    """Visuel du parcours client (SVG aux couleurs du site), défilable horizontalement sur mobile."""
+    return f'''<figure class="parcours">
+      <h3 class="subhead">Le parcours vécu par vos clients</h3>
+      <p class="parcours-sub">Exemple illustratif : revendeur ou intégrateur IT, de la découverte au renouvellement.</p>
+      <p class="swipe">Faites défiler le schéma pour voir tout le parcours, ou <a href="assets/parcours-client.svg" target="_blank" rel="noopener">ouvrez-le en grand</a>.</p>
+      <div class="parcours-scroll" tabindex="0" role="region" aria-label="Parcours client, défilable horizontalement">{parcours.svg()}</div>
+      <figcaption>{parcours.LEGEND}</figcaption>
+    </figure>'''
+
 
 SRC = os.path.dirname(os.path.abspath(__file__))
 # Version de la feuille de style : change à chaque modification de styles.css, ce qui force les navigateurs à recharger le style.
@@ -263,7 +275,7 @@ REAL = [
           "Identification des conditions nécessaires à la mise en œuvre"],
     result="La démarche et la segmentation ont été conçues. Les clients les plus importants ont été identifiés dans les outils pour une prise en charge dédiée.",
     xp="Expérience professionnelle antérieure de la fondatrice, chez un constructeur international de solutions bureautiques et IT, avant la création d’Xpansio."),
-  dict(slug="realisation-au-dela-du-nps.html", cls="cl", kind="a",
+  dict(slug="realisation-au-dela-du-nps.html", cls="cl", kind="a", parcours=True,
     title="Et si mesurer le NPS ne suffisait plus à fidéliser les clients ?",
     ctx="Des mesures de satisfaction existent, mais elles n’expliquent pas l’insatisfaction et ne déclenchent pas d’améliorations.",
     ans="Passer de la mesure à une démarche structurée d’amélioration de l’expérience client.",
@@ -330,6 +342,7 @@ def real_page(r):
       <div class="case-col"><span class="label {c}">La réponse apportée</span><p>{r["reponse"]}</p></div>
       <div class="case-col"><span class="label {c}">Ce qui a été réalisé</span><ul>{done}</ul></div>
     </div>
+    {parcours_block() if r.get("parcours") else ""}
   </div>
 </section>
 <section class="band">
@@ -510,6 +523,7 @@ CLIENT = f'''
       (I_SHIELD,"Fidélisation et Customer Success","Accompagner les clients de façon proactive, sécuriser les renouvellements, anticiper les départs."),
       (I_GROW,"Connaissance et développement du capital client","Analyser le portefeuille, identifier les potentiels et orienter les actions de développement."),
     ],"cl",4)}
+    {parcours_block()}
   </div>
 </section>
 <section class="band alt" id="cci">
@@ -692,6 +706,7 @@ if __name__ == "__main__":
         os.makedirs(os.path.join(d, "assets"))
         for f in ["styles.css", "autodiag.css", "autodiag.js"]:
             shutil.copy(os.path.join(SRC, f), d)
+        open(os.path.join(d, "assets", "parcours-client.svg"), "w").write(parcours.svg())
         for f in os.listdir(os.path.join(SRC, "assets")):
             shutil.copy(os.path.join(SRC, "assets", f), os.path.join(d, "assets", f))
         for fn, key, title, desc, body in PAGES:

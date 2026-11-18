@@ -694,3 +694,14 @@ a.pcard:focus-visible{outline:2px solid var(--channel);outline-offset:3px}
 .ask.cl{background:var(--client-soft)}
 .autodiag-line{text-align:center;margin-top:18px;font-size:.9rem;color:var(--ink-2);line-height:1.6}
 .autodiag-line .link{display:inline-flex;margin-left:4px}
+/* Parcours client (Customer Performance, fiche NPS) */
+.parcours{margin:clamp(56px,7vw,80px) 0 0;display:grid;gap:10px}
+.parcours .subhead{margin-bottom:0}
+.parcours-sub{text-align:center;font-size:.9rem;color:var(--muted)}
+.parcours .swipe{text-align:center;font-size:.82rem;color:var(--muted)}
+.parcours .swipe a{color:var(--client-text);font-weight:600}
+.parcours-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:24px 20px;margin-top:8px}
+.parcours-scroll:focus-visible{outline:2px solid var(--client);outline-offset:3px}
+.parcours-scroll svg{display:block;width:100%;min-width:1500px;height:auto}
+.parcours figcaption{max-width:900px;margin:8px auto 0;text-align:center;font-size:.84rem;color:var(--ink-2);line-height:1.65}
+@media (max-width:760px){.parcours-scroll{padding:16px 12px}.parcours-scroll svg{min-width:1300px}}

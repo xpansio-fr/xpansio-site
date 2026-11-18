@@ -56,16 +56,16 @@ def tspans(x, y, text, n, lh, **attrs):
     return f'<text x="{x}" y="{y}" {a}>{t}</text>'
 
 def svg():
-    L, CW = 200, 84                      # colonne des libellés, largeur d'une étape
+    L, CW = 220, 98                      # colonne des libellés, largeur d'une étape
     steps = [(pi, s) for pi, (_, ss) in enumerate(PHASES) for s in ss]
     W = L + CW * len(steps) + 10
     yPh, hPh = 20, 52                    # bandeau des phases
     yStep = 100                          # étapes vécues
     nl = max(len(wrap(s[1][0], 11)) for s in steps)
-    y0 = yStep + 15 * nl + 70
-    yLv = [y0 + 50 * k for k in range(4)]  # niveaux de ressenti
+    y0 = yStep + 18 * nl + 70
+    yLv = [y0 + 54 * k for k in range(4)]  # niveaux de ressenti
     yTp = yLv[-1] + 70                   # points de contact
-    yTeam0, dTeam = yTp + 95, 34         # équipes
+    yTeam0, dTeam = yTp + 100, 38         # équipes
     yEnd = yTeam0 + dTeam * (len(TEAMS) - 1) + 24
     H = yEnd + 10
     cx = lambda i: L + CW * i + CW / 2
@@ -78,32 +78,32 @@ def svg():
         if pi % 2 == 0:
             o.append(f'<rect x="{x}" y="{yPh + hPh + 6}" width="{w}" height="{yEnd - yPh - hPh - 6}" fill="{SURF}"/>')
         o.append(f'<rect x="{x + 2}" y="{yPh}" width="{w - 4}" height="{hPh}" rx="10" fill="{INK}"/>')
-        two = len(name) * 9 > w - 24
-        o.append(tspans(x + w / 2, yPh + (21 if two else 31), name, max(10, int((w - 24) / 9)), 17,
-                        text_anchor="middle", fill="#fff", font_size="14", font_weight="600"))
+        two = len(name) * 10 > w - 24
+        o.append(tspans(x + w / 2, yPh + (21 if two else 31), name, max(10, int((w - 24) / 10)), 19,
+                        text_anchor="middle", fill="#fff", font_size="16", font_weight="600"))
         i0 += len(ss)
     # Libellés de gauche
     def lab(y, t, big=True):
-        o.append(f'<text x="0" y="{y}" fill="{INK}" font-size="{15 if big else 13}" font-weight="{600 if big else 500}">{escape(t)}</text>')
-    o.append(tspans(0, yStep + 2, "Étapes vécues par le client", 16, 19, fill=INK, font_size="15", font_weight="600"))
+        o.append(f'<text x="0" y="{y}" fill="{INK}" font-size="{17 if big else 15}" font-weight="{600 if big else 500}">{escape(t)}</text>')
+    o.append(tspans(0, yStep + 2, "Étapes vécues par le client", 16, 19, fill=INK, font_size="17", font_weight="600"))
     lab(yLv[0] - 40, "Expérience client")
     for (n, c), y in zip(LEVELS, yLv):
-        o.append(f'<circle cx="8" cy="{y}" r="7" fill="{c}"/><text x="24" y="{y + 5}" fill="{INK2}" font-size="13">{n}</text>')
+        o.append(f'<circle cx="8" cy="{y}" r="7" fill="{c}"/><text x="24" y="{y + 5}" fill="{INK2}" font-size="15">{n}</text>')
         o.append(f'<line x1="{L}" x2="{W}" y1="{y}" y2="{y}" stroke="{LINE}" stroke-dasharray="4 5"/>')
     lab(yTp + 5, "Points de contact")
     lab(yTeam0 - 34, "Équipes impliquées")
     for t, name in enumerate(TEAMS):
         y = yTeam0 + dTeam * t
-        o.append(f'<text x="0" y="{y + 5}" fill="{CLIENT if t == CS else INK2}" font-size="13" font-weight="{600 if t == CS else 400}">{escape(name)}</text>')
+        o.append(f'<text x="0" y="{y + 5}" fill="{CLIENT if t == CS else INK2}" font-size="15" font-weight="{600 if t == CS else 400}">{escape(name)}</text>')
         o.append(f'<line x1="{L}" x2="{W}" y1="{y}" y2="{y}" stroke="{LINE}"/>')
     # Étapes, courbe, points de contact, équipes
     pts = []
     for i, (pi, (txt, lv, tp, teams)) in enumerate(steps):
         x = cx(i)
-        o.append(tspans(x, yStep, txt, 11, 15, text_anchor="middle", fill=INK2, font_size="11.5"))
+        o.append(tspans(x, yStep, txt, 11, 18, text_anchor="middle", fill=INK2, font_size="14"))
         pts.append((x, yLv[lv], LEVELS[lv][1]))
-        o.append(f'<rect x="{x - 34}" y="{yTp - 16}" width="68" height="40" rx="8" fill="#fff" stroke="{LINE}"/>')
-        o.append(tspans(x, yTp - 1 if len(tp) > 11 else yTp + 8, tp, 11, 14, text_anchor="middle", fill=MUTED, font_size="11"))
+        o.append(f'<rect x="{x - 44}" y="{yTp - 20}" width="88" height="46" rx="8" fill="#fff" stroke="{LINE}"/>')
+        o.append(tspans(x, yTp - 2 if len(tp) > 11 else yTp + 8, tp, 11, 16, text_anchor="middle", fill=MUTED, font_size="13"))
         for t in teams:
             o.append(f'<circle cx="{x}" cy="{yTeam0 + dTeam * t}" r="7" fill="{CLIENT if t == CS else INK}"/>')
     o.append(f'<polyline points="{" ".join(f"{x},{y}" for x, y, _ in pts)}" fill="none" stroke="#A5AFBE" stroke-width="2.5" stroke-linejoin="round"/>')
