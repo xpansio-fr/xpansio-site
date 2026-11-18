@@ -1,4 +1,4 @@
-/* Auto-diagnostic « Votre client est-il vraiment en bonne santé ? » : script repris à l’identique de _sources/auto-diagnostic-sante-client.html. */
+/* Auto-diagnostic « Êtes-vous certain que ce client va renouveler ? » : script repris à l’identique de _sources/auto-diagnostic-sante-client.html. */
 (function(){
   /* ---------- Modèle (version courte du Health Score Xpansio) ---------- */
   var DIMS = [

@@ -308,7 +308,7 @@ KINDS_NOTE = ('<p class="note"><b>Mission Xpansio</b> : intervention de conseil 
 
 # Fiches qui renvoient vers l'auto-diagnostic, et la ligne ajoutée en fin de fiche
 AUTODIAG_FICHES = {"realisation-au-dela-du-nps.html", "realisation-crise-clients-prioritaires.html", "realisation-customer-success.html"}
-AUTODIAG_LINE = f'<p class="autodiag-line">Et l’un de vos clients, est-il vraiment en bonne santé ? <a class="link cl" href="auto-diagnostic.html">Faire l’auto-diagnostic {ARR}</a></p>'
+AUTODIAG_LINE = f'<p class="autodiag-line">Et vos clients, êtes-vous certain qu’ils vont renouveler ? <a class="link cl" href="auto-diagnostic.html">Faire l’auto-diagnostic {ARR}</a></p>'
 
 def vs_block(r):
     """Encadré facultatif : deux colonnes comparées (ex. valeur pour le partenaire / pour le client final)."""
@@ -408,7 +408,7 @@ HOME = f'''
         <span class="link">Découvrir l’expertise Customer {ARR}</span>
       </a>
     </div>
-    <div class="duo-sub"><span></span><p>Votre client est-il vraiment en bonne santé ? <a class="link cl" href="auto-diagnostic.html">Faire l’auto-diagnostic {ARR}</a></p></div>
+    <div class="duo-sub"><span></span><p>Êtes-vous certain que vos clients vont renouveler ? <a class="link cl" href="auto-diagnostic.html">Faire l’auto-diagnostic {ARR}</a></p></div>
   </div>
 </section>
 
@@ -518,7 +518,7 @@ CLIENT = f'''
     <div class="dims n5"><div class="dim">Satisfaction</div><div class="dim">Fidélité</div><div class="dim">Risque</div><div class="dim">Potentiel de développement</div><div class="dim">Contribution économique</div></div>
     <p class="note">Ces dimensions sont des exemples, pas une méthodologie universelle : les critères sont adaptés à vos enjeux, à vos données et à votre modèle économique.</p>
     <div class="ask cl">
-      <p class="q-t">Votre client est-il vraiment en bonne santé ? Faites le test en 5 minutes</p>
+      <p class="q-t">Êtes-vous certain que vos clients vont renouveler ? Faites le test en 5 minutes</p>
       <p>12 questions sur l’un de vos clients : un score de santé, vos signaux d’alerte et 3 pistes d’action.</p>
       <div class="ctas"><a class="btn btn-primary" href="auto-diagnostic.html">Faire l’auto-diagnostic {ARR}</a></div>
     </div>
@@ -599,7 +599,7 @@ LEGAL = f'''
 '''
 
 AUTODIAG = f'''
-{page_hero([("index.html","Accueil"),("experience-client.html","Customer Performance"),(None,"Auto-diagnostic")], "Votre client est-il vraiment en bonne santé ?",
+{page_hero([("index.html","Accueil"),("experience-client.html","Customer Performance"),(None,"Auto-diagnostic")], "Êtes-vous certain que ce client va renouveler ?",
   "Un client satisfait en apparence n’est pas forcément un client qui renouvelle. Cet auto-diagnostic vous aide à repérer les signaux faibles avant l’échéance du contrat.",
   f'<span class="pill cl"><span class="ico cl">{I_USER}</span>Auto-diagnostic · Customer Performance</span>').replace('class="page-hero"', 'class="page-hero compact"', 1)}
 <section class="band alt tight">
@@ -678,7 +678,7 @@ PAGES = [
     ("experience-client.html", "client", "Customer Performance · Xpansio", "Écoute et satisfaction, expérience client, fidélisation et Customer Success, développement du capital client : l’expertise Customer Performance d’Xpansio.", CLIENT),
     ("realisations.html", "realisations", "Nos réalisations · Xpansio", "Des situations réelles en Channel et Customer Performance : contexte, démarche, réalisations et enseignements.", REALISATIONS_PAGE),
 ] + [(r["slug"], "realisations", r["title"] + " · Xpansio", r["ctx"], real_page(r)) for r in REAL] + [
-    ("auto-diagnostic.html", "autodiag", "Auto-diagnostic : votre client est-il vraiment en bonne santé ? · Xpansio", "12 questions, 5 minutes : évaluez la santé de la relation avec l’un de vos clients clés et repérez les signaux de risque avant l’échéance du contrat.", AUTODIAG),
+    ("auto-diagnostic.html", "autodiag", "Auto-diagnostic : êtes-vous certain que ce client va renouveler ? · Xpansio", "12 questions, 5 minutes : évaluez la solidité de la relation avec l’un de vos clients clés et repérez les signaux de risque avant l’échéance du contrat.", AUTODIAG),
     ("contact.html", "contact", "Contact · Xpansio", "Contacter Xpansio pour un premier échange.", CONTACT),
     ("mentions-legales.html", "legal", "Mentions légales · Xpansio", "Mentions légales du site Xpansio.", LEGAL),
 ]
