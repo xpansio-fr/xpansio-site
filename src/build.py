@@ -475,7 +475,7 @@ HOME = f'''
     <span class="label">Conseil en performance Channel &amp; Customer · B2B Tech</span>
     <h1 class="h1"><span>Accélérer la performance <em>de vos partenaires.</em></span><span>Révéler la valeur <em>de vos clients.</em></span></h1>
     <p class="lead">Xpansio accompagne les constructeurs, éditeurs, distributeurs et revendeurs IT sur deux leviers de croissance : leurs réseaux de partenaires et leur portefeuille clients.</p>
-    <div class="ctas"><a class="btn btn-primary" href="realisations.html">Découvrir nos réalisations {ARR}</a><a class="btn btn-ghost" href="contact.html">Échanger sur vos enjeux</a></div>
+    <div class="ctas"><a class="btn btn-primary" href="#expertises">Découvrir nos expertises {ARR}</a><a class="btn btn-ghost" href="contact.html">Échanger sur vos enjeux</a></div>
   </div>
   {HOME_COLLAGE}
 </section>
