@@ -235,6 +235,8 @@ PHOTOS = {
     "salle": "photo-salle.jpg",            # salle de réunion, analyse de données projetée
     "dossier": "photo-dossier.jpg",        # séance de travail sur documents chiffrés
     "dialogue": "photo-dialogue.jpg",      # échange en face à face
+    "analyse": "photo-analyse.jpg",        # stylo pointé sur un rapport chiffré
+    "casque": "photo-casque.jpg",          # conseillère avec casque, en échange avec un client
 }
 def collage(keys, note=None, cls=""):
     """Photos en éventail sous le texte du haut de page. Purement décoratif."""
@@ -427,16 +429,20 @@ REALISATIONS_PAGE = f'''
 {cta()}
 '''
 
-# Accueil : quatre cartes « enjeux », chacune mène à la réalisation qui y répond. Titre au repos, réponse courte au survol (toujours visible sur mobile).
+# Accueil : six cartes « enjeux » (3 Channel, 3 Customer), chacune mène à la réalisation qui y répond. Titre au repos, réponse courte au survol (toujours visible sur mobile).
 HOME_CASES = [
     ("dialogue", R5, "ch", "Channel Performance", "Vos partenaires sont-ils vraiment engagés ?",
      "Impliquez, accompagnez et valorisez vos partenaires pour construire une relation durable et développer leur engagement."),
     ("salle", R1, "ch", "Channel Performance", "Quelle valeur apportez-vous à vos partenaires ?",
      "Définissez une proposition de valeur réseau différenciante et traduisez-la en un programme partenaires cohérent."),
+    ("analyse", R6, "ch", "Channel Performance", "La qualité de service de vos partenaires est-elle à la hauteur de votre marque ?",
+     "Mesurez la qualité de service de votre réseau, aidez chaque partenaire à progresser et valorisez les meilleurs."),
     ("carnet", R3, "cl", "Customer Performance", "Vos clients sont-ils vraiment satisfaits ?",
      "Écoutez vos clients, impliquez-les dans l’amélioration de leur parcours et transformez leurs irritants en actions concrètes."),
     ("dossier", R2, "cl", "Customer Performance", "Connaissez-vous vraiment la valeur de vos clients ?",
      "Identifiez les risques, les potentiels et les priorités pour fidéliser et développer durablement votre capital client."),
+    ("casque", R4, "cl", "Customer Performance", "Vos clients achètent-ils tout ce qu’ils pourraient vous acheter ?",
+     "Dépassez une relation centrée sur les équipements pour mieux connaître les besoins et développer la valeur de vos comptes."),
 ]
 def home_collage():
     cards = ''.join(
@@ -444,7 +450,7 @@ def home_collage():
         f'<span class="cap"><span class="ctag {c}">{tag}</span><span class="t">{t}</span>'
         f'<span class="rev"><span class="a">{a}</span><span class="go">Voir la réalisation {ARR}</span></span></span></a>'
         for i, (k, h, c, tag, t, a) in enumerate(HOME_CASES))
-    return f'<nav class="stack n4 links cases" aria-label="Quatre enjeux, et les réalisations qui y répondent">{cards}</nav>'
+    return f'<nav class="stack n6 links cases" aria-label="Six enjeux, et les réalisations qui y répondent">{cards}</nav>'
 HOME_COLLAGE = home_collage()
 
 # ---------- ACCUEIL ----------
