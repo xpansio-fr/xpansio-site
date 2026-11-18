@@ -519,7 +519,7 @@ CLIENT = f'''
     <p class="note">Ces dimensions sont des exemples, pas une méthodologie universelle : les critères sont adaptés à vos enjeux, à vos données et à votre modèle économique.</p>
     <div class="ask cl">
       <p class="q-t">Êtes-vous certain que vos clients vont renouveler ? Faites le test en 5 minutes</p>
-      <p>12 questions sur l’un de vos clients : un score de santé, vos signaux d’alerte et 3 pistes d’action.</p>
+      <p>12 questions sur l’un de vos clients : un score de solidité, vos signaux d’alerte et 3 pistes d’action.</p>
       <div class="ctas"><a class="btn btn-primary" href="auto-diagnostic.html">Faire l’auto-diagnostic {ARR}</a></div>
     </div>
   </div>
@@ -608,7 +608,7 @@ AUTODIAG = f'''
   <ul class="how">
     <li><b>1.</b> Pensez à <b>un client important</b> de votre portefeuille.</li>
     <li><b>2.</b> Répondez à <b>12 questions</b> (5 minutes), le plus honnêtement possible.</li>
-    <li><b>3.</b> Obtenez un <b>score de santé</b>, vos signaux d'alerte et <b>3 pistes d'action</b>.</li>
+    <li><b>3.</b> Obtenez un <b>score de solidité de la relation</b>, vos signaux d'alerte et <b>3 pistes d'action</b>.</li>
   </ul>
 
 <div class="progress" aria-hidden="true">
