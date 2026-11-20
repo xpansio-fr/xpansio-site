@@ -129,8 +129,14 @@
     if(objectifs===0) band("perf","rouge");
     else if(objectifs>=2) band("perf", evolution>=1 ? "vert" : "orange");
     else if(evolution>=1) band("perf","orange");
-    // Compétences & qualité de service : plaintes ou escalades fréquentes = rouge.
-    if(opt(3)===0) band("comp","rouge");
+    // Compétences & qualité de service : grille de profils validée par Agnès.
+    // Le support (Q4) donne le ton, la supervision à distance (Q5) et la formation (Q3) nuancent.
+    // Aucune formation récente = jamais vert, avec un point de vigilance.
+    var fo=opt(2), su=opt(3), sp=opt(4), compProfil;
+    if(su>=2){ compProfil = sp>=2 ? (fo>=2 ? "1" : (fo===1 ? "2a" : "2b")) : "3"; }
+    else if(su===1){ compProfil = fo>=2 ? "4" : "5"; }
+    else { compProfil = fo>=2 ? "6a" : "6b"; }
+    band("comp", {"1":"vert","2a":"vert","2b":"orange","3":"orange","4":"orange","5":"orange","6a":"rouge","6b":"rouge"}[compProfil]);
     // Offre & transformation : rouge seulement si un ou deux produits ET modèle très traditionnel.
     // Plusieurs gammes avec les services ou plus : vert, sauf modèle très traditionnel (orange). Sinon : orange.
     if(catalogue===0 && transfo===0) band("off","rouge");
@@ -169,6 +175,11 @@
     if(status==="Partenaire solide" && DIMS.some(function(d){ return Math.round(dimScores[d.id])<TH_WARN; })){
       status="À accompagner"; col=WARN;
       txt="Les résultats d'ensemble sont corrects, mais une dimension est dans le rouge : un plan de progrès est nécessaire pour sécuriser le partenariat.";
+    }
+    // Aucune personne formée sur vos offres : jamais « Partenaire solide » (point de vigilance).
+    if(status==="Partenaire solide" && fo===0){
+      status="À accompagner"; col=WARN;
+      txt="Ses résultats d'ensemble sont bons, mais aucune personne n'est formée sur vos offres : un minimum de compétences validées est indispensable pour sécuriser la qualité chez ses clients.";
     }
     // Vend surtout une autre marque : jamais « Partenaire solide », même avec de bons résultats.
     if(status==="Partenaire solide" && place===0){
@@ -225,15 +236,19 @@
       ? "<b>Rencontrer sa direction sur l'offre concurrente.</b> Il vend surtout une autre marque et son activité avec vous stagne ou recule"+(objectifs>=2?", même si ses objectifs sont atteints":"")+" : échangez avec sa direction sur ses objectifs et sur sa motivation réelle vis-à-vis de votre offre et de l'offre concurrente, pour statuer ensemble sur la suite du partenariat."
       : "<b>Gagner progressivement du terrain chez lui.</b> Il vend surtout une autre marque mais suit son plan de route avec vous : avec votre équipe commerciale, retravaillez vos actions (comptes cibles, argumentaires, offres ciblées, appui avant-vente) pour prendre petit à petit plus de place dans son activité et faire reculer l'offre concurrente.";
     else if(place===1) A.fid="<b>Comprendre la place de l'autre marque chez lui.</b> Il vend aussi une offre concurrente. Échangez avec sa direction, dans un esprit de partenariat, sur les raisons pour lesquelles il conserve cette marque (prix, marge, attentes de ses clients, disponibilité, habitudes) et sur ce que vous pourriez faire ensemble pour reprendre progressivement ce business : offres ciblées, appui avant-vente, conditions adaptées.";
-    // Compétences & qualité de service : le conseil vise ce qui pèche vraiment (formation, organisation du support, supervision).
-    var cF=opt(2)<=1, cS=opt(3)<=1, cR=opt(4)<=1, cParts=[];
-    if(cS) cParts.push("revoyez avec lui l'organisation de son support client : effectifs de la hotline, suivi des demandes, délais de réponse et règles d'escalade, avec des indicateurs partagés");
-    if(cF) cParts.push("faites le point sur la formation et les certifications de ses équipes (commerciaux, ingénieurs, support)");
-    if(cR) cParts.push("aidez-le à mettre en place la supervision à distance de la base installée (prise en main, mises à jour, maintenance proactive)");
-    if(cParts.length){
-      var titre = cS && !cF && !cR ? "Fiabiliser son organisation du support." : (cF && !cS && !cR ? "Renforcer les compétences de ses équipes." : "Renforcer les compétences et la qualité de service.");
-      A.comp="<b>"+titre+"</b> "+cParts.join(" ; ").replace(/^./,function(c){return c.toUpperCase();})+". Pour le client final, la qualité du service du partenaire, c'est la qualité de votre marque.";
-    }
+    // Compétences & qualité de service : un commentaire par profil (grille validée par Agnès).
+    var VIGIL=" Point de vigilance : aucune personne n'est formée sur vos offres. Une erreur de paramétrage ou d'intervention pourrait avoir des conséquences lourdes chez ses clients : être partenaire suppose un minimum de compétences transmises et validées par vous.";
+    A.comp={
+      "1":"<b>Valoriser sa qualité de service.</b> Qualité de service solide et compétences en place : un atout à valoriser auprès du réseau (partenaire référent, témoignage).",
+      "2a":"<b>Sécuriser les compétences.</b> La qualité de service est au rendez-vous malgré un nombre limité de personnes formées. Le risque porte sur la dépendance à quelques personnes : sécurisez les compétences (formation d'un binôme, certifications), sans urgence.",
+      "2b":"<b>Point de vigilance : former ses équipes.</b> La qualité de service est au rendez-vous aujourd'hui, mais aucune personne n'est formée sur vos offres. Une erreur de paramétrage ou d'intervention pourrait avoir des conséquences lourdes chez ses clients. Être partenaire suppose un minimum de compétences transmises et validées par vous : planifiez rapidement les formations et certifications de base.",
+      "3":"<b>Passer à une maintenance proactive.</b> Son support est bien organisé, mais il réagit aux incidents plus qu'il ne les anticipe. La supervision à distance, avec une maintenance proactive et des mises à jour automatisées, réduirait les incidents, allégerait son support et, surtout, éviterait des failles de sécurité chez ses clients."+(fo===1?" Formez en priorité ceux qui assurent ce suivi.":"")+(fo===0?VIGIL:""),
+      "4":"<b>Fiabiliser son organisation du support.</b> Ses équipes sont formées : le problème vient de l'organisation du support. Revoyez avec lui les effectifs de la hotline, le suivi des demandes, les délais et les règles d'escalade, avec des indicateurs partagés.",
+      "5":"<b>Organiser le support et former un binôme.</b> Délais variables et peu de personnes formées : la qualité dépend des disponibilités de quelques-uns. Commencez par l'organisation du support (priorités, suivi des demandes), puis formez un binôme pour ne plus dépendre d'une seule personne."+(fo===0?VIGIL:""),
+      "6a":"<b>Désengorger son support en priorité.</b> Des équipes formées mais un support débordé, avec des escalades fréquentes vers vous : c'est un problème d'organisation ou d'effectifs, à traiter en priorité. Fixez ensemble des objectifs de délais et un suivi mensuel.",
+      "6b":"<b>Redresser la qualité de service.</b> Support débordé et compétences insuffisantes : vos clients en subissent directement les effets. Un plan de redressement s'impose : objectifs de délais, formation accélérée et, à court terme, appui de vos équipes sur les escalades."+(fo===0?VIGIL:"")
+    }[compProfil];
+    var compPrio = ["2b","3","4","5","6a","6b"].indexOf(compProfil)>=0;   // profils 1 et 2a : seulement s'il reste de la place
     var weak=function(id){ return dimScores[id]<TH_OK; };
     var B=[], Cq=[], E=[], O=[];
     if(has("a1")) B.push(ALERT_ADVICE.a1);
@@ -242,7 +257,7 @@
     else { if(weak("perf")) B.push(A.perf); if(fidAdv) B.push(fidAdv); }
     if(has("a4")) B.push(ALERT_ADVICE.a4);
     if(has("a2")) Cq.push(ALERT_ADVICE.a2);
-    if(weak("comp")) Cq.push(A.comp);
+    if(compPrio) Cq.push(A.comp);
     if(has("a3")) E.push(ALERT_ADVICE.a3);
     if(weak("eng")) E.push(A.eng);
     if(weak("off")) O.push(A.off);
@@ -252,7 +267,7 @@
     if(B.length && poids===2) B[0]=B[0]+" <b>Ce partenaire pèse lourd dans votre chiffre d'affaires indirect : c'est votre priorité.</b>";
     add(B[0]); add(Cq[0]); add(E[0]);
     B.slice(1).concat(Cq.slice(1), E.slice(1), O).forEach(add);
-    if(status==="Partenaire solide"){ add(KEEP); GOOD.forEach(add); }
+    if(status==="Partenaire solide"){ add(KEEP); if(compProfil==="1"||compProfil==="2a") add(A.comp); GOOD.forEach(add); }
     else {
       add(GOOD[0]);
       DIMS.filter(function(d){return !weak(d.id);}).sort(byGap).forEach(function(d){ add(A[d.id]); });
