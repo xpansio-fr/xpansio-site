@@ -6,7 +6,7 @@
 #auto-diagnostic *::before,#auto-diagnostic *::after{all:revert}
 #auto-diagnostic{
   --primary:#0B1017;      /* encre du site : titres, boutons */
-  --accent:#F2552C;       /* corail Customer Performance : éléments actifs */
+  --accent:#2F45F5;       /* bleu du site : éléments actifs (sélection, progression) */
   --bg:#F6F5F2;           /* fond gris clair du site */
   --card:#FFFFFF;
   --text:#0B1017;
@@ -37,7 +37,7 @@
 #auto-diagnostic .na label{cursor:pointer}
 #auto-diagnostic .alerts label{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px dashed var(--line);cursor:pointer;font-size:.95rem}
 #auto-diagnostic .alerts label:last-child{border-bottom:0}
-#auto-diagnostic .alerts input{margin-top:4px;accent-color:var(--risk);width:18px;height:18px;flex:none}
+#auto-diagnostic .alerts input{margin-top:4px;accent-color:var(--accent);width:18px;height:18px;flex:none}
 #auto-diagnostic .progress{position:sticky;top:0;background:var(--bg);padding:10px 0;z-index:5}
 #auto-diagnostic .bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
 #auto-diagnostic .bar span{display:block;height:100%;width:0;background:var(--accent);transition:width .25s}
@@ -78,7 +78,7 @@
 #auto-diagnostic h2{font-weight:600;letter-spacing:-.01em}
 #auto-diagnostic legend{line-height:1.45}
 #auto-diagnostic .opt label{background:#fff}
-#auto-diagnostic .opt input:checked + label{background:#FFEFE9}
+#auto-diagnostic .opt input:checked + label{background:#EDEFFF}
 #auto-diagnostic .progress{top:60px}
 #auto-diagnostic #result{scroll-margin-top:90px}
 #auto-diagnostic .btn{border-radius:999px;font-size:.92rem;padding:14px 24px}
