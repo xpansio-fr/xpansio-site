@@ -616,7 +616,7 @@ CLIENT = f'''
     <div class="dims n5"><div class="dim">Satisfaction</div><div class="dim">Fidélité</div><div class="dim">Risque</div><div class="dim">Potentiel de développement</div><div class="dim">Contribution économique</div></div>
     <p class="note">Ces dimensions sont des exemples, pas une méthodologie universelle : les critères sont adaptés à vos enjeux, à vos données et à votre modèle économique.</p>
     <div class="ask cl">
-      <p class="q-t">Êtes-vous certain que vos clients vont renouveler ? Faites le test en 5 minutes</p>
+      <p class="q-t">Êtes-vous certain que vos clients vont renouveler ? Faites le test en 2 minutes</p>
       <p>10 questions sur l’un de vos clients : un score de solidité, vos signaux d’alerte et 3 pistes d’action.</p>
       <div class="ctas"><a class="btn btn-primary" href="auto-diagnostic.html">Faire l’auto-diagnostic {ARR}</a></div>
     </div>
@@ -776,7 +776,7 @@ PAGES = [
     ("experience-client.html", "client", "Customer Performance · Xpansio", "Écoute et satisfaction, expérience client, fidélisation et Customer Success, développement du capital client : l’expertise Customer Performance d’Xpansio.", CLIENT),
     ("realisations.html", "realisations", "Nos réalisations · Xpansio", "Des situations réelles en Channel et Customer Performance : contexte, démarche, réalisations et enseignements.", REALISATIONS_PAGE),
 ] + [(r["slug"], "realisations", r["title"] + " · Xpansio", r["ctx"], real_page(r)) for r in REAL] + [
-    ("auto-diagnostic.html", "autodiag", "Auto-diagnostic : êtes-vous certain que ce client va renouveler ? · Xpansio", "10 questions, 5 minutes : évaluez la solidité de la relation avec l’un de vos clients clés et repérez les signaux de risque avant l’échéance du contrat.", AUTODIAG),
+    ("auto-diagnostic.html", "autodiag", "Auto-diagnostic : êtes-vous certain que ce client va renouveler ? · Xpansio", "10 questions, 2 minutes : évaluez la solidité de la relation avec l’un de vos clients clés et repérez les signaux de risque avant l’échéance du contrat.", AUTODIAG),
     ("contact.html", "contact", "Contact · Xpansio", "Contacter Xpansio pour un premier échange.", CONTACT),
     ("mentions-legales.html", "legal", "Mentions légales · Xpansio", "Mentions légales du site Xpansio.", LEGAL),
 ]
