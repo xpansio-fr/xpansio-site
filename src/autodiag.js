@@ -1,4 +1,4 @@
-/* Auto-diagnostic « Êtes-vous certain que ce client va renouveler ? » : script repris à l’identique de _sources/auto-diagnostic-sante-client.html. */
+/* Auto-diagnostic « Êtes-vous certain que ce client va renouveler ? » : version courte (9 questions) du fichier _sources/auto-diagnostic-sante-client.html : questions 5, 8 et 11 et alerte « décideur insatisfait » retirées à la demande d’Agnès ; calcul et conseils inchangés. */
 (function(){
   /* ---------- Modèle (version courte du Health Score Xpansio) ---------- */
   var DIMS = [
@@ -18,20 +18,14 @@
      o:["Une seule brique, sans service","Une brique + maintenance ou support","Plusieurs briques ou domaines","Vous êtes son partenaire IT global"]},
     {d:"irr", c:3, t:"Comment se passe la résolution de ses incidents techniques ?",
      o:["Incidents qui traînent, sans visibilité","Lente, il doit relancer","Dans les délais","Rapide, il est informé à chaque étape"]},
-    {d:"irr", c:3, t:"Vos engagements de service (délais d'intervention, SLA) sont-ils tenus ?",
-     o:["Souvent non","Quelques dépassements","Oui","Oui, et vos interventions sont saluées"], na:"Pas d'engagement de service contractuel"},
     {d:"irr", c:2, t:"Comment sont traitées ses demandes administratives (factures, contrat, commandes) ?",
      o:["En retard, nombreuses relances","Avec retard","Dans les délais","Rapidement, sans relance"]},
     {d:"rel", c:2, t:"Quelle est votre relation avec le décideur ?",
      o:["Tendue","Distante, peu de contacts","Bonne","Il vous soutient activement"]},
-    {d:"rel", c:3, t:"Le décideur est-il satisfait de votre collaboration ?",
-     o:["Insatisfait","Moyennement","Satisfait","Très satisfait"]},
     {d:"rel", c:1, t:"Avez-vous d'autres soutiens chez ce client (direction, DSI, achats, métiers) ?",
      o:["Aucun contact en dehors du décideur","D'autres contacts, mais neutres","Un soutien","Plusieurs soutiens à différents niveaux"]},
     {d:"val", c:3, t:"Ses objectifs (ceux qui ont motivé l'achat) sont-ils atteints ?",
      o:["Non, il est déçu","Partiellement","Oui","Dépassés"], na:"Aucun objectif n'a été défini"},
-    {d:"val", c:2, t:"Quand avez-vous fait le point avec lui sur la valeur apportée (revue de compte) ?",
-     o:["Jamais","Il y a plus de 6 mois","Dans les 6 derniers mois","Ce trimestre, chiffres à l'appui"]},
     {d:"eng", c:2, t:"Accepterait-il de vous recommander ?",
      o:["Non","Il accepterait d'être cité","Témoignage écrit ou vidéo","Il interviendrait lors d'un événement"]}
   ];
@@ -39,7 +33,6 @@
   var ALERTS=[
     {id:"a1", t:"Il a évoqué une résiliation, un appel d'offres ou la consultation d'un concurrent."},
     {id:"a2", t:"Un incident critique reste non résolu, avec un impact sur son activité."},
-    {id:"a3", t:"Le décideur a exprimé son insatisfaction."},
     {id:"a4", t:"Un nouveau décideur est arrivé, et il ne vous est pas favorable."},
     {id:"a5", t:"Il paie avec des retards répétés, sans litige de votre côté."}
   ];
@@ -56,7 +49,6 @@
   var ALERT_ADVICE={
     a1:"<b>Contre-attaque commerciale immédiate.</b> Le client prépare un départ : rencontrez le décideur rapidement, écoutez ses motifs sans vous défendre, et présentez un plan concret avant la date de décision.",
     a2:"<b>Escalade de l'incident critique.</b> Mobilisez un responsable technique, donnez une date de résolution et appelez vous-même le client à chaque étape. La façon dont vous gérez une crise compte autant que la résolution.",
-    a3:"<b>Rencontrer le décideur sans attendre.</b> Une insatisfaction exprimée est une chance : le client vous donne l'occasion de corriger. Proposez un plan d'action écrit et un suivi rapproché.",
     a4:"<b>Reconstruire la relation avec le nouveau décideur.</b> Demandez un rendez-vous de présentation, rappelez la valeur apportée jusqu'ici avec des chiffres, et appuyez-vous sur vos autres soutiens dans l'entreprise.",
     a5:"<b>Comprendre les retards de paiement.</b> Ils signalent souvent une difficulté financière ou un désengagement. Abordez le sujet avec tact et vérifiez qu'ils ne cachent pas une insatisfaction."
   };
