@@ -447,9 +447,28 @@ def real_page(r):
 
 REALISATIONS_PAGE = f'''
 {page_hero([("index.html","Accueil"),(None,"Nos réalisations")], "Nos réalisations", "Des enjeux concrets. Des réponses adaptées. Des expériences de terrain.").replace('class="page-hero"', 'class="page-hero compact"', 1)}
-<section class="band alt tight">
+<section class="band alt tight rsec">
   <div class="wrap">
-    {rgrid(REAL)}
+    <div class="rsec-head"><span class="label ch">Channel Performance</span><h2 class="h2">Réseaux de partenaires</h2>
+      <p class="lead">Développer la performance et l’engagement de vos partenaires, à partir d’une stratégie et d’une proposition de valeur adaptées.</p>
+      <a class="link ch" href="experience-channel.html">Découvrir l’expertise Channel {ARR}</a></div>
+    {rgrid([r for r in REAL if r["cls"]=="ch"])}
+    <div class="ask ch tool"><span class="label ch">Outil · Auto-diagnostic partenaire</span>
+      <p class="q-t">Ce partenaire est-il vraiment un partenaire performant pour votre réseau ?</p>
+      <p>10 questions, 3 minutes : un score, vos signaux d’alerte et 3 pistes d’action.</p>
+      <div class="ctas"><a class="btn btn-primary" href="auto-diagnostic-channel.html">Faire l’auto-diagnostic {ARR}</a></div></div>
+  </div>
+</section>
+<section class="band rsec">
+  <div class="wrap">
+    <div class="rsec-head"><span class="label cl">Customer Performance</span><h2 class="h2">Portefeuille clients</h2>
+      <p class="lead">Améliorer la satisfaction et la fidélisation de vos clients, tout en développant la valeur de votre portefeuille.</p>
+      <a class="link cl" href="experience-client.html">Découvrir l’expertise Customer {ARR}</a></div>
+    {rgrid([r for r in REAL if r["cls"]=="cl"])}
+    <div class="ask cl tool"><span class="label cl">Outil · Auto-diagnostic client</span>
+      <p class="q-t">Êtes-vous certain que vos clients vont renouveler ?</p>
+      <p>10 questions, 2 minutes : un score de solidité, vos signaux d’alerte et 3 pistes d’action.</p>
+      <div class="ctas"><a class="btn btn-primary" href="auto-diagnostic.html">Faire l’auto-diagnostic {ARR}</a></div></div>
     {KINDS_NOTE}
   </div>
 </section>

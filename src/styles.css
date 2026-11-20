@@ -681,11 +681,11 @@ a.pcard:focus-visible{outline:2px solid var(--channel);outline-offset:3px}
 .page-hero.compact .ctas{margin-top:8px}
 .page-hero.compact+.band:not(.tight){padding-top:clamp(44px,5vw,64px)}
 .band.tight{padding-block:clamp(24px,3vw,36px) clamp(64px,8vw,96px);border-top:0}
-.band.tight .pcard{display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:12px;padding:30px}
-.band.tight .pcard .who{margin-top:-4px}
-.band.tight .pcard h3{font-size:1.18rem;line-height:1.38;margin-top:2px}
-.band.tight .pcard .link{margin-top:auto;padding-top:8px}
-@media (max-width:520px){.band.tight .pcard{padding:24px 22px}}
+.band.tight .pcard,.band.rsec .pcard{display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:12px;padding:30px}
+.band.tight .pcard .who,.band.rsec .pcard .who{margin-top:-4px}
+.band.tight .pcard h3,.band.rsec .pcard h3{font-size:1.18rem;line-height:1.38;margin-top:2px}
+.band.tight .pcard .link,.band.rsec .pcard .link{margin-top:auto;padding-top:8px}
+@media (max-width:520px){.band.tight .pcard,.band.rsec .pcard{padding:24px 22px}}
 /* Auto-diagnostic : points d'accès (accueil, Customer Performance, fiches réalisations) */
 .duo-sub{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin-top:18px}
 .duo-sub p{text-align:center;font-size:.9rem;color:var(--ink-2);line-height:1.6}
@@ -770,3 +770,7 @@ a.pcard:focus-visible{outline:2px solid var(--channel);outline-offset:3px}
 .boucle-gap{height:clamp(48px,6vw,72px)}
 @media (max-width:760px){.loop.n5 ol{grid-template-columns:1fr}.loop.n5 .loop-back{margin-inline:auto}}
 @media (max-width:760px){.loop.cl .loop-back span{border-color:var(--client)}}
+/* Page Nos réalisations : une partie par expertise, avec son outil */
+.rsec-head{display:grid;gap:12px;justify-items:center;text-align:center;max-width:var(--narrow);margin:0 auto clamp(32px,4vw,44px)}
+.band.rsec .ask.tool{margin-top:clamp(28px,3.5vw,40px)}
+.ask.tool .label{margin-bottom:-4px}
