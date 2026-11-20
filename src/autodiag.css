@@ -90,3 +90,4 @@
 #auto-diagnostic .cta .btn{margin:4px}
 #auto-diagnostic .cta .btn.secondary{margin-left:4px}
 @media (max-width:520px){#auto-diagnostic .card{padding:18px 16px 4px}#auto-diagnostic .cta{padding:22px 16px}}
+#auto-diagnostic .dim .fill{min-width:8px} /* score à 0 : amorce visible de la couleur */
