@@ -114,10 +114,29 @@
 
     /* Règles de lecture : certaines réponses fixent la couleur d'une dimension (rouge < 50). */
     function opt(i){ return SCORES.indexOf(Number(form.querySelector('input[name="q'+i+'"]:checked').value)); }
-    function rouge(id){ dimScores[id]=Math.min(dimScores[id],TH_WARN-1); }
-    if(opt(0)===0) rouge("perf");   // loin des objectifs
-    if(opt(3)===0) rouge("comp");   // plaintes ou escalades fréquentes
-    if(opt(9)===0) rouge("fid");    // vend surtout une offre concurrente
+    // Le score de la dimension est ramené dans la zone de sa couleur : vert ≥ 70, orange 50 à 69, rouge < 50.
+    function band(id,col){
+      var v=dimScores[id];
+      if(col==="vert") dimScores[id]=Math.max(v,TH_OK);
+      else if(col==="orange") dimScores[id]=Math.min(Math.max(v,TH_WARN),TH_OK-1);
+      else dimScores[id]=Math.min(v,TH_WARN-1);
+    }
+    var objectifs=opt(0), evolution=opt(1), catalogue=opt(5), transfo=opt(6), place=opt(9);
+    // Performance commerciale : loin des objectifs = rouge, même avec une forte croissance.
+    // Objectifs atteints ou dépassés : vert si l'activité est en croissance, orange si elle est stable ou en recul.
+    // Objectifs partiellement atteints : orange, sauf en recul (le calcul habituel s'applique).
+    if(objectifs===0) band("perf","rouge");
+    else if(objectifs>=2) band("perf", evolution>=2 ? "vert" : "orange");
+    else if(evolution>=1) band("perf","orange");
+    // Compétences & qualité de service : plaintes ou escalades fréquentes = rouge.
+    if(opt(3)===0) band("comp","rouge");
+    // Offre & transformation : rouge seulement si un ou deux produits ET modèle très traditionnel.
+    // Plusieurs gammes avec les services ou plus : vert, sauf modèle très traditionnel (orange). Sinon : orange.
+    if(catalogue===0 && transfo===0) band("off","rouge");
+    else if(catalogue>=2 && transfo!==0) band("off","vert");
+    else band("off","orange");
+    // Votre place dans son activité : offre concurrente surtout = rouge ; aussi une offre concurrente = orange ; fournisseur principal ou exclusif = vert.
+    band("fid", place===0 ? "rouge" : (place===1 ? "orange" : "vert"));
 
     var gNum=0,gDen=0;
     DIMS.forEach(function(d){ gNum+=dimScores[d.id]*d.w; gDen+=d.w; });
@@ -138,6 +157,11 @@
     if(status!=="À risque" && rougesCles.length){
       status="À risque"; col=RISK;
       txt="La performance commerciale ou la qualité de service est dans le rouge : même si le reste va bien, le partenariat est fragile.";
+    }
+    // Une autre dimension dans le rouge (offre, engagement, place dans son activité) : jamais « Partenaire solide », au mieux « À accompagner ».
+    if(status==="Partenaire solide" && DIMS.some(function(d){ return Math.round(dimScores[d.id])<TH_WARN; })){
+      status="À accompagner"; col=WARN;
+      txt="Les résultats d'ensemble sont corrects, mais une dimension est dans le rouge : un plan de progrès est nécessaire pour sécuriser le partenariat.";
     }
     var has=function(id){ return alerts.some(function(a){return a.id===id;}); };
     if(status!=="À risque" && (has("a1")||has("a4"))){
@@ -173,6 +197,7 @@
 
     // 3 conseils : alertes d'abord, puis dimensions sous le seuil classées par écart pondéré
     function byGap(a,b){ return (100-dimScores[b.id])*b.w-(100-dimScores[a.id])*a.w; }
+    if(transfo===0) ADVICE.off="<b>Accompagner la transformation de son modèle.</b> Son modèle reste très traditionnel : s'il ne s'adapte pas, son activité est à risque. Aidez-le à faire évoluer son offre et ses pratiques (services, abonnement, revenus récurrents, nouveaux usages comme l'IA), en vous appuyant sur l'exemple des partenaires les plus avancés du réseau.";
     var adv=alerts.map(function(a){return ALERT_ADVICE[a.id];});
     DIMS.filter(function(d){return dimScores[d.id]<TH_OK;}).sort(byGap).forEach(function(d){adv.push(ADVICE[d.id]);});
     if(status==="Partenaire solide"){
