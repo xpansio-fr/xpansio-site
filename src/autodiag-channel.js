@@ -139,6 +139,8 @@
     // Vend surtout une autre marque : orange si ses résultats avec vous sont au rendez-vous (objectifs atteints, ou activité en croissance),
     // rouge s'ils ne le sont pas (objectifs non atteints et pas de croissance).
     var concurrentSansResultats = place===0 && objectifs<=1 && evolution<=1;
+    // Vend surtout une offre concurrente et activité stable ou en recul (même si les objectifs sont atteints) : échange avec la direction.
+    var directionNeeded = place===0 && evolution<=1;
     if(place===0) band("fid", concurrentSansResultats ? "rouge" : "orange");
     else band("fid", place===1 ? "orange" : "vert");
 
@@ -170,7 +172,7 @@
     // Vend surtout une autre marque : jamais « Partenaire solide », même avec de bons résultats.
     if(status==="Partenaire solide" && place===0){
       status="À accompagner"; col=WARN;
-      txt="Ses résultats avec vous sont au rendez-vous, mais il vend surtout une autre marque : votre place dans son activité reste à conquérir.";
+      txt="Ses résultats d'ensemble sont bons, mais votre place dans son activité reste à conquérir.";
     }
     var has=function(id){ return alerts.some(function(a){return a.id===id;}); };
     if(status!=="À risque" && (has("a1")||has("a4"))){
@@ -181,6 +183,10 @@
       txt="Les résultats sont bons, mais un signal d'alerte appelle votre vigilance : agissez avant qu'il ne pèse sur le partenariat.";
     }
 
+    // Offre concurrente : le commentaire du résultat le dit toujours, selon la dynamique de l'activité.
+    if(place===0) txt+= directionNeeded
+      ? " Il vend surtout une offre concurrente et son activité avec vous stagne ou recule : un échange avec sa direction s'impose sur ses objectifs et sa motivation."
+      : " Il vend surtout une offre concurrente, mais il suit son plan de route avec vous : poursuivez la conquête pour prendre progressivement plus de place dans son activité.";
     /* Priorité : le poids du partenaire accélère ou modère l'urgence. */
     var prio;
     if(status==="Partenaire solide") prio="Priorité : consolider et développer.";
@@ -207,9 +213,9 @@
     // 3 conseils : alertes d'abord, puis dimensions sous le seuil classées par écart pondéré
     function byGap(a,b){ return (100-dimScores[b.id])*b.w-(100-dimScores[a.id])*a.w; }
     if(transfo===0) ADVICE.off="<b>Accompagner la transformation de son modèle.</b> Son modèle reste très traditionnel : s'il ne s'adapte pas, son activité est à risque. Aidez-le à faire évoluer son offre et ses pratiques (services, abonnement, revenus récurrents, nouveaux usages comme l'IA), en vous appuyant sur l'exemple des partenaires les plus avancés du réseau.";
-    if(place===0) ADVICE.fid = concurrentSansResultats
-      ? "<b>Provoquer une réunion avec sa direction.</b> Il vend surtout une autre marque et ses résultats avec vous ne sont pas au rendez-vous : rencontrez sa direction pour statuer sur ses objectifs et sur sa motivation à poursuivre le partenariat."
-      : "<b>Bâtir un plan de conquête chez lui.</b> Ses résultats avec vous sont au rendez-vous, mais il vend surtout une autre marque : avec votre équipe commerciale, construisez un plan de conquête de ses équipes et de ses clients (argumentaires, offres ciblées, appui avant-vente) pour gagner une place plus importante dans son activité.";
+    if(place===0) ADVICE.fid = directionNeeded
+      ? "<b>Rencontrer sa direction sur l'offre concurrente.</b> Il vend surtout une autre marque et son activité avec vous stagne ou recule"+(objectifs>=2?", même si ses objectifs sont atteints":"")+" : échangez avec sa direction sur ses objectifs et sur sa motivation réelle vis-à-vis de votre offre et de l'offre concurrente, pour statuer ensemble sur la suite du partenariat."
+      : "<b>Gagner progressivement du terrain chez lui.</b> Il vend surtout une autre marque mais suit son plan de route avec vous : avec votre équipe commerciale, retravaillez vos actions (comptes cibles, argumentaires, offres ciblées, appui avant-vente) pour prendre petit à petit plus de place dans son activité et faire reculer l'offre concurrente.";
     var adv=alerts.map(function(a){return ALERT_ADVICE[a.id];});
     DIMS.filter(function(d){return dimScores[d.id]<TH_OK;}).sort(byGap).forEach(function(d){adv.push(ADVICE[d.id]);});
     if(status==="Partenaire solide"){
@@ -223,8 +229,9 @@
     // Vend surtout une autre marque : le conseil correspondant figure toujours dans les 3
     // (en tête, après les alertes, si les résultats ne sont pas au rendez-vous ; sinon à la place du dernier conseil hors alerte).
     var top=adv.slice(0,3);
-    if(place===0 && top.indexOf(ADVICE.fid)<0){
-      if(concurrentSansResultats){ top.splice(Math.min(alerts.length,2),0,ADVICE.fid); top=top.slice(0,3); }
+    if(place===0 && has("a1")){ var ix=top.indexOf(ADVICE.fid); if(ix>=0 && directionNeeded){ top.splice(ix,1); adv.slice(3).concat(GOOD).forEach(function(x){ if(top.length<3 && top.indexOf(x)<0 && x!==ADVICE.fid) top.push(x); }); } }
+    else if(place===0 && top.indexOf(ADVICE.fid)<0){
+      if(directionNeeded){ top.splice(Math.min(alerts.length,2),0,ADVICE.fid); top=top.slice(0,3); }
       else { var k=2; for(var m=2;m>=0;m--){ if(m>=alerts.length){ k=m; break; } } top[k]=ADVICE.fid; }
     }
     document.getElementById("advice").innerHTML=top.map(function(a){return "<li>"+a+"</li>";}).join("");
