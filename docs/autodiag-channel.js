@@ -210,29 +210,39 @@
     });
     document.getElementById("dims").innerHTML=dh;
 
-    // 3 conseils : alertes d'abord, puis dimensions sous le seuil classées par écart pondéré
+    // 3 pistes d'action, par ordre de priorité (règle d'Agnès) :
+    //   1. le business : performance commerciale, place dans son activité (offre concurrente) et poids du partenaire ;
+    //   2. les compétences et la qualité de service ;
+    //   3. l'engagement et la coopération.
+    // Dans chaque thème, l'alerte correspondante passe avant le conseil de la dimension.
+    // On retient d'abord la première piste de chaque thème (1, puis 2, puis 3), puis on complète dans le même ordre.
     function byGap(a,b){ return (100-dimScores[b.id])*b.w-(100-dimScores[a.id])*a.w; }
     if(transfo===0) ADVICE.off="<b>Accompagner la transformation de son modèle.</b> Son modèle reste très traditionnel : s'il ne s'adapte pas, son activité est à risque. Aidez-le à faire évoluer son offre et ses pratiques (services, abonnement, revenus récurrents, nouveaux usages comme l'IA), en vous appuyant sur l'exemple des partenaires les plus avancés du réseau.";
     if(place===0) ADVICE.fid = directionNeeded
       ? "<b>Rencontrer sa direction sur l'offre concurrente.</b> Il vend surtout une autre marque et son activité avec vous stagne ou recule"+(objectifs>=2?", même si ses objectifs sont atteints":"")+" : échangez avec sa direction sur ses objectifs et sur sa motivation réelle vis-à-vis de votre offre et de l'offre concurrente, pour statuer ensemble sur la suite du partenariat."
       : "<b>Gagner progressivement du terrain chez lui.</b> Il vend surtout une autre marque mais suit son plan de route avec vous : avec votre équipe commerciale, retravaillez vos actions (comptes cibles, argumentaires, offres ciblées, appui avant-vente) pour prendre petit à petit plus de place dans son activité et faire reculer l'offre concurrente.";
-    var adv=alerts.map(function(a){return ALERT_ADVICE[a.id];});
-    DIMS.filter(function(d){return dimScores[d.id]<TH_OK;}).sort(byGap).forEach(function(d){adv.push(ADVICE[d.id]);});
-    if(status==="Partenaire solide"){
-      if(adv.length<3) adv.push(KEEP);
-      GOOD.forEach(function(g){ if(adv.length<3) adv.push(g); });
-    } else {
-      // Compléter d'abord par la revue d'affaires régulière, puis par les dimensions les moins bonnes (même en vert).
-      if(adv.length<3) adv.push(GOOD[0]);
-      DIMS.filter(function(d){return dimScores[d.id]>=TH_OK;}).sort(byGap).forEach(function(d){ if(adv.length<3) adv.push(ADVICE[d.id]); });
-    }
-    // Vend surtout une autre marque : le conseil correspondant figure toujours dans les 3
-    // (en tête, après les alertes, si les résultats ne sont pas au rendez-vous ; sinon à la place du dernier conseil hors alerte).
-    var top=adv.slice(0,3);
-    if(place===0 && has("a1")){ var ix=top.indexOf(ADVICE.fid); if(ix>=0 && directionNeeded){ top.splice(ix,1); adv.slice(3).concat(GOOD).forEach(function(x){ if(top.length<3 && top.indexOf(x)<0 && x!==ADVICE.fid) top.push(x); }); } }
-    else if(place===0 && top.indexOf(ADVICE.fid)<0){
-      if(directionNeeded){ top.splice(Math.min(alerts.length,2),0,ADVICE.fid); top=top.slice(0,3); }
-      else { var k=2; for(var m=2;m>=0;m--){ if(m>=alerts.length){ k=m; break; } } top[k]=ADVICE.fid; }
+    var weak=function(id){ return dimScores[id]<TH_OK; };
+    var B=[], Cq=[], E=[], O=[];
+    if(has("a1")) B.push(ALERT_ADVICE.a1);
+    var fidAdv = (place===0 && !(has("a1") && directionNeeded)) || (place!==0 && weak("fid")) ? ADVICE.fid : null;
+    if(place===0){ if(fidAdv) B.push(fidAdv); if(weak("perf")) B.push(ADVICE.perf); }   // offre concurrente : c'est elle qui guide le business
+    else { if(weak("perf")) B.push(ADVICE.perf); if(fidAdv) B.push(fidAdv); }
+    if(has("a4")) B.push(ALERT_ADVICE.a4);
+    if(has("a2")) Cq.push(ALERT_ADVICE.a2);
+    if(weak("comp")) Cq.push(ADVICE.comp);
+    if(has("a3")) E.push(ALERT_ADVICE.a3);
+    if(weak("eng")) E.push(ADVICE.eng);
+    if(weak("off")) O.push(ADVICE.off);
+    var top=[];
+    function add(x){ if(x && top.length<3 && top.indexOf(x)<0) top.push(x); }
+    // Partenaire qui pèse lourd chez vous (plus de 15 % du chiffre d'affaires indirect) : le sujet business devient critique.
+    if(B.length && poids===2) B[0]=B[0]+" <b>Ce partenaire pèse lourd dans votre chiffre d'affaires indirect : c'est votre priorité.</b>";
+    add(B[0]); add(Cq[0]); add(E[0]);
+    B.slice(1).concat(Cq.slice(1), E.slice(1), O).forEach(add);
+    if(status==="Partenaire solide"){ add(KEEP); GOOD.forEach(add); }
+    else {
+      add(GOOD[0]);
+      DIMS.filter(function(d){return !weak(d.id);}).sort(byGap).forEach(function(d){ add(ADVICE[d.id]); });
     }
     document.getElementById("advice").innerHTML=top.map(function(a){return "<li>"+a+"</li>";}).join("");
 
