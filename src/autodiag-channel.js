@@ -145,9 +145,13 @@
     band("comp", {"1":"vert","2a":"vert","2b":"orange","3":"orange","4":"orange","5":"orange","6a":"rouge","6b":"rouge"}[compProfil]);
     // Offre & transformation : rouge seulement si un ou deux produits ET modèle très traditionnel.
     // Plusieurs gammes avec les services ou plus : vert, sauf modèle très traditionnel (orange). Sinon : orange.
-    if(catalogue===0 && transfo===0) band("off","rouge");
-    else if(catalogue>=2 && transfo!==0) band("off","vert");
-    else band("off","orange");
+    // Grille de profils validée par Agnès (part du catalogue × transformation).
+    var offProfil;
+    if(catalogue>=2) offProfil = transfo>=2 ? "1" : (transfo===1 ? "2" : "3");
+    else if(transfo>=2) offProfil="4";
+    else if(transfo===1) offProfil="5";
+    else offProfil = catalogue===1 ? "6" : "7";
+    band("off", {"1":"vert","2":"vert","3":"orange","4":"orange","5":"orange","6":"orange","7":"rouge"}[offProfil]);
     // Votre place dans son activité : fournisseur principal ou exclusif = vert ; aussi une offre concurrente = orange.
     // Vend surtout une autre marque : orange si ses résultats avec vous sont au rendez-vous (objectifs atteints, ou activité en croissance),
     // rouge s'ils ne le sont pas (objectifs non atteints et pas de croissance).
@@ -242,7 +246,16 @@
     function byGap(a,b){ return (100-dimScores[b.id])*b.w-(100-dimScores[a.id])*a.w; }
     // Les conseils sont construits pour CE diagnostic (copie locale) : rien ne se transmet d'une évaluation à la suivante.
     var A={}; for(var key in ADVICE) A[key]=ADVICE[key];
-    if(transfo===0) A.off="<b>Accompagner la transformation de son modèle.</b> Son modèle reste très traditionnel : s'il ne s'adapte pas, son activité est à risque. Aidez-le à faire évoluer son offre et ses pratiques (services, abonnement, revenus récurrents, nouveaux usages comme l'IA), en vous appuyant sur l'exemple des partenaires les plus avancés du réseau.";
+    // Offre & transformation : un commentaire par profil (grille validée par Agnès).
+    A.off={
+      "1":"<b>L'associer à vos lancements.</b> Il couvre largement votre offre, services compris, et fait évoluer son modèle : associez-le à vos lancements (pilotes, nouvelles offres, abonnement, IA).",
+      "2":"<b>L'inciter à anticiper.</b> Il couvre largement votre offre, mais fait évoluer son modèle au coup par coup : partagez votre feuille de route et les pratiques des partenaires les plus avancés (abonnement, revenus récurrents) pour l'inciter à anticiper.",
+      "3":"<b>Accompagner la transformation de son modèle.</b> Son modèle reste très traditionnel : s'il ne s'adapte pas, son activité est à risque. Aidez-le à faire évoluer son offre et ses pratiques (services, abonnement, revenus récurrents, nouveaux usages comme l'IA), en vous appuyant sur l'exemple des partenaires les plus avancés du réseau.",
+      "4":"<b>Élargir son offre.</b> Il fait évoluer son modèle, mais ne vend qu'une partie de votre offre : élargissez progressivement à d'autres gammes et aux services, en vous appuyant sur son intérêt pour les nouveaux usages.",
+      "5":"<b>Construire un plan d'élargissement.</b> Offre limitée et évolution au coup par coup : repérez avec lui les gammes et services les plus porteurs pour ses clients, et construisez un plan d'élargissement progressif, avec formation et appui avant-vente.",
+      "6":"<b>Accompagner sa transformation pas à pas.</b> Il vend une gamme principale avec un modèle très traditionnel : s'il ne s'adapte pas, son activité est à risque. Accompagnez-le pas à pas : services associés à sa gamme, premiers contrats récurrents.",
+      "7":"<b>Vérifier sa volonté d'évoluer.</b> Offre très réduite et modèle très traditionnel : sa capacité à se développer avec vous dans la durée est en question. Vérifiez sa volonté d'évoluer avant d'investir. Si elle est là : plan d'élargissement et de transformation pas à pas. Sinon : revoyez sa place dans votre réseau (niveau de partenariat, rôle de simple revendeur)."
+    }[offProfil];
     if(place===0) A.fid = directionNeeded
       ? "<b>Rencontrer sa direction sur l'offre concurrente.</b> Il vend surtout une autre marque et son activité avec vous stagne ou recule"+(objectifs>=2?", même si ses objectifs sont atteints":"")+" : échangez avec sa direction sur ses objectifs et sur sa motivation réelle vis-à-vis de votre offre et de l'offre concurrente, pour statuer ensemble sur la suite du partenariat."
       : "<b>Gagner progressivement du terrain chez lui.</b> Il vend surtout une autre marque mais suit son plan de route avec vous : avec votre équipe commerciale, retravaillez vos actions (comptes cibles, argumentaires, offres ciblées, appui avant-vente) pour prendre petit à petit plus de place dans son activité et faire reculer l'offre concurrente.";
@@ -288,14 +301,14 @@
     if(compPrio) Cq.push(A.comp);
     if(has("a3")) E.push(ALERT_ADVICE.a3);
     if(weak("eng")) E.push(A.eng);
-    if(weak("off")) O.push(A.off);
+    if(["3","4","5","6","7"].indexOf(offProfil)>=0) O.push(A.off);   // profils 1 et 2 : seulement s'il reste de la place
     var top=[];
     function add(x){ if(x && top.length<3 && top.indexOf(x)<0) top.push(x); }
     // Partenaire qui pèse lourd chez vous (plus de 15 % du chiffre d'affaires indirect) : le sujet business devient critique.
     if(B.length && poids===2) B[0]=B[0]+" <b>Ce partenaire pèse lourd dans votre chiffre d'affaires indirect : c'est votre priorité.</b>";
     add(B[0]); add(Cq[0]); add(E[0]);
     B.slice(1).concat(Cq.slice(1), E.slice(1), O).forEach(add);
-    if(status==="Partenaire solide"){ add(KEEP); if(perfProfil==="2"||perfProfil==="3") add(A.perf); if(compProfil==="1"||compProfil==="2a") add(A.comp); GOOD.forEach(add); }
+    if(status==="Partenaire solide"){ add(KEEP); if(perfProfil==="2"||perfProfil==="3") add(A.perf); if(compProfil==="1"||compProfil==="2a") add(A.comp); if(offProfil==="1"||offProfil==="2") add(A.off); GOOD.forEach(add); }
     else {
       add(GOOD[0]);
       DIMS.filter(function(d){return !weak(d.id);}).sort(byGap).forEach(function(d){ add(A[d.id]); });
