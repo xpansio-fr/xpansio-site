@@ -126,9 +126,15 @@
     // Performance commerciale : loin des objectifs = rouge, même avec une forte croissance.
     // Objectifs atteints ou dépassés : vert si l'activité est stable ou en croissance, orange si elle recule.
     // Objectifs partiellement atteints : orange, sauf en recul (le calcul habituel s'applique).
-    if(objectifs===0) band("perf","rouge");
-    else if(objectifs>=2) band("perf", evolution>=1 ? "vert" : "orange");
-    else if(evolution>=1) band("perf","orange");
+    // Grille de profils validée par Agnès (objectifs × évolution sur 12 mois).
+    var perfProfil;
+    if(objectifs===3 && evolution>=2) perfProfil="1";
+    else if(objectifs===2 && evolution>=2) perfProfil="2";
+    else if(objectifs>=2 && evolution===1) perfProfil="3";
+    else if(objectifs>=2) perfProfil="4";                 // atteints ou dépassés, en recul
+    else if(objectifs===1) perfProfil = evolution>=2 ? "5" : (evolution===1 ? "6" : "7");
+    else perfProfil = evolution>=2 ? "8" : "9";          // loin des objectifs
+    band("perf", {"1":"vert","2":"vert","3":"vert","4":"orange","5":"orange","6":"orange","7":"rouge","8":"rouge","9":"rouge"}[perfProfil]);
     // Compétences & qualité de service : grille de profils validée par Agnès.
     // Le support (Q4) donne le ton, la supervision à distance (Q5) et la formation (Q3) nuancent.
     // Aucune formation récente = jamais vert, avec un point de vigilance.
@@ -175,6 +181,11 @@
     if(status==="Partenaire solide" && DIMS.some(function(d){ return Math.round(dimScores[d.id])<TH_WARN; })){
       status="À accompagner"; col=WARN;
       txt="Les résultats d'ensemble sont corrects, mais une dimension est dans le rouge : un plan de progrès est nécessaire pour sécuriser le partenariat.";
+    }
+    // Objectifs pas encore atteints : jamais « Partenaire solide » (la performance commerciale est la priorité n° 1).
+    if(status==="Partenaire solide" && objectifs<=1){
+      status="À accompagner"; col=WARN;
+      txt="Le partenariat est sain sur la plupart des dimensions, mais ses objectifs commerciaux ne sont pas encore atteints : c'est la priorité à travailler avec lui.";
     }
     // Aucune personne formée sur vos offres : jamais « Partenaire solide » (point de vigilance).
     if(status==="Partenaire solide" && fo===0){
@@ -249,12 +260,29 @@
       "6b":"<b>Redresser la qualité de service.</b> Support débordé et compétences insuffisantes : vos clients en subissent directement les effets. Un plan de redressement s'impose : objectifs de délais, formation accélérée et, à court terme, appui de vos équipes sur les escalades."+(fo===0?VIGIL:"")
     }[compProfil];
     var compPrio = ["2b","3","4","5","6a","6b"].indexOf(compProfil)>=0;   // profils 1 et 2a : seulement s'il reste de la place
+    // Performance commerciale : un commentaire par profil (grille validée par Agnès).
+    A.perf={
+      "1":"<b>Accélérer avec un moteur du réseau.</b> Il dépasse ses objectifs et accélère : c'est un moteur de votre réseau. Construisez avec lui un plan de croissance ambitieux et proposez-lui des pilotes sur vos nouvelles offres.",
+      "2":"<b>Consolider la trajectoire.</b> Il atteint ses objectifs avec une dynamique positive : consolidez avec un plan d'affaires annuel partagé et quelques comptes cibles pour aller plus loin.",
+      "3":"<b>Relancer la dynamique.</b> Il tient ses objectifs, mais son activité ne progresse plus : identifiez avec lui de nouveaux relais de croissance (comptes cibles, nouvelles offres, base installée) pour éviter le plafonnement.",
+      "4":"<b>Comprendre le recul de son activité.</b> Les objectifs sont encore atteints, mais l'activité recule : comprenez-en les causes avec lui (perte de clients, concurrence, ressources) avant que les résultats ne décrochent.",
+      "5":"<b>Soutenir sa progression.</b> Il n'atteint pas encore ses objectifs, mais progresse : maintenez l'effort avec un plan d'affaires commun et un appui ciblé (avant-vente, comptes cibles), et vérifiez que le niveau d'objectifs est réaliste.",
+      "6":"<b>Comprendre ce qui freine sa progression.</b> Objectifs partiellement atteints et activité qui stagne : cherchez avec lui pourquoi il ne progresse pas. Regardez ses compétences commerciales (équipe, méthodes, connaissance de vos offres) et sa base clients (couverture, clients inactifs, potentiel inexploité), puis fixez ensemble 3 ou 4 actions suivies chaque trimestre.",
+      "7":"<b>Mettre en place un plan de redressement.</b> Objectifs non atteints et activité en recul : la tendance est négative. Mettez en place un plan de redressement avec sa direction : causes, objectifs revus, actions et points d'étape mensuels.",
+      "8":"<b>Accompagner la montée en puissance.</b> Il reste loin de ses objectifs malgré une nette progression : la dynamique est encourageante, mais le niveau reste insuffisant. Vérifiez que les objectifs sont réalistes et accompagnez la montée en puissance (plan d'affaires, appui avant-vente).",
+      "9":"<b>Rencontrer sa direction sur les résultats.</b> Loin de ses objectifs et sans dynamique : rencontrez sa direction pour comprendre les freins (ressources, ciblage, motivation) et décider d'un plan de redressement ou de la suite à donner au partenariat."
+    }[perfProfil];
+    var perfPrio = ["4","5","6","7","8","9"].indexOf(perfProfil)>=0;   // profils 2 et 3 : seulement s'il reste de la place ; 1 : couvert par « partenaire de référence »
+    // Offre concurrente + rencontre avec la direction : une seule piste, qui intègre le plan de redressement (profils 7 et 9).
+    var fusion = place===0 && directionNeeded && (perfProfil==="7" || perfProfil==="9") && !has("a1");
+    if(fusion){ A.fid = A.fid + " Bâtissez ensemble un plan de redressement."; perfPrio=false; }
     var weak=function(id){ return dimScores[id]<TH_OK; };
     var B=[], Cq=[], E=[], O=[];
     if(has("a1")) B.push(ALERT_ADVICE.a1);
     var fidAdv = (place===0 && !(has("a1") && directionNeeded)) || (place!==0 && weak("fid")) ? A.fid : null;
-    if(place===0){ if(fidAdv) B.push(fidAdv); if(weak("perf")) B.push(A.perf); }   // offre concurrente : c'est elle qui guide le business
-    else { if(weak("perf")) B.push(A.perf); if(fidAdv) B.push(fidAdv); }
+    if(fidAdv && fusion) fidAdv=A.fid;
+    if(place===0){ if(fidAdv) B.push(fidAdv); if(perfPrio) B.push(A.perf); }   // offre concurrente : c'est elle qui guide le business
+    else { if(perfPrio) B.push(A.perf); if(fidAdv) B.push(fidAdv); }
     if(has("a4")) B.push(ALERT_ADVICE.a4);
     if(has("a2")) Cq.push(ALERT_ADVICE.a2);
     if(compPrio) Cq.push(A.comp);
@@ -267,7 +295,7 @@
     if(B.length && poids===2) B[0]=B[0]+" <b>Ce partenaire pèse lourd dans votre chiffre d'affaires indirect : c'est votre priorité.</b>";
     add(B[0]); add(Cq[0]); add(E[0]);
     B.slice(1).concat(Cq.slice(1), E.slice(1), O).forEach(add);
-    if(status==="Partenaire solide"){ add(KEEP); if(compProfil==="1"||compProfil==="2a") add(A.comp); GOOD.forEach(add); }
+    if(status==="Partenaire solide"){ add(KEEP); if(perfProfil==="2"||perfProfil==="3") add(A.perf); if(compProfil==="1"||compProfil==="2a") add(A.comp); GOOD.forEach(add); }
     else {
       add(GOOD[0]);
       DIMS.filter(function(d){return !weak(d.id);}).sort(byGap).forEach(function(d){ add(A[d.id]); });
