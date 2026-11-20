@@ -1,4 +1,4 @@
-/* Auto-diagnostic « Êtes-vous certain que ce client va renouveler ? » : version courte (10 questions) du fichier _sources/auto-diagnostic-sante-client.html : questions 5 et 8 et alerte « décideur insatisfait » retirées à la demande d’Agnès ; calcul et conseils inchangés. */
+/* Auto-diagnostic « Êtes-vous certain que ce client va renouveler ? » : version courte (10 questions) du fichier _sources/auto-diagnostic-sante-client.html : questions 5 et 8 et alerte « décideur insatisfait » retirées à la demande d’Agnès ; libellés de la question 1 et règles de couleur par dimension ajoutés (voir « Règles de lecture »). */
 (function(){
   /* ---------- Modèle (version courte du Health Score Xpansio) ---------- */
   var DIMS = [
@@ -11,7 +11,7 @@
   // Échelle unique : 0 = mauvais, 2 = insuffisant, 4 = bon, 5 = excellent. c = coefficient.
   var Q = [
     {d:"sol", c:3, t:"Ce client utilise-t-il vraiment les solutions et services qu'il a achetés ?",
-     o:["Très peu ou pas du tout","Une minorité d'utilisateurs","La majorité des utilisateurs","Intensivement, c'est critique pour lui"]},
+     o:["Très peu ou pas du tout","Une minorité des utilisateurs concernés","La plupart des utilisateurs potentiels","Intensivement, c'est critique pour lui"]},
     {d:"sol", c:3, t:"Est-il satisfait des solutions et services en place ?",
      o:["Très insatisfait","Moyennement satisfait","Satisfait","Très satisfait"]},
     {d:"sol", c:2, t:"Quelle part de ses besoins IT vous confie-t-il ?",
@@ -111,9 +111,30 @@
       num[q.d]+=Number(v)*q.c; den[q.d]+=5*q.c;
     });
     var dimScores={}, gNum=0, gDen=0;
-    DIMS.forEach(function(d){
-      if(den[d.id]>0){ dimScores[d.id]=num[d.id]/den[d.id]*100; gNum+=dimScores[d.id]*d.w; gDen+=d.w; }
-    });
+    DIMS.forEach(function(d){ if(den[d.id]>0) dimScores[d.id]=num[d.id]/den[d.id]*100; });
+
+    /* Règles de lecture (définies par Agnès) : elles fixent la couleur de certaines dimensions,
+       le score de la dimension est alors ramené dans la zone de cette couleur (vert ≥ 70, orange 50 à 69, rouge < 50). */
+    function opt(i){ var c=form.querySelector('input[name="q'+i+'"]:checked'); return (c&&c.value!=="na")?SCORES.indexOf(Number(c.value)):null; }
+    function band(id,col){
+      var v=dimScores[id]; if(v===undefined) return;
+      if(col==="vert") dimScores[id]=Math.max(v,TH_OK);
+      else if(col==="orange") dimScores[id]=Math.min(Math.max(v,TH_WARN),TH_OK-1);
+      else dimScores[id]=Math.min(v,TH_WARN-1);
+    }
+    var usage=opt(0), satisf=opt(1), brique=opt(2), decideur=opt(5), soutiens=opt(6), recommande=opt(9);
+    // Solutions & adoption : client satisfait et solutions bien utilisées = vert, même avec une seule brique.
+    // Peu utilisées et une seule brique sans service = fragilité (orange) si le client est satisfait, risque (rouge) sinon.
+    if(satisf>=2 && usage>=2) band("sol","vert");
+    else if(usage<=1 && brique===0) band("sol", satisf>=2 ? "orange" : "rouge");
+    // Relation : bonne relation avec le décideur = vert, quels que soient les autres soutiens.
+    if(decideur>=2) band("rel","vert");
+    else if(decideur===1 && soutiens<=1) band("rel","orange");
+    else if(decideur===0 && soutiens<=1) band("rel","rouge");
+    // Engagement : refuse d'être cité = rouge ; accepte d'être cité = orange ; témoignage ou plus = vert.
+    if(recommande!==null) band("eng", recommande===0 ? "rouge" : (recommande===1 ? "orange" : "vert"));
+
+    DIMS.forEach(function(d){ if(dimScores[d.id]!==undefined){ gNum+=dimScores[d.id]*d.w; gDen+=d.w; } });
     var score=gDen?Math.round(gNum/gDen):0;
     var alerts=ALERTS.filter(function(a){return form.querySelector('input[name="'+a.id+'"]').checked;});
     var term=Number(form.querySelector('input[name="term"]:checked').value);
