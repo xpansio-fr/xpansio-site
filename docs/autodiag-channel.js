@@ -152,6 +152,12 @@
     else if(transfo===1) offProfil="5";
     else offProfil = catalogue===1 ? "6" : "7";
     band("off", {"1":"vert","2":"vert","3":"orange","4":"orange","5":"orange","6":"orange","7":"rouge"}[offProfil]);
+    // Engagement & coopération : grille de profils validée par Agnès (participation × partage d'informations).
+    var particip=opt(7), partage=opt(8), engProfil;
+    if(particip>=2) engProfil = partage>=2 ? "1" : "2";
+    else if(particip===1) engProfil = partage>=2 ? "3a" : "4";
+    else engProfil = partage>=2 ? "3b" : "5";
+    band("eng", {"1":"vert","2":"orange","3a":"vert","3b":"orange","4":"orange","5":"rouge"}[engProfil]);
     // Votre place dans son activité : fournisseur principal ou exclusif = vert ; aussi une offre concurrente = orange.
     // Vend surtout une autre marque : orange si ses résultats avec vous sont au rendez-vous (objectifs atteints, ou activité en croissance),
     // rouge s'ils ne le sont pas (objectifs non atteints et pas de croissance).
@@ -300,7 +306,16 @@
     if(has("a2")) Cq.push(ALERT_ADVICE.a2);
     if(compPrio) Cq.push(A.comp);
     if(has("a3")) E.push(ALERT_ADVICE.a3);
-    if(weak("eng")) E.push(A.eng);
+    // Engagement & coopération : un commentaire par profil (grille validée par Agnès).
+    A.eng={
+      "1":"<b>Valoriser sa contribution.</b> Il participe et partage de façon fiable : associez-le davantage (club, groupe de travail, pilote) et valorisez sa contribution auprès du réseau.",
+      "2":"<b>Fiabiliser la remontée d'information.</b> Il est présent dans vos programmes, mais les informations remontent mal (prévisions, opportunités, procédures) : simplifiez ce que vous lui demandez, expliquez à quoi cela sert et désignez un interlocuteur de suivi.",
+      "3a":"<b>Cibler les bons rendez-vous.</b> Il travaille de façon fiable, mais participe ponctuellement : ciblez les rendez-vous qui lui apportent le plus (formations, événements clients) plutôt que de multiplier les sollicitations.",
+      "3b":"<b>Lui proposer un format adapté.</b> Fiable au quotidien, mais absent de vos programmes : comprenez pourquoi (programme peu adapté à sa taille, manque de temps, sentiment de ne pas être écouté) et proposez-lui un format qui lui corresponde.",
+      "4":"<b>Relancer la relation.</b> Participation et partage d'informations irréguliers : la relation s'installe dans la routine. Faites le point avec lui sur ce qu'il attend du partenariat, et associez-le à une action concrète (pilote, campagne commune).",
+      "5":"<b>Comprendre son désengagement.</b> Il ne participe pas et partage peu : c'est un signe de désengagement. Rencontrez sa direction pour comprendre ce qui freine (programme peu adapté, relation distendue, autres priorités) et redéfinir ensemble un mode de collaboration."
+    }[engProfil];
+    if(["2","3b","4","5"].indexOf(engProfil)>=0) E.push(A.eng);   // profils 1 et 3a : seulement s'il reste de la place
     if(["3","4","5","6","7"].indexOf(offProfil)>=0) O.push(A.off);   // profils 1 et 2 : seulement s'il reste de la place
     var top=[];
     function add(x){ if(x && top.length<3 && top.indexOf(x)<0) top.push(x); }
@@ -308,7 +323,7 @@
     if(B.length && poids===2) B[0]=B[0]+" <b>Ce partenaire pèse lourd dans votre chiffre d'affaires indirect : c'est votre priorité.</b>";
     add(B[0]); add(Cq[0]); add(E[0]);
     B.slice(1).concat(Cq.slice(1), E.slice(1), O).forEach(add);
-    if(status==="Partenaire solide"){ add(KEEP); if(perfProfil==="2"||perfProfil==="3") add(A.perf); if(compProfil==="1"||compProfil==="2a") add(A.comp); if(offProfil==="1"||offProfil==="2") add(A.off); GOOD.forEach(add); }
+    if(status==="Partenaire solide"){ add(KEEP); if(perfProfil==="2"||perfProfil==="3") add(A.perf); if(compProfil==="1"||compProfil==="2a") add(A.comp); if(offProfil==="1"||offProfil==="2") add(A.off); if(engProfil==="1"||engProfil==="3a") add(A.eng); GOOD.forEach(add); }
     else {
       add(GOOD[0]);
       DIMS.filter(function(d){return !weak(d.id);}).sort(byGap).forEach(function(d){ add(A[d.id]); });
