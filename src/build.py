@@ -520,18 +520,6 @@ HOME = f'''
       </div>
       <div class="ctas"><a class="link" href="realisations.html">Découvrir mes réalisations {ARR}</a><a class="link" href="https://www.linkedin.com/in/agnes-chabrier-7186971/" target="_blank" rel="noopener">LinkedIn {ARR}</a></div>
     </div>
-    <div class="chain-wrap">
-      <div class="chain" role="img" aria-label="Chaîne de valeur B2B : Channel Performance couvre éditeurs et constructeurs, distributeurs et revendeurs ; Customer Performance couvre revendeurs et clients finaux.">
-        <span class="span ch">Channel Performance</span>
-        <span class="track" aria-hidden="true"><i></i><i></i><i></i></span>
-        <div class="node"><span class="k">01</span><b>Éditeurs et constructeurs</b><small>Conçoivent les solutions</small></div>
-        <div class="node"><span class="k">02</span><b>Distributeurs IT</b><small>Animent le réseau</small></div>
-        <div class="node"><span class="k">03</span><b>Revendeurs, intégrateurs et ESN</b><small>Vendent et installent</small></div>
-        <div class="node"><span class="k">04</span><b>Clients finaux</b><small>Entreprises utilisatrices</small></div>
-        <span class="span cl">Customer Performance</span>
-      </div>
-      <div class="chain-legend" aria-hidden="true"><span class="label ch">● Channel Performance</span><span class="label cl">● Customer Performance</span></div>
-    </div>
   </div>
 </section>
 
