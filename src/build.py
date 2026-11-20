@@ -183,14 +183,14 @@ def cta():
   <p class="note">{CTA_NOTE}</p>
 </div></section>'''
 
-def page_hero(crumbs, title, lead, extra="", cta_btn=None, tiles="", h1cls=""):
+def page_hero(crumbs, title, lead, extra="", cta_btn=None, tiles="", h1cls="", cta2=None):
     cr = '<span>/</span>'.join(f'<a href="{h}">{t}</a>' if h else f'<span>{t}</span>' for h, t in crumbs)
     return f'''<section class="page-hero{' has-stack' if tiles else ''}"><div class="wrap">
   <nav class="crumbs" aria-label="Fil d’Ariane">{cr}</nav>
   {extra}
   <h1 class="h1{h1cls}">{title}</h1>
   {''.join(f'<p class="lead">{x}</p>' for x in (lead if isinstance(lead, list) else [lead]))}
-  {f'<div class="ctas"><a class="btn btn-primary" href="contact.html">{cta_btn} {ARR}</a></div>' if cta_btn else ''}
+  {f'<div class="ctas"><a class="btn btn-primary" href="contact.html">{cta_btn} {ARR}</a>' + (f'<a class="btn btn-ghost" href="{cta2[1]}">{cta2[0]}</a>' if cta2 else '') + '</div>' if cta_btn else ''}
 </div>{tiles}</section>'''
 
 def issues(items):
@@ -543,7 +543,7 @@ CHANNEL = f'''
 {page_hero([("index.html","Accueil"),(None,"Channel Performance")], "Channel Performance",
   ["Faire de votre réseau de distribution indirecte un avantage concurrentiel durable.",
    "Pour les constructeurs, éditeurs, distributeurs IT et réseaux de revendeurs B2B."],
-  f'<span class="pill ch"><span class="ico ch">{I_NET}</span>Expertise 01</span>', cta_btn="Prendre rendez-vous").replace('class="page-hero"', 'class="page-hero compact"', 1)}
+  f'<span class="pill ch"><span class="ico ch">{I_NET}</span>Expertise 01</span>', cta_btn="Prendre rendez-vous", cta2=("Faire l’auto-diagnostic partenaire", "auto-diagnostic-channel.html")).replace('class="page-hero"', 'class="page-hero compact"', 1)}
 <section class="band alt">
   <div class="wrap">
     {head("Vos enjeux", "Le marché change plus vite que les réseaux.", cls="ch")}
@@ -591,7 +591,7 @@ CLIENT = f'''
 {page_hero([("index.html","Accueil"),(None,"Customer Performance")], "Votre capital client est votre premier actif. Encore faut-il en prendre toute la mesure.",
   ["Xpansio vous aide à mieux écouter vos clients, à renforcer leur fidélité et à développer la valeur de votre portefeuille.",
    "Pour les revendeurs, intégrateurs, ESN et entreprises B2B disposant d’une base clients récurrente."],
-  f'<span class="pill cl"><span class="ico cl">{I_USER}</span>Expertise 02 · Customer Performance</span>', cta_btn="Prendre rendez-vous", h1cls=" h1-long").replace('class="page-hero"', 'class="page-hero compact"', 1)}
+  f'<span class="pill cl"><span class="ico cl">{I_USER}</span>Expertise 02 · Customer Performance</span>', cta_btn="Prendre rendez-vous", h1cls=" h1-long", cta2=("Faire l’auto-diagnostic client", "auto-diagnostic.html")).replace('class="page-hero"', 'class="page-hero compact"', 1)}
 <section class="band alt">
   <div class="wrap">
     {head("Vos enjeux", "Écouter, fidéliser, développer : trois enjeux liés.", cls="cl")}
