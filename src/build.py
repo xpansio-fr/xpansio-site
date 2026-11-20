@@ -455,7 +455,7 @@ REALISATIONS_PAGE = f'''
     {rgrid([r for r in REAL if r["cls"]=="ch"])}
     <div class="ask ch tool"><span class="label ch">Outil · Auto-diagnostic partenaire</span>
       <p class="q-t">Ce partenaire est-il vraiment un partenaire performant pour votre réseau ?</p>
-      <p>10 questions, 3 minutes : un score, vos signaux d’alerte et 3 pistes d’action.</p>
+      <p>10 questions, 2 minutes : un score, vos signaux d’alerte et 3 pistes d’action.</p>
       <div class="ctas"><a class="btn btn-primary" href="auto-diagnostic-channel.html">Faire l’auto-diagnostic {ARR}</a></div></div>
   </div>
 </section>
@@ -799,7 +799,7 @@ AUTODIAG_CH = (AUTODIAG
   "Un partenaire qui vend aujourd’hui n’est pas forcément celui qui fera votre croissance demain. Cet auto-diagnostic évalue ses résultats, ses compétences, sa qualité de service, son engagement et sa capacité à faire évoluer son modèle.",
   f'<span class="pill ch"><span class="ico ch">{I_NET}</span>Auto-diagnostic · Channel Performance</span>').replace('class="page-hero"', 'class="page-hero compact"', 1))
   .replace("Pensez à <b>un client important</b> de votre portefeuille.", "Pensez à <b>un partenaire</b> de votre réseau.")
-  .replace("Répondez à <b>10 questions</b> (2 minutes)", "Répondez à <b>10 questions</b> (3 minutes)")
+  .replace("Répondez à <b>10 questions</b> (2 minutes)", "Répondez à <b>10 questions</b> (2 minutes)")
   .replace("un <b>score de solidité de la relation</b>", "un <b>score de performance du partenaire</b>")
   .replace("0 / 10 questions", "0 / 10 questions")
   .replace("Cochez ce que vous constatez aujourd'hui chez ce client", "Cochez ce que vous constatez aujourd'hui chez ce partenaire")
@@ -820,7 +820,7 @@ PAGES = [
     ("realisations.html", "realisations", "Nos réalisations · Xpansio", "Des situations réelles en Channel et Customer Performance : contexte, démarche, réalisations et enseignements.", REALISATIONS_PAGE),
 ] + [(r["slug"], "realisations", r["title"] + " · Xpansio", r["ctx"], real_page(r)) for r in REAL] + [
     ("auto-diagnostic.html", "autodiag", "Auto-diagnostic : êtes-vous certain que ce client va renouveler ? · Xpansio", "10 questions, 2 minutes : évaluez la solidité de la relation avec l’un de vos clients clés et repérez les signaux de risque avant l’échéance du contrat.", AUTODIAG),
-    ("auto-diagnostic-channel.html", "autodiag-ch", "Auto-diagnostic : ce partenaire est-il vraiment un partenaire performant pour votre réseau ? · Xpansio", "10 questions, 3 minutes : évaluez la performance de l’un de vos partenaires (résultats, compétences, qualité de service, engagement, transformation) et repérez les signaux d’alerte.", AUTODIAG_CH),
+    ("auto-diagnostic-channel.html", "autodiag-ch", "Auto-diagnostic : ce partenaire est-il vraiment un partenaire performant pour votre réseau ? · Xpansio", "10 questions, 2 minutes : évaluez la performance de l’un de vos partenaires (résultats, compétences, qualité de service, engagement, transformation) et repérez les signaux d’alerte.", AUTODIAG_CH),
     ("contact.html", "contact", "Contact · Xpansio", "Contacter Xpansio pour un premier échange.", CONTACT),
     ("mentions-legales.html", "legal", "Mentions légales · Xpansio", "Mentions légales du site Xpansio.", LEGAL),
 ]
