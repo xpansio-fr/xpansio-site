@@ -231,6 +231,7 @@
     document.getElementById("gauge").style.background="conic-gradient("+col+" "+(score*3.6)+"deg, var(--line) 0)";
     var st=document.getElementById("status"); st.textContent=status; st.style.background=col;
     document.getElementById("statusText").textContent=txt;
+    if(poids===3) prio+=" Mesurez son poids dans votre chiffre d'affaires indirect pour prioriser votre accompagnement.";
     document.getElementById("priority").textContent=prio;
 
     var ab=document.getElementById("alertBox");
@@ -295,8 +296,18 @@
     // Offre concurrente + rencontre avec la direction : une seule piste, qui intègre le plan de redressement (profils 7 et 9).
     var fusion = place===0 && directionNeeded && (perfProfil==="7" || perfProfil==="9") && !has("a1");
     if(fusion){ A.fid = A.fid + " Bâtissez ensemble un plan de redressement."; perfPrio=false; }
+    // Résultats insuffisants : la place de votre marque chez lui et son poids chez vous nuancent la piste business (grille validée par Agnès).
+    if(perfPrio){
+      if(place>=2 && evolution<=1) A.perf += " Vous êtes sa marque principale : son recul est celui de toute son activité, et sa pérennité est en jeu. Il a besoin de votre appui : plan d'affaires, accompagnement commercial et technique, conditions adaptées.";
+      else if(place>=2) A.perf += " Vous êtes sa marque principale : soutenez cette progression, c'est son développement qui en dépend.";
+      else if(place===1) A.perf += " Vous êtes une marque parmi d'autres : ses résultats avec vous ne sont pas forcément sa priorité. C'est à vous de créer l'intérêt (marge, appui, offres ciblées), ou de réévaluer votre investissement.";
+      if(poids===0) A.perf += " Son poids limité chez vous invite à proportionner votre investissement : fixez-lui un plan de progrès simple, avec un point d'étape.";
+    }
+    // Il performe mais pèse peu chez vous : une piste business dédiée.
+    var PRENDRE_POIDS = (poids===0 && objectifs>=2 && evolution>=2) ? "<b>Lui faire prendre du poids chez vous.</b> Il performe, mais pèse encore peu dans votre activité : accompagnez-le pour qu'il grandisse avec vous (comptes cibles, élargissement de l'offre, actions marketing communes)." : null;
     var weak=function(id){ return dimScores[id]<TH_OK; };
     var B=[], Cq=[], E=[], O=[];
+    if(PRENDRE_POIDS) B.push(PRENDRE_POIDS);
     if(has("a1")) B.push(ALERT_ADVICE.a1);
     var fidAdv = (place===0 && !(has("a1") && directionNeeded)) || (place!==0 && weak("fid")) ? A.fid : null;
     if(fidAdv && fusion) fidAdv=A.fid;
@@ -320,7 +331,9 @@
     var top=[];
     function add(x){ if(x && top.length<3 && top.indexOf(x)<0) top.push(x); }
     // Partenaire qui pèse lourd chez vous (plus de 15 % du chiffre d'affaires indirect) : le sujet business devient critique.
-    if(B.length && poids===2) B[0]=B[0]+" <b>Ce partenaire pèse lourd dans votre chiffre d'affaires indirect : c'est votre priorité.</b>";
+    if(B.length && poids===2) B[0]=B[0]+(B[0]===A.perf
+      ? " <b>Il pèse lourd dans votre chiffre d'affaires indirect : ses difficultés touchent directement vos résultats. C'est votre priorité.</b>"
+      : " <b>Ce partenaire pèse lourd dans votre chiffre d'affaires indirect : c'est votre priorité.</b>");
     add(B[0]); add(Cq[0]); add(E[0]);
     B.slice(1).concat(Cq.slice(1), E.slice(1), O).forEach(add);
     if(status==="Partenaire solide"){ add(KEEP); if(perfProfil==="2"||perfProfil==="3") add(A.perf); if(compProfil==="1"||compProfil==="2a") add(A.comp); if(offProfil==="1"||offProfil==="2") add(A.off); if(engProfil==="1"||engProfil==="3a") add(A.eng); GOOD.forEach(add); }
