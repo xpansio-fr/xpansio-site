@@ -145,6 +145,12 @@
     else if(score>=TH_OK){ status="Sain"; col="var(--ok)"; txt="La relation est solide. Restez attentif, et profitez-en pour développer le compte."; }
     else if(score>=TH_WARN){ status="À surveiller"; col="var(--warn)"; txt="Des fragilités apparaissent. Elles peuvent se transformer en risque si elles ne sont pas traitées."; }
     else { status="À risque"; col="var(--risk)"; txt="Plusieurs dimensions de la relation sont dégradées. Le renouvellement n'est pas acquis."; }
+    // Une dimension clé dans le rouge (adoption, irritants ou relation) = risque, quel que soit le score global.
+    var rougesCles=["sol","irr","rel"].filter(function(id){ return dimScores[id]!==undefined && Math.round(dimScores[id])<TH_WARN; });
+    if(status!=="À risque" && rougesCles.length){
+      status="À risque"; col="var(--risk)";
+      txt="Au moins une dimension clé (adoption, irritants ou relation) est dans le rouge : même si le reste va bien, le renouvellement n'est pas acquis.";
+    }
 
     var prio="";
     if(status==="À risque" && term===0) prio="Priorité : urgente, l'échéance approche.";
@@ -174,8 +180,17 @@
     DIMS.filter(function(d){return dimScores[d.id]!==undefined && dimScores[d.id]<TH_OK;})
         .sort(function(a,b){return (100-dimScores[b.id])*b.w-(100-dimScores[a.id])*a.w;})
         .forEach(function(d){adv.push(ADVICE[d.id]);});
-    if(adv.length<3) adv.push(KEEP);
-    GOOD.forEach(function(g){ if(adv.length<3) adv.push(g); });
+    if(status==="Sain"){
+      // Client sain : consolider, puis conseils de suivi
+      if(adv.length<3) adv.push(KEEP);
+      GOOD.forEach(function(g){ if(adv.length<3) adv.push(g); });
+    } else {
+      // Client à surveiller ou à risque : jamais de message « en bonne santé ». On complète avec les dimensions les moins bonnes, puis le rituel de suivi.
+      DIMS.filter(function(d){return dimScores[d.id]!==undefined && dimScores[d.id]>=TH_OK;})
+          .sort(function(a,b){return (100-dimScores[b.id])*b.w-(100-dimScores[a.id])*a.w;})
+          .forEach(function(d){ if(adv.length<3) adv.push(ADVICE[d.id]); });
+      if(adv.length<3) adv.push(GOOD[0]);
+    }
     // Retards (incidents lents ou qui traînent, demandes traitées avec retard ou pire) : le conseil sur les irritants figure toujours dans les 3.
     // Il remplace le conseil sur l'engagement s'il y en a un, sinon le dernier conseil qui ne répond pas à une alerte.
     var top=adv.slice(0,3), inc=opt(3), adm=opt(4);
