@@ -780,19 +780,19 @@ AUTODIAG_CH = (AUTODIAG
   "Un partenaire qui vend aujourd’hui n’est pas forcément celui qui fera votre croissance demain. Cet auto-diagnostic évalue ses résultats, ses compétences, sa qualité de service, son engagement et sa capacité à faire évoluer son modèle.",
   f'<span class="pill ch"><span class="ico ch">{I_NET}</span>Auto-diagnostic · Channel Performance</span>').replace('class="page-hero"', 'class="page-hero compact"', 1))
   .replace("Pensez à <b>un client important</b> de votre portefeuille.", "Pensez à <b>un partenaire</b> de votre réseau.")
-  .replace("Répondez à <b>10 questions</b> (2 minutes)", "Répondez à <b>11 questions</b> (3 minutes)")
+  .replace("Répondez à <b>10 questions</b> (2 minutes)", "Répondez à <b>10 questions</b> (3 minutes)")
   .replace("un <b>score de solidité de la relation</b>", "un <b>score de performance du partenaire</b>")
-  .replace("0 / 10 questions", "0 / 11 questions")
+  .replace("0 / 10 questions", "0 / 10 questions")
   .replace("Cochez ce que vous constatez aujourd'hui chez ce client", "Cochez ce que vous constatez aujourd'hui chez ce partenaire")
   .replace("<h2>Échéance du contrat</h2>", "<h2>Poids du partenaire</h2>")
   .replace("Dans combien de temps arrive la fin du contrat principal ou son renouvellement&nbsp;?", "Quelle part de votre chiffre d'affaires indirect représente-t-il&nbsp;?")
-  .replace("Répondez aux 10 questions", "Répondez aux 11 questions")
+  .replace("Répondez aux 10 questions", "Répondez aux 10 questions")
   .replace("Allons plus loin sur l'ensemble de votre portefeuille", "Allons plus loin sur l'ensemble de votre réseau")
   .replace("Ce diagnostic porte sur un seul client et 10 critères. La version complète en compte plus de 30, avec des signaux d'alerte, un calibrage adapté à votre activité et un tableau de bord de tout votre portefeuille, avec le chiffre d'affaires à risque.",
-           "Ce diagnostic porte sur un seul partenaire et 11 critères. Un audit complet de performance partenaire va plus loin : une grille détaillée et pondérée selon vos priorités, la comparaison avec la moyenne du réseau et un plan d'action construit avec chaque partenaire.")
+           "Ce diagnostic porte sur un seul partenaire et 10 critères. Un audit complet de performance partenaire va plus loin : une grille détaillée et pondérée selon vos priorités, la comparaison avec la moyenne du réseau et un plan d'action construit avec chaque partenaire.")
   .replace("contact.html?sujet=customer-performance", "contact.html?sujet=channel-performance")
   .replace("Évaluer un autre client", "Évaluer un autre partenaire"))
-assert AUTODIAG_CH.count("Channel Performance") >= 2 and "11 questions" in AUTODIAG_CH and "channel-performance" in AUTODIAG_CH
+assert AUTODIAG_CH.count("Channel Performance") >= 2 and "10 questions" in AUTODIAG_CH and "channel-performance" in AUTODIAG_CH
 
 PAGES = [
     ("index.html", "home", "Xpansio", "Xpansio, conseil en performance Channel & Customer pour les constructeurs, éditeurs, distributeurs et revendeurs IT : réseaux de partenaires et valeur du portefeuille clients.", HOME),
@@ -801,7 +801,7 @@ PAGES = [
     ("realisations.html", "realisations", "Nos réalisations · Xpansio", "Des situations réelles en Channel et Customer Performance : contexte, démarche, réalisations et enseignements.", REALISATIONS_PAGE),
 ] + [(r["slug"], "realisations", r["title"] + " · Xpansio", r["ctx"], real_page(r)) for r in REAL] + [
     ("auto-diagnostic.html", "autodiag", "Auto-diagnostic : êtes-vous certain que ce client va renouveler ? · Xpansio", "10 questions, 2 minutes : évaluez la solidité de la relation avec l’un de vos clients clés et repérez les signaux de risque avant l’échéance du contrat.", AUTODIAG),
-    ("auto-diagnostic-channel.html", "autodiag-ch", "Auto-diagnostic : ce partenaire est-il vraiment un partenaire de croissance ? · Xpansio", "11 questions, 3 minutes : évaluez la performance de l’un de vos partenaires (résultats, compétences, qualité de service, engagement, transformation) et repérez les signaux d’alerte.", AUTODIAG_CH),
+    ("auto-diagnostic-channel.html", "autodiag-ch", "Auto-diagnostic : ce partenaire est-il vraiment un partenaire de croissance ? · Xpansio", "10 questions, 3 minutes : évaluez la performance de l’un de vos partenaires (résultats, compétences, qualité de service, engagement, transformation) et repérez les signaux d’alerte.", AUTODIAG_CH),
     ("contact.html", "contact", "Contact · Xpansio", "Contacter Xpansio pour un premier échange.", CONTACT),
     ("mentions-legales.html", "legal", "Mentions légales · Xpansio", "Mentions légales du site Xpansio.", LEGAL),
 ]

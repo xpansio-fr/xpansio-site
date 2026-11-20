@@ -1,14 +1,13 @@
 /* Auto-diagnostic Channel « Ce partenaire est-il vraiment un partenaire de croissance ? » : version courte (10 questions) d'un audit de performance partenaire.
-   Même fonctionnement que autodiag.js (Customer) : 6 dimensions pondérées, signaux d'alerte, 3 pistes d'action. */
+   Même fonctionnement que autodiag.js (Customer) : 5 dimensions pondérées, signaux d'alerte, 3 pistes d'action. */
 (function(){
   /* ---------- Modèle ---------- */
   var DIMS = [
-    {id:"perf", name:"Performance commerciale", w:25},
+    {id:"perf", name:"Performance commerciale", w:30},
     {id:"comp", name:"Compétences & qualité de service", w:25},
-    {id:"cli",  name:"Base installée & clients", w:15},
-    {id:"off",  name:"Offre & transformation", w:15},
-    {id:"eng",  name:"Engagement & coopération", w:10},
-    {id:"fid",  name:"Fidélité", w:10}
+    {id:"off",  name:"Offre & transformation", w:20},
+    {id:"eng",  name:"Engagement & coopération", w:15},
+    {id:"fid",  name:"Votre place dans son activité", w:10}
   ];
   // Échelle unique : 0 = mauvais, 2 = insuffisant, 4 = bon, 5 = excellent. c = coefficient.
   // Les questions « comp » et « cli » reprennent les domaines de l'audit qualité de services d'Agnès.
@@ -23,17 +22,15 @@
      o:["Peu organisé, escalades fréquentes vers vous","Inégal, délais variables","Organisé, délais respectés","Structuré et mesuré, clients très satisfaits"]},
     {d:"comp", c:1, t:"Supervise-t-il à distance la base installée (prise en main à distance, mises à jour) ?",
      o:["Non","Ponctuellement","Régulièrement","Systématiquement, maintenance proactive"]},
-    {d:"cli",  c:3, t:"Connaît-il sa base installée et suit-il les renouvellements de ses clients ?",
-     o:["Base mal connue, pas de suivi des échéances","Connaissance partielle, renouvellements tardifs","Base à jour, échéances suivies","Base complète, satisfaction mesurée, renouvellements anticipés"]},
     {d:"off",  c:2, t:"Quelle part de votre catalogue vend-il et sait-il maintenir ?",
      o:["Un ou deux produits","Une gamme principale","Plusieurs gammes, avec les services","Tout le catalogue, services compris"]},
-    {d:"off",  c:2, t:"Fait-il évoluer son modèle vers l'abonnement et les revenus récurrents ?",
-     o:["Vente ponctuelle uniquement","Premiers contrats récurrents","Part récurrente significative","Modèle récurrent installé, Customer Success chez ses grands comptes"]},
-    {d:"eng",  c:2, t:"Participe-t-il à votre programme partenaires et à vos événements ?",
+    {d:"off",  c:2, t:"Est-il dans une démarche d'amélioration continue, de transformation de son business et de développement de son activité ?",
+     o:["Non, pas vraiment : modèle très traditionnel","Ponctuellement, lorsque c'est nécessaire","Il est au fait des dernières tendances (abonnement, IA)","Il est précurseur dans l'adoption de nouvelles pratiques, pour se développer"]},
+    {d:"eng",  c:2, t:"Participe-t-il à vos programmes et événements (témoignages clients, remontée de bonnes pratiques, suggestions d'amélioration…) ?",
      o:["Rarement ou jamais","De temps en temps","Régulièrement","Activement, il y contribue"]},
     {d:"eng",  c:1, t:"Partage-t-il les informations et respecte-t-il vos procédures (prévisions, opportunités, outils) ?",
      o:["Rarement, il faut relancer","Partiellement","Oui, de façon fiable","Oui, et il propose des améliorations"]},
-    {d:"fid",  c:2, t:"Quelle place occupez-vous dans ses achats ?",
+    {d:"fid",  c:2, t:"Êtes-vous incontournable pour lui ?",
      o:["Il vend surtout une offre concurrente","Il vend aussi une offre concurrente, ou des produits compatibles","Fournisseur principal, produits d'origine","Fournisseur exclusif, 100 % d'origine"]}
   ];
   var SCORES=[0,2,4,5];
@@ -49,8 +46,7 @@
   var ADVICE={
     perf:"<b>Construire un plan d'affaires commun.</b> Revoyez avec lui ses objectifs, son potentiel et ce qui le freine (ressources, ciblage, offre), puis fixez ensemble 3 ou 4 actions suivies chaque trimestre : comptes cibles, campagnes, appui avant-vente.",
     comp:"<b>Renforcer les compétences et la qualité de service.</b> Faites le point sur les formations et certifications de ses équipes, sur l'organisation de son support et sur la supervision à distance de la base installée, avec une grille d'audit partagée. Pour le client final, la qualité du service du partenaire, c'est la qualité de votre marque.",
-    cli:"<b>Sécuriser sa base installée.</b> Aidez-le à compléter la fiche d'identité de sa base installée, à suivre les échéances de contrats, à mesurer la satisfaction de ses clients et à préparer les renouvellements à l'avance. Les clients qu'il perd sont aussi les vôtres.",
-    off:"<b>Élargir l'offre et accompagner la transformation.</b> Repérez les gammes et services qu'il ne vend pas encore, et accompagnez son passage vers l'abonnement et les revenus récurrents : formation, outils, premiers cas clients, démarche de Customer Success chez ses grands comptes.",
+    off:"<b>Élargir l'offre et accompagner la transformation.</b> Repérez les gammes et services qu'il ne vend pas encore, et aidez-le à faire évoluer son modèle : abonnement, revenus récurrents, nouveaux usages comme l'IA. Partagez avec lui les pratiques des partenaires les plus avancés du réseau.",
     eng:"<b>Réengager le partenaire.</b> Comprenez ce qui freine sa participation : programme peu adapté à sa taille, manque de temps, sentiment de ne pas être écouté. Associez-le à un club, un pilote ou un groupe de travail, et simplifiez les informations que vous lui demandez.",
     fid:"<b>Renforcer votre place dans son activité.</b> Comprenez pourquoi il vend aussi une offre concurrente ou s'approvisionne ailleurs : marge, disponibilité, prix, relation. Rendez votre offre et votre programme plus attractifs que l'alternative, plutôt que de sanctionner."
   };
@@ -121,7 +117,7 @@
     function rouge(id){ dimScores[id]=Math.min(dimScores[id],TH_WARN-1); }
     if(opt(0)===0) rouge("perf");   // loin des objectifs
     if(opt(3)===0) rouge("comp");   // plaintes ou escalades fréquentes
-    if(opt(10)===0) rouge("fid");   // vend surtout une offre concurrente
+    if(opt(9)===0) rouge("fid");    // vend surtout une offre concurrente
 
     var gNum=0,gDen=0;
     DIMS.forEach(function(d){ gNum+=dimScores[d.id]*d.w; gDen+=d.w; });
@@ -135,11 +131,11 @@
     else if(score>=TH_OK){ status="Partenaire solide"; col="var(--ok)"; txt="Ce partenaire contribue réellement à votre croissance. Restez attentif, et construisez la suite avec lui."; }
     else if(score>=TH_WARN){ status="À accompagner"; col="var(--warn)"; txt="Des fragilités apparaissent. Un plan de progrès partagé peut faire de ce partenaire un vrai relais de croissance."; }
     else { status="À risque"; col="var(--risk)"; txt="Plusieurs dimensions du partenariat sont dégradées. Sa contribution à votre croissance n'est pas acquise."; }
-    // Une dimension clé dans le rouge (performance, compétences & service, base installée) = risque, quel que soit le score global.
-    var rougesCles=["perf","comp","cli"].filter(function(id){ return Math.round(dimScores[id])<TH_WARN; });
+    // Une dimension clé dans le rouge (performance commerciale, compétences & qualité de service) = risque, quel que soit le score global.
+    var rougesCles=["perf","comp"].filter(function(id){ return Math.round(dimScores[id])<TH_WARN; });
     if(status!=="À risque" && rougesCles.length){
       status="À risque"; col="var(--risk)";
-      txt="Au moins une dimension clé (performance commerciale, compétences et qualité de service, ou base installée) est dans le rouge : même si le reste va bien, le partenariat est fragile.";
+      txt="La performance commerciale ou la qualité de service est dans le rouge : même si le reste va bien, le partenariat est fragile.";
     }
 
     var prio;
