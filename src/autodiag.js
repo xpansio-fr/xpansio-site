@@ -1,4 +1,4 @@
-/* Auto-diagnostic « Êtes-vous certain que ce client va renouveler ? » : version courte (9 questions) du fichier _sources/auto-diagnostic-sante-client.html : questions 5, 8 et 11 et alerte « décideur insatisfait » retirées à la demande d’Agnès ; calcul et conseils inchangés. */
+/* Auto-diagnostic « Êtes-vous certain que ce client va renouveler ? » : version courte (10 questions) du fichier _sources/auto-diagnostic-sante-client.html : questions 5 et 8 et alerte « décideur insatisfait » retirées à la demande d’Agnès ; calcul et conseils inchangés. */
 (function(){
   /* ---------- Modèle (version courte du Health Score Xpansio) ---------- */
   var DIMS = [
@@ -26,6 +26,8 @@
      o:["Aucun contact en dehors du décideur","D'autres contacts, mais neutres","Un soutien","Plusieurs soutiens à différents niveaux"]},
     {d:"val", c:3, t:"Ses objectifs (ceux qui ont motivé l'achat) sont-ils atteints ?",
      o:["Non, il est déçu","Partiellement","Oui","Dépassés"], na:"Aucun objectif n'a été défini"},
+    {d:"val", c:2, t:"Quand avez-vous fait le point avec lui sur la valeur apportée (revue de compte) ?",
+     o:["Jamais","Il y a plus de 6 mois","Dans les 6 derniers mois","Ce trimestre, chiffres à l'appui"]},
     {d:"eng", c:2, t:"Accepterait-il de vous recommander ?",
      o:["Non","Il accepterait d'être cité","Témoignage écrit ou vidéo","Il interviendrait lors d'un événement"]}
   ];

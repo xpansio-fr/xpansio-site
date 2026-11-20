@@ -617,7 +617,7 @@ CLIENT = f'''
     <p class="note">Ces dimensions sont des exemples, pas une méthodologie universelle : les critères sont adaptés à vos enjeux, à vos données et à votre modèle économique.</p>
     <div class="ask cl">
       <p class="q-t">Êtes-vous certain que vos clients vont renouveler ? Faites le test en 5 minutes</p>
-      <p>9 questions sur l’un de vos clients : un score de solidité, vos signaux d’alerte et 3 pistes d’action.</p>
+      <p>10 questions sur l’un de vos clients : un score de solidité, vos signaux d’alerte et 3 pistes d’action.</p>
       <div class="ctas"><a class="btn btn-primary" href="auto-diagnostic.html">Faire l’auto-diagnostic {ARR}</a></div>
     </div>
   </div>
@@ -705,13 +705,13 @@ AUTODIAG = f'''
 <div id="auto-diagnostic">
   <ul class="how">
     <li><b>1.</b> Pensez à <b>un client important</b> de votre portefeuille.</li>
-    <li><b>2.</b> Répondez à <b>9 questions</b> (5 minutes), le plus honnêtement possible.</li>
+    <li><b>2.</b> Répondez à <b>10 questions</b> (5 minutes), le plus honnêtement possible.</li>
     <li><b>3.</b> Obtenez un <b>score de solidité de la relation</b>, vos signaux d'alerte et <b>3 pistes d'action</b>.</li>
   </ul>
 
 <div class="progress" aria-hidden="true">
   <div class="bar"><span id="pbar"></span></div>
-  <small id="ptext">0 / 9 questions</small>
+  <small id="ptext">0 / 10 questions</small>
 </div>
 
 <form id="diag" novalidate>
@@ -732,7 +732,7 @@ AUTODIAG = f'''
 
   <div class="center">
     <button type="submit" class="btn" id="go" disabled>Voir mon résultat</button>
-    <p class="hint" id="hint">Répondez aux 9 questions pour obtenir votre résultat.</p>
+    <p class="hint" id="hint">Répondez aux 10 questions pour obtenir votre résultat.</p>
   </div>
 </form>
 
@@ -758,7 +758,7 @@ AUTODIAG = f'''
 
   <div class="cta">
     <h2>Allons plus loin sur l'ensemble de votre portefeuille</h2>
-    <p>Ce diagnostic porte sur un seul client et 9 critères. La version complète en compte plus de 30, avec des signaux d'alerte, un calibrage adapté à votre activité et un tableau de bord de tout votre portefeuille, avec le chiffre d'affaires à risque. Je vous propose un débrief de 30 minutes, offert et sans engagement, pour lire vos résultats ensemble.</p>
+    <p>Ce diagnostic porte sur un seul client et 10 critères. La version complète en compte plus de 30, avec des signaux d'alerte, un calibrage adapté à votre activité et un tableau de bord de tout votre portefeuille, avec le chiffre d'affaires à risque. Je vous propose un débrief de 30 minutes, offert et sans engagement, pour lire vos résultats ensemble.</p>
     <a class="btn" href="contact.html?sujet=customer-performance">Réserver mon débrief offert</a>
     <button type="button" class="btn secondary" id="again">Évaluer un autre client</button>
   </div>
@@ -776,7 +776,7 @@ PAGES = [
     ("experience-client.html", "client", "Customer Performance · Xpansio", "Écoute et satisfaction, expérience client, fidélisation et Customer Success, développement du capital client : l’expertise Customer Performance d’Xpansio.", CLIENT),
     ("realisations.html", "realisations", "Nos réalisations · Xpansio", "Des situations réelles en Channel et Customer Performance : contexte, démarche, réalisations et enseignements.", REALISATIONS_PAGE),
 ] + [(r["slug"], "realisations", r["title"] + " · Xpansio", r["ctx"], real_page(r)) for r in REAL] + [
-    ("auto-diagnostic.html", "autodiag", "Auto-diagnostic : êtes-vous certain que ce client va renouveler ? · Xpansio", "9 questions, 5 minutes : évaluez la solidité de la relation avec l’un de vos clients clés et repérez les signaux de risque avant l’échéance du contrat.", AUTODIAG),
+    ("auto-diagnostic.html", "autodiag", "Auto-diagnostic : êtes-vous certain que ce client va renouveler ? · Xpansio", "10 questions, 5 minutes : évaluez la solidité de la relation avec l’un de vos clients clés et repérez les signaux de risque avant l’échéance du contrat.", AUTODIAG),
     ("contact.html", "contact", "Contact · Xpansio", "Contacter Xpansio pour un premier échange.", CONTACT),
     ("mentions-legales.html", "legal", "Mentions légales · Xpansio", "Mentions légales du site Xpansio.", LEGAL),
 ]
