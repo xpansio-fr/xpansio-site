@@ -11,7 +11,7 @@
   // Échelle unique : 0 = mauvais, 2 = insuffisant, 4 = bon, 5 = excellent. c = coefficient.
   var Q = [
     {d:"sol", c:3, t:"Ce client utilise-t-il vraiment les solutions et services qu'il a achetés ?",
-     o:["Très peu ou pas du tout","Une minorité des utilisateurs concernés","La plupart des utilisateurs potentiels","Intensivement, c'est critique pour lui"]},
+     o:["Très peu ou pas du tout","Une minorité d'utilisateurs concernés l'utilisent","La plupart des utilisateurs potentiels l'utilisent","Intensivement, c'est critique pour lui"]},
     {d:"sol", c:3, t:"Est-il satisfait des solutions et services en place ?",
      o:["Très insatisfait","Moyennement satisfait","Satisfait","Très satisfait"]},
     {d:"sol", c:2, t:"Quelle part de ses besoins IT vous confie-t-il ?",
@@ -43,7 +43,7 @@
 
   var ADVICE={
     sol:"<b>Relancer l'adoption.</b> Organisez une session de prise en main avec les utilisateurs clés, partagez les bonnes pratiques et mesurez l'usage réel. Un client qui n'utilise pas ce qu'il paie ne renouvelle pas.",
-    irr:"<b>Traiter les irritants en priorité.</b> Faites le point sur les tickets et demandes en cours, nommez un responsable de leur résolution et informez le client de l'avancement. Un irritant non traité efface vite tous les efforts commerciaux.",
+    irr:"<b>Traiter les causes des retards.</b> Analysez en interne, voire avec le client, les raisons des retards de réponse ou de résolution, puis agissez pour faciliter le traitement : circuit simplifié, interlocuteur identifié, suivi de l'avancement partagé avec le client. Si ce client est important et à potentiel, envisagez de lui dédier un Customer Success Manager.",
     rel:"<b>Élargir et réchauffer la relation.</b> Planifiez un échange avec le décideur centré sur ses enjeux, pas sur vos offres, et identifiez un second soutien (direction, DSI, métiers) pour ne pas dépendre d'un seul interlocuteur.",
     val:"<b>Rendre la valeur visible.</b> Préparez une revue de compte avec des indicateurs concrets : gains, disponibilité, incidents évités, projets livrés. Un client ne valorise que ce qu'on lui montre.",
     eng:"<b>Renforcer l'implication du client.</b> Associez-le davantage : enquête de satisfaction, invitation à un événement, puis, une fois la relation consolidée, proposition de témoignage. Un client impliqué est un client attaché."
@@ -176,7 +176,16 @@
         .forEach(function(d){adv.push(ADVICE[d.id]);});
     if(adv.length<3) adv.push(KEEP);
     GOOD.forEach(function(g){ if(adv.length<3) adv.push(g); });
-    document.getElementById("advice").innerHTML=adv.slice(0,3).map(function(a){return "<li>"+a+"</li>";}).join("");
+    // Retards (incidents lents ou qui traînent, demandes traitées avec retard ou pire) : le conseil sur les irritants figure toujours dans les 3.
+    // Il remplace le conseil sur l'engagement s'il y en a un, sinon le dernier conseil qui ne répond pas à une alerte.
+    var top=adv.slice(0,3), inc=opt(3), adm=opt(4);
+    var retards=(inc!==null && inc<=1) || (adm!==null && adm<=1);
+    if(retards && top.indexOf(ADVICE.irr)<0){
+      var k=top.indexOf(ADVICE.eng);
+      if(k<0){ k=2; for(var m=2;m>=0;m--){ var isAlert=false; alerts.forEach(function(a){ if(ALERT_ADVICE[a.id]===top[m]) isAlert=true; }); if(!isAlert){ k=m; break; } } }
+      top[k]=ADVICE.irr;
+    }
+    document.getElementById("advice").innerHTML=top.map(function(a){return "<li>"+a+"</li>";}).join("");
 
     form.style.display="none";
     document.querySelector(".progress").style.display="none";
