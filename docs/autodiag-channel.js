@@ -42,6 +42,7 @@
   ];
   var TERMS=["Moins de 5 %","5 à 15 %","Plus de 15 %","Je ne sais pas"];
   var TH_OK=70, TH_WARN=50;
+  var TH_SOLIDE=65;   // statut global « Partenaire solide » à partir de 65 (les couleurs des dimensions restent : vert ≥ 70, orange 50 à 69)
 
   var ADVICE={
     perf:"<b>Construire un plan d'affaires commun.</b> Revoyez avec lui ses objectifs, son potentiel et ce qui le freine (ressources, ciblage, offre), puis fixez ensemble 3 ou 4 actions suivies chaque trimestre : comptes cibles, campagnes, appui avant-vente.",
@@ -123,10 +124,10 @@
     }
     var objectifs=opt(0), evolution=opt(1), catalogue=opt(5), transfo=opt(6), place=opt(9);
     // Performance commerciale : loin des objectifs = rouge, même avec une forte croissance.
-    // Objectifs atteints ou dépassés : vert si l'activité est en croissance, orange si elle est stable ou en recul.
+    // Objectifs atteints ou dépassés : vert si l'activité est stable ou en croissance, orange si elle recule.
     // Objectifs partiellement atteints : orange, sauf en recul (le calcul habituel s'applique).
     if(objectifs===0) band("perf","rouge");
-    else if(objectifs>=2) band("perf", evolution>=2 ? "vert" : "orange");
+    else if(objectifs>=2) band("perf", evolution>=1 ? "vert" : "orange");
     else if(evolution>=1) band("perf","orange");
     // Compétences & qualité de service : plaintes ou escalades fréquentes = rouge.
     if(opt(3)===0) band("comp","rouge");
@@ -155,7 +156,7 @@
        Alertes « clients mécontents » (a2) et « personnes clés / actionnaire » (a3) = au moins À accompagner (orange). */
     var RISK="var(--risk)", WARN="var(--warn)", OK="var(--ok)";
     var status,txt,col;
-    if(score>=TH_OK){ status="Partenaire solide"; col=OK; txt="Ce partenaire contribue réellement à votre croissance. Restez attentif, et construisez la suite avec lui."; }
+    if(score>=TH_SOLIDE){ status="Partenaire solide"; col=OK; txt="Ce partenaire contribue réellement à votre croissance. Restez attentif, et construisez la suite avec lui."; }
     else if(score>=TH_WARN){ status="À accompagner"; col=WARN; txt="Des fragilités apparaissent. Un plan de progrès partagé peut faire de ce partenaire un vrai relais de croissance."; }
     else { status="À risque"; col=RISK; txt="Plusieurs dimensions du partenariat sont dégradées. Sa contribution à votre croissance n'est pas acquise."; }
     // Une dimension clé dans le rouge (performance commerciale, compétences & qualité de service) = risque, quel que soit le score global.
@@ -217,22 +218,34 @@
     // Dans chaque thème, l'alerte correspondante passe avant le conseil de la dimension.
     // On retient d'abord la première piste de chaque thème (1, puis 2, puis 3), puis on complète dans le même ordre.
     function byGap(a,b){ return (100-dimScores[b.id])*b.w-(100-dimScores[a.id])*a.w; }
-    if(transfo===0) ADVICE.off="<b>Accompagner la transformation de son modèle.</b> Son modèle reste très traditionnel : s'il ne s'adapte pas, son activité est à risque. Aidez-le à faire évoluer son offre et ses pratiques (services, abonnement, revenus récurrents, nouveaux usages comme l'IA), en vous appuyant sur l'exemple des partenaires les plus avancés du réseau.";
-    if(place===0) ADVICE.fid = directionNeeded
+    // Les conseils sont construits pour CE diagnostic (copie locale) : rien ne se transmet d'une évaluation à la suivante.
+    var A={}; for(var key in ADVICE) A[key]=ADVICE[key];
+    if(transfo===0) A.off="<b>Accompagner la transformation de son modèle.</b> Son modèle reste très traditionnel : s'il ne s'adapte pas, son activité est à risque. Aidez-le à faire évoluer son offre et ses pratiques (services, abonnement, revenus récurrents, nouveaux usages comme l'IA), en vous appuyant sur l'exemple des partenaires les plus avancés du réseau.";
+    if(place===0) A.fid = directionNeeded
       ? "<b>Rencontrer sa direction sur l'offre concurrente.</b> Il vend surtout une autre marque et son activité avec vous stagne ou recule"+(objectifs>=2?", même si ses objectifs sont atteints":"")+" : échangez avec sa direction sur ses objectifs et sur sa motivation réelle vis-à-vis de votre offre et de l'offre concurrente, pour statuer ensemble sur la suite du partenariat."
       : "<b>Gagner progressivement du terrain chez lui.</b> Il vend surtout une autre marque mais suit son plan de route avec vous : avec votre équipe commerciale, retravaillez vos actions (comptes cibles, argumentaires, offres ciblées, appui avant-vente) pour prendre petit à petit plus de place dans son activité et faire reculer l'offre concurrente.";
+    else if(place===1) A.fid="<b>Comprendre la place de l'autre marque chez lui.</b> Il vend aussi une offre concurrente. Échangez avec sa direction, dans un esprit de partenariat, sur les raisons pour lesquelles il conserve cette marque (prix, marge, attentes de ses clients, disponibilité, habitudes) et sur ce que vous pourriez faire ensemble pour reprendre progressivement ce business : offres ciblées, appui avant-vente, conditions adaptées.";
+    // Compétences & qualité de service : le conseil vise ce qui pèche vraiment (formation, organisation du support, supervision).
+    var cF=opt(2)<=1, cS=opt(3)<=1, cR=opt(4)<=1, cParts=[];
+    if(cS) cParts.push("revoyez avec lui l'organisation de son support client : effectifs de la hotline, suivi des demandes, délais de réponse et règles d'escalade, avec des indicateurs partagés");
+    if(cF) cParts.push("faites le point sur la formation et les certifications de ses équipes (commerciaux, ingénieurs, support)");
+    if(cR) cParts.push("aidez-le à mettre en place la supervision à distance de la base installée (prise en main, mises à jour, maintenance proactive)");
+    if(cParts.length){
+      var titre = cS && !cF && !cR ? "Fiabiliser son organisation du support." : (cF && !cS && !cR ? "Renforcer les compétences de ses équipes." : "Renforcer les compétences et la qualité de service.");
+      A.comp="<b>"+titre+"</b> "+cParts.join(" ; ").replace(/^./,function(c){return c.toUpperCase();})+". Pour le client final, la qualité du service du partenaire, c'est la qualité de votre marque.";
+    }
     var weak=function(id){ return dimScores[id]<TH_OK; };
     var B=[], Cq=[], E=[], O=[];
     if(has("a1")) B.push(ALERT_ADVICE.a1);
-    var fidAdv = (place===0 && !(has("a1") && directionNeeded)) || (place!==0 && weak("fid")) ? ADVICE.fid : null;
-    if(place===0){ if(fidAdv) B.push(fidAdv); if(weak("perf")) B.push(ADVICE.perf); }   // offre concurrente : c'est elle qui guide le business
-    else { if(weak("perf")) B.push(ADVICE.perf); if(fidAdv) B.push(fidAdv); }
+    var fidAdv = (place===0 && !(has("a1") && directionNeeded)) || (place!==0 && weak("fid")) ? A.fid : null;
+    if(place===0){ if(fidAdv) B.push(fidAdv); if(weak("perf")) B.push(A.perf); }   // offre concurrente : c'est elle qui guide le business
+    else { if(weak("perf")) B.push(A.perf); if(fidAdv) B.push(fidAdv); }
     if(has("a4")) B.push(ALERT_ADVICE.a4);
     if(has("a2")) Cq.push(ALERT_ADVICE.a2);
-    if(weak("comp")) Cq.push(ADVICE.comp);
+    if(weak("comp")) Cq.push(A.comp);
     if(has("a3")) E.push(ALERT_ADVICE.a3);
-    if(weak("eng")) E.push(ADVICE.eng);
-    if(weak("off")) O.push(ADVICE.off);
+    if(weak("eng")) E.push(A.eng);
+    if(weak("off")) O.push(A.off);
     var top=[];
     function add(x){ if(x && top.length<3 && top.indexOf(x)<0) top.push(x); }
     // Partenaire qui pèse lourd chez vous (plus de 15 % du chiffre d'affaires indirect) : le sujet business devient critique.
@@ -242,7 +255,7 @@
     if(status==="Partenaire solide"){ add(KEEP); GOOD.forEach(add); }
     else {
       add(GOOD[0]);
-      DIMS.filter(function(d){return !weak(d.id);}).sort(byGap).forEach(function(d){ add(ADVICE[d.id]); });
+      DIMS.filter(function(d){return !weak(d.id);}).sort(byGap).forEach(function(d){ add(A[d.id]); });
     }
     document.getElementById("advice").innerHTML=top.map(function(a){return "<li>"+a+"</li>";}).join("");
 
