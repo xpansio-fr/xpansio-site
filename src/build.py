@@ -123,8 +123,9 @@ SCRIPT = '''<script>
   }
   var f=document.querySelector('form.form');
   /* Arrivée depuis l'auto-diagnostic (contact.html?sujet=customer-performance) : sujet et message pré-remplis */
-  if(f&&/[?&]sujet=customer-performance(&|$)/.test(location.search)){
-    var sc=document.getElementById('s-cl'),fm=document.getElementById('f-msg');
+  var sujet=(location.search.match(/[?&]sujet=(customer|channel)-performance(&|$)/)||[])[1];
+  if(f&&sujet){
+    var sc=document.getElementById(sujet==='channel'?'s-ch':'s-cl'),fm=document.getElementById('f-msg');
     if(sc)sc.checked=true;
     if(fm&&!fm.value)fm.value="Je viens de faire l’auto-diagnostic et je souhaite un débrief.";
   }
@@ -153,8 +154,8 @@ def ver(f):
     return hashlib.md5(open(os.path.join(SRC, f), "rb").read()).hexdigest()[:8]
 
 # Feuilles de style et scripts propres à certaines pages
-PAGE_CSS = {"autodiag": ["autodiag.css"]}
-PAGE_JS = {"autodiag": ["autodiag.js"]}
+PAGE_CSS = {"autodiag": ["autodiag.css"], "autodiag-ch": ["autodiag.css"]}
+PAGE_JS = {"autodiag": ["autodiag.js"], "autodiag-ch": ["autodiag-channel.js"]}
 
 def page(key, title, desc, body, full=True, fn="index.html"):
     extra_css = ''.join(f'\n<link rel="stylesheet" href="{f}?v={ver(f)}">' for f in PAGE_CSS.get(key, []))
@@ -770,6 +771,29 @@ AUTODIAG = f'''
 </section>
 '''
 
+# Auto-diagnostic Channel (aperçu) : même mise en page que l'auto-diagnostic client, contenu propre au réseau de partenaires
+AUTODIAG_CH = (AUTODIAG
+  .replace(page_hero([("index.html","Accueil"),("experience-client.html","Customer Performance"),(None,"Auto-diagnostic")], "Êtes-vous certain que ce client va renouveler ?",
+  "Un client satisfait en apparence n’est pas forcément un client qui renouvelle. Cet auto-diagnostic vous aide à repérer les signaux faibles avant l’échéance du contrat.",
+  f'<span class="pill cl"><span class="ico cl">{I_USER}</span>Auto-diagnostic · Customer Performance</span>').replace('class="page-hero"', 'class="page-hero compact"', 1),
+   page_hero([("index.html","Accueil"),("experience-channel.html","Channel Performance"),(None,"Auto-diagnostic")], "Ce partenaire est-il vraiment un partenaire de croissance ?",
+  "Un partenaire qui vend aujourd’hui n’est pas forcément celui qui fera votre croissance demain. Cet auto-diagnostic évalue ses résultats, ses compétences, sa qualité de service, son engagement et sa capacité à faire évoluer son modèle.",
+  f'<span class="pill ch"><span class="ico ch">{I_NET}</span>Auto-diagnostic · Channel Performance</span>').replace('class="page-hero"', 'class="page-hero compact"', 1))
+  .replace("Pensez à <b>un client important</b> de votre portefeuille.", "Pensez à <b>un partenaire</b> de votre réseau.")
+  .replace("Répondez à <b>10 questions</b> (2 minutes)", "Répondez à <b>10 questions</b> (3 minutes)")
+  .replace("un <b>score de solidité de la relation</b>", "un <b>score de performance du partenaire</b>")
+  .replace("0 / 10 questions", "0 / 10 questions")
+  .replace("Cochez ce que vous constatez aujourd'hui chez ce client", "Cochez ce que vous constatez aujourd'hui chez ce partenaire")
+  .replace("<h2>Échéance du contrat</h2>", "<h2>Poids du partenaire</h2>")
+  .replace("Dans combien de temps arrive la fin du contrat principal ou son renouvellement&nbsp;?", "Quelle part de votre chiffre d'affaires indirect représente-t-il&nbsp;?")
+  .replace("Répondez aux 10 questions", "Répondez aux 10 questions")
+  .replace("Allons plus loin sur l'ensemble de votre portefeuille", "Allons plus loin sur l'ensemble de votre réseau")
+  .replace("Ce diagnostic porte sur un seul client et 10 critères. La version complète en compte plus de 30, avec des signaux d'alerte, un calibrage adapté à votre activité et un tableau de bord de tout votre portefeuille, avec le chiffre d'affaires à risque.",
+           "Ce diagnostic porte sur un seul partenaire et 10 critères. Un audit complet de performance partenaire va plus loin : une grille détaillée et pondérée selon vos priorités, la comparaison avec la moyenne du réseau et un plan d'action construit avec chaque partenaire.")
+  .replace("contact.html?sujet=customer-performance", "contact.html?sujet=channel-performance")
+  .replace("Évaluer un autre client", "Évaluer un autre partenaire"))
+assert AUTODIAG_CH.count("Channel Performance") >= 2 and "10 questions" in AUTODIAG_CH and "channel-performance" in AUTODIAG_CH
+
 PAGES = [
     ("index.html", "home", "Xpansio", "Xpansio, conseil en performance Channel & Customer pour les constructeurs, éditeurs, distributeurs et revendeurs IT : réseaux de partenaires et valeur du portefeuille clients.", HOME),
     ("experience-channel.html", "channel", "Channel Performance · Xpansio", "Stratégie de réseau, proposition de valeur et programmes partenaires, parcours et engagement des partenaires : l’expertise Channel Performance d’Xpansio.", CHANNEL),
@@ -777,6 +801,7 @@ PAGES = [
     ("realisations.html", "realisations", "Nos réalisations · Xpansio", "Des situations réelles en Channel et Customer Performance : contexte, démarche, réalisations et enseignements.", REALISATIONS_PAGE),
 ] + [(r["slug"], "realisations", r["title"] + " · Xpansio", r["ctx"], real_page(r)) for r in REAL] + [
     ("auto-diagnostic.html", "autodiag", "Auto-diagnostic : êtes-vous certain que ce client va renouveler ? · Xpansio", "10 questions, 2 minutes : évaluez la solidité de la relation avec l’un de vos clients clés et repérez les signaux de risque avant l’échéance du contrat.", AUTODIAG),
+    ("auto-diagnostic-channel.html", "autodiag-ch", "Auto-diagnostic : ce partenaire est-il vraiment un partenaire de croissance ? · Xpansio", "10 questions, 3 minutes : évaluez la performance de l’un de vos partenaires (résultats, compétences, qualité de service, engagement, transformation) et repérez les signaux d’alerte.", AUTODIAG_CH),
     ("contact.html", "contact", "Contact · Xpansio", "Contacter Xpansio pour un premier échange.", CONTACT),
     ("mentions-legales.html", "legal", "Mentions légales · Xpansio", "Mentions légales du site Xpansio.", LEGAL),
 ]
@@ -788,7 +813,7 @@ if __name__ == "__main__":
         d = os.path.join(ROOT, out)
         shutil.rmtree(d, ignore_errors=True)
         os.makedirs(os.path.join(d, "assets"))
-        for f in ["styles.css", "autodiag.css", "autodiag.js"]:
+        for f in ["styles.css", "autodiag.css", "autodiag.js", "autodiag-channel.js"]:
             shutil.copy(os.path.join(SRC, f), d)
         open(os.path.join(d, "assets", "parcours-client.svg"), "w").write(parcours.svg())
         for f in os.listdir(os.path.join(SRC, "assets")):

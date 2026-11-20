@@ -185,8 +185,9 @@
   }
   var f=document.querySelector('form.form');
   /* Arrivée depuis l'auto-diagnostic (contact.html?sujet=customer-performance) : sujet et message pré-remplis */
-  if(f&&/[?&]sujet=customer-performance(&|$)/.test(location.search)){
-    var sc=document.getElementById('s-cl'),fm=document.getElementById('f-msg');
+  var sujet=(location.search.match(/[?&]sujet=(customer|channel)-performance(&|$)/)||[])[1];
+  if(f&&sujet){
+    var sc=document.getElementById(sujet==='channel'?'s-ch':'s-cl'),fm=document.getElementById('f-msg');
     if(sc)sc.checked=true;
     if(fm&&!fm.value)fm.value="Je viens de faire l’auto-diagnostic et je souhaite un débrief.";
   }
