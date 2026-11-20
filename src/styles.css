@@ -774,3 +774,14 @@ a.pcard:focus-visible{outline:2px solid var(--channel);outline-offset:3px}
 .rsec-head{display:grid;gap:12px;justify-items:center;text-align:center;max-width:var(--narrow);margin:0 auto clamp(32px,4vw,44px)}
 .band.rsec .ask.tool{margin-top:clamp(28px,3.5vw,40px)}
 .ask.tool .label{margin-bottom:-4px}
+/* Comment je travaille : cartes d'offres */
+.wks{display:grid;gap:20px;grid-template-columns:repeat(3,minmax(0,1fr))}
+.wks.n4{grid-template-columns:repeat(2,minmax(0,1fr));max-width:980px;margin-inline:auto}
+@media (max-width:960px){.wks{grid-template-columns:1fr;max-width:560px;margin-inline:auto}.wks.n4{grid-template-columns:1fr}}
+.wk{background:#fff;border-radius:var(--radius);padding:28px 26px;display:flex;flex-direction:column;gap:14px;border-top:3px solid var(--line-strong);text-align:left}
+.wk.ch{border-top-color:var(--channel)}.wk.cl{border-top-color:var(--client)}
+.wk h3{font-size:1.15rem;line-height:1.35;letter-spacing:-.01em}
+.wk-d{align-self:flex-start;font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;padding:5px 11px;border-radius:999px;line-height:1.4}
+.wk.ch .wk-d{background:var(--channel-soft);color:var(--channel-text)}.wk.cl .wk-d{background:var(--client-soft);color:var(--client-text)}
+.wk-s{display:grid;gap:6px}
+.wk-s p{font-size:.9rem;color:var(--ink-2);line-height:1.65}

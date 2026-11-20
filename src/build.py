@@ -391,6 +391,44 @@ BOUCLE_NPS = (head("La démarche", "Une boucle d’amélioration continue", cls=
          "cl n5", "Boucle d’amélioration continue en cinq étapes : écouter, comprendre, co-construire, agir, informer, puis recommencer")
   + '<div class="boucle-gap"></div>')
 
+# « Comment je travaille » : offres par expertise (textes validés par Agnès)
+def offres(cls, intro, items):
+    cards = ''.join(
+        f'<article class="wk {cls}"><span class="wk-d">{d}</span><h3>{t}</h3>'
+        f'<div class="wk-s"><span class="label {cls}">Ce que je fais</span><p>{faire}</p></div>'
+        f'<div class="wk-s"><span class="label {cls}">Livrables</span><p>{livr}</p></div></article>'
+        for t, faire, livr, d in items)
+    return (f'<section class="band alt" id="comment-je-travaille"><div class="wrap">'
+            + head("Comment je travaille", "Des missions claires, avec des livrables concrets.", intro, cls=cls)
+            + f'<div class="wks n{len(items)}">{cards}</div></div></section>')
+
+OFFRES_CH = offres("ch", "Chaque mission peut être menée seule. Le parcours partenaires et l’audit de performance sont souvent la première étape d’une refonte du programme.", [
+  ("Parcours partenaires",
+   "Atelier avec la direction commerciale sur les étapes du cycle partenaire et les points de contact. Entretiens approfondis avec une dizaine de partenaires et vos commerciaux, et enquête de satisfaction auprès du réseau.",
+   "Cartographie du parcours avec irritants et moments réussis, analyse et préconisations.", "3 à 4 semaines"),
+  ("Audit de performance du réseau",
+   "Analyse des données de vos partenaires sur six axes : business, compétences, engagement, adoption et transformation, poids, concurrence. Maturité du réseau et couverture territoriale. L’auto-diagnostic partenaire en est la version courte.",
+   "Score de performance par axe, points de progrès, analyse complète.", "4 semaines"),
+  ("Programme partenaires",
+   "Atelier avec la direction (enjeux, objectifs, stratégie). Analyse des ventes, du programme et du contrat actuels, des outils et de la formation. Entretiens avec vos équipes et vos partenaires, en intégrant le parcours partenaires s’il n’a pas encore été réalisé. Puis adaptation du programme existant, ou nouvelle proposition de valeur et nouveau programme : niveaux, devoirs et bénéfices, accréditations et certifications.",
+   "Raison d’être et proposition de valeur, programme complet, éléments de communication, guides et outils.", "Jusqu’à 6 mois selon la taille du réseau"),
+])
+
+OFFRES_CL = offres("cl", "Chaque mission peut être menée seule. La segmentation du portefeuille permet souvent d’identifier les clients à potentiel, pour lesquels mettre en place une démarche de Customer Success.", [
+  ("Parcours client",
+   "Atelier avec la direction sur le cycle client et les points de contact. Ateliers associant des clients représentatifs et vos équipes (régionaux ou nationaux), complétés si besoin par une enquête de satisfaction (NPS).",
+   "Cartographie du parcours avec irritants et moments réussis, préconisations, document d’analyse complet.", "4 à 6 semaines"),
+  ("Segmentation du portefeuille clients",
+   "Étude de vos clients selon plusieurs dimensions (satisfaction, fidélité, risque, potentiel, contribution), avec la méthode du Customer Capital Index.",
+   "Grands groupes de clients, priorités et recommandations par groupe.", "3 à 4 semaines"),
+  ("Mise en place du Customer Success",
+   "Souvent après la segmentation, qui identifie les clients à potentiel. Atelier avec la direction générale et commerciale sur les objectifs. Choix des clients concernés et des ressources de Customer Success Managers (internes ou externes). Méthode de suivi et indicateurs adaptés à vos outils ; plan de commissionnement des CSM avec la direction des ressources humaines ; équipes trio ventes, support et administration ; outils de plan de compte, health score et revues d’affaires.",
+   "Démarche Customer Success complète : clients concernés, rôles, processus, indicateurs, outils, plan de commissionnement. Pilote accompagné.", "6 mois de préparation, puis 6 mois de pilote avant extension"),
+  ("Coordination des chantiers d’amélioration",
+   "Pilotage des chantiers issus du parcours client, avec vos équipes : priorités, plans d’action, suivi et communication des progrès aux clients.",
+   "Plan de chantiers, tableau de suivi, points d’étape.", "Selon le nombre de chantiers"),
+])
+
 def vs_block(r):
     """Encadré facultatif : deux colonnes comparées (ex. valeur pour le partenaire / pour le client final)."""
     if "vs" not in r: return ""
@@ -585,7 +623,8 @@ CHANNEL = f'''
     </figure>
   </div>
 </section>
-<section class="band alt" id="ppi">
+{OFFRES_CH}
+<section class="band" id="ppi">
   <div class="wrap">
     {head("Piloter le réseau", "Mesurer la performance du réseau, accompagner chaque partenaire.", "Deux niveaux de pilotage complémentaires, qui ne se remplacent pas.", cls="ch")}
     <div class="vs">
@@ -595,7 +634,7 @@ CHANNEL = f'''
     <p class="note">Critères et pondérations sont définis avec vous, selon votre réseau et vos objectifs.</p>
   </div>
 </section>
-<section class="band">
+<section class="band alt">
   <div class="wrap">
     {head("Réalisations associées", "Ce que cela donne sur le terrain.", cls="ch")}
     {rgrid([R[R5], R[R1], R[R6]])}
@@ -630,7 +669,8 @@ CLIENT = f'''
     {parcours_block()}
   </div>
 </section>
-<section class="band alt" id="cci">
+{OFFRES_CL}
+<section class="band" id="cci">
   <div class="wrap">
     {head("Analyse du portefeuille", "Customer Capital Index (CCI)", "Un modèle d’analyse qui croise plusieurs dimensions de la relation client, pour éclairer les priorités et les plans d’action.", cls="cl")}
     <div class="dims n5"><div class="dim">Satisfaction</div><div class="dim">Fidélité</div><div class="dim">Risque</div><div class="dim">Potentiel de développement</div><div class="dim">Contribution économique</div></div>
@@ -642,7 +682,7 @@ CLIENT = f'''
     </div>
   </div>
 </section>
-<section class="band">
+<section class="band alt">
   <div class="wrap">
     {head("Réalisations associées", "Ce que cela donne sur le terrain.", "Ces démarches ont été conduites chez un constructeur, auprès de ses clients directs et au contact de son réseau de revendeurs. Elles sont conçues pour être adaptées à la taille et aux moyens d’un revendeur, d’un intégrateur ou d’une ESN.", cls="cl")}
     {rgrid([R[R2], R[R3], R[R4]])}
