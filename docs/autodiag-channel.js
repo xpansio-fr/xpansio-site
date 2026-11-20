@@ -125,24 +125,35 @@
     var alerts=ALERTS.filter(function(a){return form.querySelector('input[name="'+a.id+'"]').checked;});
     var poids=Number(form.querySelector('input[name="term"]:checked').value);
 
+    /* Statut : le score donne la couleur de départ, puis les règles d'Agnès s'appliquent.
+       Alertes « concurrent » (a1) et « paiements » (a4) = À risque d'emblée.
+       Alertes « clients mécontents » (a2) et « personnes clés / actionnaire » (a3) = au moins À accompagner (orange). */
+    var RISK="var(--risk)", WARN="var(--warn)", OK="var(--ok)";
     var status,txt,col;
-    if(alerts.length>0){ status="À risque"; col="var(--risk)";
-      txt="Au moins un signal d'alerte est présent : quel que soit le score, ce partenaire doit être traité en priorité."; }
-    else if(score>=TH_OK){ status="Partenaire solide"; col="var(--ok)"; txt="Ce partenaire contribue réellement à votre croissance. Restez attentif, et construisez la suite avec lui."; }
-    else if(score>=TH_WARN){ status="À accompagner"; col="var(--warn)"; txt="Des fragilités apparaissent. Un plan de progrès partagé peut faire de ce partenaire un vrai relais de croissance."; }
-    else { status="À risque"; col="var(--risk)"; txt="Plusieurs dimensions du partenariat sont dégradées. Sa contribution à votre croissance n'est pas acquise."; }
+    if(score>=TH_OK){ status="Partenaire solide"; col=OK; txt="Ce partenaire contribue réellement à votre croissance. Restez attentif, et construisez la suite avec lui."; }
+    else if(score>=TH_WARN){ status="À accompagner"; col=WARN; txt="Des fragilités apparaissent. Un plan de progrès partagé peut faire de ce partenaire un vrai relais de croissance."; }
+    else { status="À risque"; col=RISK; txt="Plusieurs dimensions du partenariat sont dégradées. Sa contribution à votre croissance n'est pas acquise."; }
     // Une dimension clé dans le rouge (performance commerciale, compétences & qualité de service) = risque, quel que soit le score global.
     var rougesCles=["perf","comp"].filter(function(id){ return Math.round(dimScores[id])<TH_WARN; });
     if(status!=="À risque" && rougesCles.length){
-      status="À risque"; col="var(--risk)";
+      status="À risque"; col=RISK;
       txt="La performance commerciale ou la qualité de service est dans le rouge : même si le reste va bien, le partenariat est fragile.";
     }
+    var has=function(id){ return alerts.some(function(a){return a.id===id;}); };
+    if(status!=="À risque" && (has("a1")||has("a4"))){
+      status="À risque"; col=RISK;
+      txt="Un signal d'alerte majeur est présent (concurrent ou paiements) : quel que soit le score, ce partenaire doit être traité en priorité.";
+    } else if(status==="Partenaire solide" && (has("a2")||has("a3"))){
+      status="À accompagner"; col=WARN;
+      txt="Les résultats sont bons, mais un signal d'alerte appelle votre vigilance : agissez avant qu'il ne pèse sur le partenariat.";
+    }
 
+    /* Priorité : le poids du partenaire accélère ou modère l'urgence. */
     var prio;
-    if(status==="À risque" && poids===2) prio="Priorité : urgente, ce partenaire pèse lourd dans votre chiffre d'affaires.";
-    else if(status==="À risque" || (status==="À accompagner" && poids===2)) prio="Priorité : à traiter rapidement.";
-    else if(status==="À accompagner") prio="Priorité : plan de progrès dans les prochains mois.";
-    else prio="Priorité : consolider et développer.";
+    if(status==="Partenaire solide") prio="Priorité : consolider et développer.";
+    else if(poids===2) prio=(status==="À risque")?"Priorité : urgente, ce partenaire pèse lourd dans votre chiffre d'affaires.":"Priorité : surveillance urgente, ce partenaire pèse lourd dans votre chiffre d'affaires.";
+    else if(poids===0) prio=(status==="À risque")?"Priorité : à prendre en compte, avec un plan de progrès dans les prochains mois. Son poids limité laisse un peu de temps.":"Priorité : à suivre lors de vos prochaines revues.";
+    else prio=(status==="À risque")?"Priorité : à traiter rapidement.":"Priorité : plan de progrès dans les prochains mois.";
 
     document.getElementById("score").textContent=score;
     document.getElementById("gauge").style.background="conic-gradient("+col+" "+(score*3.6)+"deg, var(--line) 0)";
