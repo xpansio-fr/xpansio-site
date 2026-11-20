@@ -135,8 +135,12 @@
     if(catalogue===0 && transfo===0) band("off","rouge");
     else if(catalogue>=2 && transfo!==0) band("off","vert");
     else band("off","orange");
-    // Votre place dans son activité : offre concurrente surtout = rouge ; aussi une offre concurrente = orange ; fournisseur principal ou exclusif = vert.
-    band("fid", place===0 ? "rouge" : (place===1 ? "orange" : "vert"));
+    // Votre place dans son activité : fournisseur principal ou exclusif = vert ; aussi une offre concurrente = orange.
+    // Vend surtout une autre marque : orange si ses résultats avec vous sont au rendez-vous (objectifs atteints, ou activité en croissance),
+    // rouge s'ils ne le sont pas (objectifs non atteints et pas de croissance).
+    var concurrentSansResultats = place===0 && objectifs<=1 && evolution<=1;
+    if(place===0) band("fid", concurrentSansResultats ? "rouge" : "orange");
+    else band("fid", place===1 ? "orange" : "vert");
 
     var gNum=0,gDen=0;
     DIMS.forEach(function(d){ gNum+=dimScores[d.id]*d.w; gDen+=d.w; });
@@ -162,6 +166,11 @@
     if(status==="Partenaire solide" && DIMS.some(function(d){ return Math.round(dimScores[d.id])<TH_WARN; })){
       status="À accompagner"; col=WARN;
       txt="Les résultats d'ensemble sont corrects, mais une dimension est dans le rouge : un plan de progrès est nécessaire pour sécuriser le partenariat.";
+    }
+    // Vend surtout une autre marque : jamais « Partenaire solide », même avec de bons résultats.
+    if(status==="Partenaire solide" && place===0){
+      status="À accompagner"; col=WARN;
+      txt="Ses résultats avec vous sont au rendez-vous, mais il vend surtout une autre marque : votre place dans son activité reste à conquérir.";
     }
     var has=function(id){ return alerts.some(function(a){return a.id===id;}); };
     if(status!=="À risque" && (has("a1")||has("a4"))){
@@ -198,16 +207,27 @@
     // 3 conseils : alertes d'abord, puis dimensions sous le seuil classées par écart pondéré
     function byGap(a,b){ return (100-dimScores[b.id])*b.w-(100-dimScores[a.id])*a.w; }
     if(transfo===0) ADVICE.off="<b>Accompagner la transformation de son modèle.</b> Son modèle reste très traditionnel : s'il ne s'adapte pas, son activité est à risque. Aidez-le à faire évoluer son offre et ses pratiques (services, abonnement, revenus récurrents, nouveaux usages comme l'IA), en vous appuyant sur l'exemple des partenaires les plus avancés du réseau.";
+    if(place===0) ADVICE.fid = concurrentSansResultats
+      ? "<b>Provoquer une réunion avec sa direction.</b> Il vend surtout une autre marque et ses résultats avec vous ne sont pas au rendez-vous : rencontrez sa direction pour statuer sur ses objectifs et sur sa motivation à poursuivre le partenariat."
+      : "<b>Bâtir un plan de conquête chez lui.</b> Ses résultats avec vous sont au rendez-vous, mais il vend surtout une autre marque : avec votre équipe commerciale, construisez un plan de conquête de ses équipes et de ses clients (argumentaires, offres ciblées, appui avant-vente) pour gagner une place plus importante dans son activité.";
     var adv=alerts.map(function(a){return ALERT_ADVICE[a.id];});
     DIMS.filter(function(d){return dimScores[d.id]<TH_OK;}).sort(byGap).forEach(function(d){adv.push(ADVICE[d.id]);});
     if(status==="Partenaire solide"){
       if(adv.length<3) adv.push(KEEP);
       GOOD.forEach(function(g){ if(adv.length<3) adv.push(g); });
     } else {
-      DIMS.filter(function(d){return dimScores[d.id]>=TH_OK;}).sort(byGap).forEach(function(d){ if(adv.length<3) adv.push(ADVICE[d.id]); });
+      // Compléter d'abord par la revue d'affaires régulière, puis par les dimensions les moins bonnes (même en vert).
       if(adv.length<3) adv.push(GOOD[0]);
+      DIMS.filter(function(d){return dimScores[d.id]>=TH_OK;}).sort(byGap).forEach(function(d){ if(adv.length<3) adv.push(ADVICE[d.id]); });
     }
-    document.getElementById("advice").innerHTML=adv.slice(0,3).map(function(a){return "<li>"+a+"</li>";}).join("");
+    // Vend surtout une autre marque : le conseil correspondant figure toujours dans les 3
+    // (en tête, après les alertes, si les résultats ne sont pas au rendez-vous ; sinon à la place du dernier conseil hors alerte).
+    var top=adv.slice(0,3);
+    if(place===0 && top.indexOf(ADVICE.fid)<0){
+      if(concurrentSansResultats){ top.splice(Math.min(alerts.length,2),0,ADVICE.fid); top=top.slice(0,3); }
+      else { var k=2; for(var m=2;m>=0;m--){ if(m>=alerts.length){ k=m; break; } } top[k]=ADVICE.fid; }
+    }
+    document.getElementById("advice").innerHTML=top.map(function(a){return "<li>"+a+"</li>";}).join("");
 
     form.style.display="none";
     document.querySelector(".progress").style.display="none";
