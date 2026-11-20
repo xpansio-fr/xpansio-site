@@ -31,7 +31,7 @@ ROOT = os.path.dirname(SRC)
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
          '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Montserrat:wght@400;500;600;700&display=swap">')
 
-NAV = [("index.html", "Accueil", "home"), ("realisations.html", "Nos réalisations", "realisations"),
+NAV = [("index.html", "Accueil", "home"), ("realisations.html", "Réalisations", "realisations"),
        ("contact.html", "Contact", "contact")]
 
 def header(cur):
@@ -46,7 +46,7 @@ def header(cur):
   <nav class="drop" id="drop" hidden aria-label="Menu principal">
     <div class="wrap">
       <div class="drop-col"><span class="label">Pages</span><div class="drop-pages">{pages}</div></div>
-      <div class="drop-col"><span class="label">Nos expertises</span>
+      <div class="drop-col"><span class="label">Expertises</span>
         <div class="drop-exp">
           <a class="ch" href="experience-channel.html"><span class="ico ch">{I_NET}</span><strong>Channel Performance</strong><span class="d">Parcours partenaires, programmes partenaires, stratégie de réseau, gestion de clubs de partenaires.</span></a>
           <a class="cl" href="experience-client.html"><span class="ico cl">{I_USER}</span><strong>Customer Performance</strong><span class="d">Parcours client, satisfaction, segmentation, rétention.</span></a>
@@ -60,7 +60,7 @@ FOOTER = '''<footer>
   <div class="wrap">
     <img class="logo" src="assets/logo-white.png" alt="xpansio" width="480" height="140">
     <p class="tagline">Accélérer la performance de vos partenaires.<br>Révéler la valeur de vos clients.</p>
-    <nav aria-label="Pied de page"><a href="index.html">Accueil</a><a href="experience-channel.html">Channel Performance</a><a href="experience-client.html">Customer Performance</a><a href="realisations.html">Nos réalisations</a><a href="auto-diagnostic.html">Auto-diagnostic client</a><a href="auto-diagnostic-channel.html">Auto-diagnostic partenaire</a><a href="contact.html">Contact</a><a href="https://www.linkedin.com/in/agnes-chabrier-7186971/" target="_blank" rel="noopener">LinkedIn</a></nav>
+    <nav aria-label="Pied de page"><a href="index.html">Accueil</a><a href="experience-channel.html">Channel Performance</a><a href="experience-client.html">Customer Performance</a><a href="realisations.html">Réalisations</a><a href="auto-diagnostic.html">Auto-diagnostic client</a><a href="auto-diagnostic-channel.html">Auto-diagnostic partenaire</a><a href="contact.html">Contact</a><a href="https://www.linkedin.com/in/agnes-chabrier-7186971/" target="_blank" rel="noopener">LinkedIn</a></nav>
     <div class="foot-bottom"><span>© 2026 Xpansio · Agnès Chabrier, entrepreneure individuelle</span><a href="mentions-legales.html">Mentions légales et confidentialité</a></div>
   </div>
 </footer>'''
@@ -365,7 +365,7 @@ OG_IMG.update({r["slug"]: r["og_image"] for r in REAL if "og_image" in r})
 R1, R5, R6, R2, R3, R4 = (r["slug"] for r in REAL)
 
 def rcard(r):
-    """Aperçu court d'une réalisation (accueil, page Nos réalisations, pages d'expertise)."""
+    """Aperçu court d'une réalisation (accueil, page Réalisations, pages d'expertise)."""
     c = r["cls"]
     return (f'<a class="pcard rcard {c}" href="{r["slug"]}"><span class="tag {c}">{EXP[c][0]}</span>'
             f'<span class="who">{KIND[r["kind"]]}</span><h3>{r["title"]}</h3><p>{r["ctx"]}</p><p class="ans">{r["ans"]}</p>'
@@ -420,7 +420,7 @@ def real_page(r):
                + ('<ul>' + ''.join(f'<li>{x}</li>' for x in r["resultats"]) + '</ul>' if "resultats" in r else "")
                + r.get("res_html", "") + '</div>')
     return f'''
-{page_hero([("index.html","Accueil"),("realisations.html","Nos réalisations"),(None, exp)], r["title"], r["ctx"],
+{page_hero([("index.html","Accueil"),("realisations.html","Réalisations"),(None, exp)], r["title"], r["ctx"],
   f'<span class="pill {c}"><span class="ico {c}">{ico}</span>{KIND[r["kind"]]} · {exp}</span>', h1cls=" h1-long")}
 <section class="band alt">
   <div class="wrap">
@@ -446,7 +446,7 @@ def real_page(r):
 '''
 
 REALISATIONS_PAGE = f'''
-{page_hero([("index.html","Accueil"),(None,"Nos réalisations")], "Nos réalisations", "Des enjeux concrets. Des réponses adaptées. Des expériences de terrain.").replace('class="page-hero"', 'class="page-hero compact"', 1)}
+{page_hero([("index.html","Accueil"),(None,"Réalisations")], "Réalisations", "Des enjeux concrets. Des réponses adaptées. Des expériences de terrain.").replace('class="page-hero"', 'class="page-hero compact"', 1)}
 <section class="band alt tight rsec">
   <div class="wrap">
     <div class="rsec-head"><span class="label ch">Channel Performance</span><h2 class="h2">Réseaux de partenaires</h2>
@@ -506,14 +506,14 @@ HOME = f'''
     <span class="label">Conseil en performance Channel &amp; Customer · B2B Tech</span>
     <h1 class="h1"><span>Accélérer la performance <em>de vos partenaires.</em></span><span>Révéler la valeur <em>de vos clients.</em></span></h1>
     <p class="lead">Xpansio accompagne les constructeurs, éditeurs, distributeurs et revendeurs IT sur deux leviers de croissance : leurs réseaux de partenaires et leur portefeuille clients.</p>
-    <div class="ctas"><a class="btn btn-primary" href="#expertises">Découvrir nos expertises {ARR}</a><a class="btn btn-ghost" href="contact.html">Échanger sur vos enjeux</a></div>
+    <div class="ctas"><a class="btn btn-primary" href="#expertises">Découvrir les expertises {ARR}</a><a class="btn btn-ghost" href="contact.html">Échanger sur vos enjeux</a></div>
   </div>
   {HOME_COLLAGE}
 </section>
 
 <section class="band alt" id="expertises">
   <div class="wrap">
-    {head("Nos expertises", "Deux expertises, deux leviers de croissance.")}
+    {head("Expertises", "Deux expertises, deux leviers de croissance.")}
     <div class="duo">
       <a class="xcard ch" href="experience-channel.html">
         <span class="ico ch">{I_NET}</span>
@@ -572,7 +572,7 @@ CHANNEL = f'''
 </section>
 <section class="band">
   <div class="wrap">
-    {head("Nos domaines d’intervention", "Quatre domaines, selon la maturité de votre réseau.", cls="ch")}
+    {head("Domaines d’intervention", "Quatre domaines, selon la maturité de votre réseau.", cls="ch")}
     {cards([
       (I_MAP,"Stratégie et pilotage du réseau","Diagnostiquer le réseau, fixer le cap, la gouvernance et les indicateurs de performance."),
       (I_LAYERS,"Proposition de valeur et programme partenaires","Clarifier ce que vous apportez à vos partenaires, distinct de la valeur de vos offres pour le client final, puis le traduire en dispositifs."),
@@ -620,7 +620,7 @@ CLIENT = f'''
 </section>
 <section class="band">
   <div class="wrap">
-    {head("Nos domaines d’intervention", "Quatre domaines, de l’écoute à la valeur.", cls="cl")}
+    {head("Domaines d’intervention", "Quatre domaines, de l’écoute à la valeur.", cls="cl")}
     {cards([
       (I_CHAT,"Écoute et satisfaction client","Structurer l’écoute, mesurer la satisfaction et comprendre les attentes."),
       (I_PATH,"Parcours et expérience client","Analyser les moments clés, traiter les irritants, construire des plans d’amélioration."),
@@ -644,7 +644,7 @@ CLIENT = f'''
 </section>
 <section class="band">
   <div class="wrap">
-    {head("Réalisations associées", "Ce que cela donne sur le terrain.", cls="cl")}
+    {head("Réalisations associées", "Ce que cela donne sur le terrain.", "Ces démarches ont été conduites chez un constructeur, auprès de ses clients directs et au contact de son réseau de revendeurs. Elles sont conçues pour être adaptées à la taille et aux moyens d’un revendeur, d’un intégrateur ou d’une ESN.", cls="cl")}
     {rgrid([R[R2], R[R3], R[R4]])}
   </div>
 </section>
@@ -710,7 +710,7 @@ LEGAL = f'''
     <div><h2>Éditeur du site</h2><p>Agnès Chabrier, entrepreneure individuelle, exerçant sous le nom commercial Xpansio.</p><p>Adresse : 6 rue André Sabatier, 92000 Nanterre<br>SIRET : 939 844 700 00012<br>Téléphone : 06 89 89 41 19<br>Contact : via le <a href="contact.html">formulaire de contact</a></p><p>Directrice de la publication : Agnès Chabrier.</p></div>
     <div><h2>Hébergement</h2><p>GitHub, Inc. (service GitHub Pages)<br>88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis<br>github.com</p></div>
     <div><h2>Propriété intellectuelle</h2><p>L’ensemble des contenus de ce site (textes, logo, visuels) est la propriété d’Xpansio. Toute reproduction sans autorisation est interdite.</p></div>
-    <div><h2>Données personnelles</h2><p>Les informations transmises via le formulaire de contact servent uniquement à répondre à votre demande. Elles ne sont ni vendues ni cédées à des tiers, et sont conservées au maximum trois ans après le dernier échange. Les messages du formulaire sont transmis par email via le service Web3Forms.</p><p>Conformément au RGPD, vous disposez d’un droit d’accès, de rectification et de suppression de vos données. Pour l’exercer, écrivez-nous via le <a href="contact.html">formulaire de contact</a>. Vous pouvez aussi adresser une réclamation à la CNIL.</p></div>
+    <div><h2>Données personnelles</h2><p>Les informations transmises via le formulaire de contact servent uniquement à répondre à votre demande. Elles ne sont ni vendues ni cédées à des tiers, et sont conservées au maximum trois ans après le dernier échange. Les messages du formulaire sont transmis par email via le service Web3Forms.</p><p>Conformément au RGPD, vous disposez d’un droit d’accès, de rectification et de suppression de vos données. Pour l’exercer, faites votre demande via le <a href="contact.html">formulaire de contact</a>. Vous pouvez aussi adresser une réclamation à la CNIL.</p></div>
     <div><h2>Cookies</h2><p>Ce site ne dépose pas de cookie publicitaire ni de traceur de mesure d’audience.</p></div>
   </div>
 </section>
@@ -817,7 +817,7 @@ PAGES = [
     ("index.html", "home", "Xpansio", "Xpansio, conseil en performance Channel & Customer pour les constructeurs, éditeurs, distributeurs et revendeurs IT : réseaux de partenaires et valeur du portefeuille clients.", HOME),
     ("experience-channel.html", "channel", "Channel Performance · Xpansio", "Stratégie de réseau, proposition de valeur et programmes partenaires, parcours et engagement des partenaires : l’expertise Channel Performance d’Xpansio.", CHANNEL),
     ("experience-client.html", "client", "Customer Performance · Xpansio", "Écoute et satisfaction, expérience client, fidélisation et Customer Success, développement du capital client : l’expertise Customer Performance d’Xpansio.", CLIENT),
-    ("realisations.html", "realisations", "Nos réalisations · Xpansio", "Des situations réelles en Channel et Customer Performance : contexte, démarche, réalisations et enseignements.", REALISATIONS_PAGE),
+    ("realisations.html", "realisations", "Réalisations · Xpansio", "Des situations réelles en Channel et Customer Performance : contexte, démarche, réalisations et enseignements.", REALISATIONS_PAGE),
 ] + [(r["slug"], "realisations", r["title"] + " · Xpansio", r["ctx"], real_page(r)) for r in REAL] + [
     ("auto-diagnostic.html", "autodiag", "Auto-diagnostic : êtes-vous certain que ce client va renouveler ? · Xpansio", "10 questions, 2 minutes : évaluez la solidité de la relation avec l’un de vos clients clés et repérez les signaux de risque avant l’échéance du contrat.", AUTODIAG),
     ("auto-diagnostic-channel.html", "autodiag-ch", "Auto-diagnostic : ce partenaire est-il vraiment un partenaire performant pour votre réseau ? · Xpansio", "10 questions, 2 minutes : évaluez la performance de l’un de vos partenaires (résultats, compétences, qualité de service, engagement, transformation) et repérez les signaux d’alerte.", AUTODIAG_CH),
