@@ -298,7 +298,9 @@
     if(fusion){ A.fid = A.fid + " Bâtissez ensemble un plan de redressement."; perfPrio=false; }
     // Résultats insuffisants : la place de votre marque chez lui et son poids chez vous nuancent la piste business (grille validée par Agnès).
     if(perfPrio){
-      if(place>=2 && evolution<=1) A.perf += " Vous êtes sa marque principale : son recul est celui de toute son activité, et sa pérennité est en jeu. Il a besoin de votre appui : plan d'affaires, accompagnement commercial et technique, conditions adaptées.";
+      // Profil 9 (loin des objectifs, sans dynamique) : on reste sur « décider de la suite à donner au partenariat », sans parler de son risque à lui.
+      if(place>=2 && perfProfil==="9"){}
+      else if(place>=2 && evolution<=1) A.perf += " Vous êtes sa marque principale : son recul est celui de toute son activité, et sa pérennité est en jeu. Il a besoin de votre appui : plan d'affaires, accompagnement commercial et technique, conditions adaptées.";
       else if(place>=2) A.perf += " Vous êtes sa marque principale : soutenez cette progression, c'est son développement qui en dépend.";
       else if(place===1) A.perf += " Vous êtes une marque parmi d'autres : ses résultats avec vous ne sont pas forcément sa priorité. C'est à vous de créer l'intérêt (marge, appui, offres ciblées), ou de réévaluer votre investissement.";
       if(poids===0) A.perf += " Son poids limité chez vous invite à proportionner votre investissement : fixez-lui un plan de progrès simple, avec un point d'étape.";
