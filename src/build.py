@@ -502,7 +502,7 @@ HOME = f'''
         <span class="link">Découvrir l’expertise Customer {ARR}</span>
       </a>
     </div>
-    <div class="duo-sub"><span></span><p>Êtes-vous certain que vos clients vont renouveler ? <a class="link cl" href="auto-diagnostic.html">Faire l’auto-diagnostic {ARR}</a></p></div>
+    <div class="duo-sub"><p>Ce partenaire est-il vraiment un partenaire de croissance ? <a class="link ch" href="auto-diagnostic-channel.html">Faire l’auto-diagnostic {ARR}</a></p><p>Êtes-vous certain que vos clients vont renouveler ? <a class="link cl" href="auto-diagnostic.html">Faire l’auto-diagnostic {ARR}</a></p></div>
   </div>
 </section>
 
