@@ -758,3 +758,15 @@ a.pcard:focus-visible{outline:2px solid var(--channel);outline-offset:3px}
 @media (max-width:560px){.res-lead{flex-direction:column;align-items:stretch}}
 .shot a{display:block;cursor:zoom-in}
 .shot figcaption a{display:inline;color:var(--channel-text);font-weight:600;cursor:pointer}
+/* Boucle d'amélioration (fiche NPS) : 5 étapes, couleurs Customer */
+.loop.n5 ol{grid-template-columns:repeat(5,minmax(0,1fr))}
+.loop.n5 ol::before{left:10%;right:10%}
+.loop.n5 .loop-back{margin-left:10%;margin-right:10%}
+.loop.cl ol::before{background:linear-gradient(90deg,var(--client-soft),var(--client))}
+.loop.cl .lp .n{border-color:var(--client);color:var(--client-text)}
+.loop.cl .loop-back{border-color:var(--client)}
+.loop.cl .loop-back::before{border-bottom-color:var(--client)}
+.loop.cl .loop-back span{color:var(--client-text)}
+.boucle-gap{height:clamp(48px,6vw,72px)}
+@media (max-width:760px){.loop.n5 ol{grid-template-columns:1fr}.loop.n5 .loop-back{margin-inline:auto}}
+@media (max-width:760px){.loop.cl .loop-back span{border-color:var(--client)}}

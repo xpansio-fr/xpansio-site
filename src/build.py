@@ -333,7 +333,7 @@ REAL = [
           "Identification des conditions nécessaires à la mise en œuvre"],
     result="La démarche et la segmentation ont été conçues. Les clients les plus importants ont été identifiés dans les outils pour une prise en charge dédiée.",
     xp="Expérience professionnelle antérieure de la fondatrice, chez un constructeur international de solutions bureautiques et IT, avant la création d’Xpansio."),
-  dict(slug="realisation-au-dela-du-nps.html", cls="cl", kind="a",
+  dict(slug="realisation-au-dela-du-nps.html", cls="cl", kind="a", boucle=True,
     title="Et si mesurer le NPS ne suffisait plus à fidéliser les clients ?",
     ctx="Des mesures de satisfaction existent, mais elles n’expliquent pas l’insatisfaction et ne déclenchent pas d’améliorations.",
     ans="Passer de la mesure à une démarche structurée d’amélioration de l’expérience client.",
@@ -381,6 +381,16 @@ KINDS_NOTE = ('<p class="note"><b>Mission Xpansio</b> : intervention de conseil 
 AUTODIAG_FICHES = {"realisation-au-dela-du-nps.html", "realisation-crise-clients-prioritaires.html", "realisation-customer-success.html"}
 AUTODIAG_LINE = f'<p class="autodiag-line">Et vos clients, êtes-vous certain qu’ils vont renouveler ? <a class="link cl" href="auto-diagnostic.html">Faire l’auto-diagnostic {ARR}</a></p>'
 
+# Fiche NPS : la boucle d'amélioration continue (étapes de « Ce qui a été réalisé »)
+BOUCLE_NPS = (head("La démarche", "Une boucle d’amélioration continue", cls="cl")
+  + loop([("Écouter","Enquêtes de satisfaction et retours clients."),
+          ("Comprendre","Irritants et moments critiques du parcours."),
+          ("Co-construire","Ateliers avec les clients et les équipes."),
+          ("Agir","Chantiers prioritaires, plans d’action et suivi."),
+          ("Informer","Communiquer les progrès aux clients.")],
+         "cl n5", "Boucle d’amélioration continue en cinq étapes : écouter, comprendre, co-construire, agir, informer, puis recommencer")
+  + '<div class="boucle-gap"></div>')
+
 def vs_block(r):
     """Encadré facultatif : deux colonnes comparées (ex. valeur pour le partenaire / pour le client final)."""
     if "vs" not in r: return ""
@@ -424,6 +434,7 @@ def real_page(r):
 <section class="band">
   <div class="wrap">
     {vs_block(r)}
+    {BOUCLE_NPS if r.get("boucle") else ""}
     {res}
     <div class="xp {c}"><span class="label {c}">{r.get("rlabel", "Résultats et enseignements")}</span><p>{r["result"]}</p>
       <p class="from"><b>L’expérience mobilisée :</b> {r["xp"]}</p></div>
