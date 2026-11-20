@@ -502,7 +502,7 @@ HOME = f'''
         <span class="link">Découvrir l’expertise Customer {ARR}</span>
       </a>
     </div>
-    <div class="duo-sub"><p>Ce partenaire est-il vraiment un partenaire de croissance ? <a class="link ch" href="auto-diagnostic-channel.html">Faire l’auto-diagnostic {ARR}</a></p><p>Êtes-vous certain que vos clients vont renouveler ? <a class="link cl" href="auto-diagnostic.html">Faire l’auto-diagnostic {ARR}</a></p></div>
+    <div class="duo-sub"><p>Ce partenaire est-il vraiment un partenaire performant pour votre réseau ? <a class="link ch" href="auto-diagnostic-channel.html">Faire l’auto-diagnostic {ARR}</a></p><p>Êtes-vous certain que vos clients vont renouveler ? <a class="link cl" href="auto-diagnostic.html">Faire l’auto-diagnostic {ARR}</a></p></div>
   </div>
 </section>
 
@@ -581,7 +581,7 @@ CHANNEL = f'''
   <div class="wrap">
     {head("Réalisations associées", "Ce que cela donne sur le terrain.", cls="ch")}
     {rgrid([R[R5], R[R1], R[R6]])}
-    <p class="autodiag-line">Ce partenaire est-il vraiment un partenaire de croissance ? <a class="link ch" href="auto-diagnostic-channel.html">Faire l’auto-diagnostic {ARR}</a></p>
+    <p class="autodiag-line">Ce partenaire est-il vraiment un partenaire performant pour votre réseau ? <a class="link ch" href="auto-diagnostic-channel.html">Faire l’auto-diagnostic {ARR}</a></p>
   </div>
 </section>
 {cta()}
@@ -777,7 +777,7 @@ AUTODIAG_CH = (AUTODIAG
   .replace(page_hero([("index.html","Accueil"),("experience-client.html","Customer Performance"),(None,"Auto-diagnostic")], "Êtes-vous certain que ce client va renouveler ?",
   "Un client satisfait en apparence n’est pas forcément un client qui renouvelle. Cet auto-diagnostic vous aide à repérer les signaux faibles avant l’échéance du contrat.",
   f'<span class="pill cl"><span class="ico cl">{I_USER}</span>Auto-diagnostic · Customer Performance</span>').replace('class="page-hero"', 'class="page-hero compact"', 1),
-   page_hero([("index.html","Accueil"),("experience-channel.html","Channel Performance"),(None,"Auto-diagnostic")], "Ce partenaire est-il vraiment un partenaire de croissance ?",
+   page_hero([("index.html","Accueil"),("experience-channel.html","Channel Performance"),(None,"Auto-diagnostic")], "Ce partenaire est-il vraiment un partenaire performant pour votre réseau ?",
   "Un partenaire qui vend aujourd’hui n’est pas forcément celui qui fera votre croissance demain. Cet auto-diagnostic évalue ses résultats, ses compétences, sa qualité de service, son engagement et sa capacité à faire évoluer son modèle.",
   f'<span class="pill ch"><span class="ico ch">{I_NET}</span>Auto-diagnostic · Channel Performance</span>').replace('class="page-hero"', 'class="page-hero compact"', 1))
   .replace("Pensez à <b>un client important</b> de votre portefeuille.", "Pensez à <b>un partenaire</b> de votre réseau.")
@@ -802,7 +802,7 @@ PAGES = [
     ("realisations.html", "realisations", "Nos réalisations · Xpansio", "Des situations réelles en Channel et Customer Performance : contexte, démarche, réalisations et enseignements.", REALISATIONS_PAGE),
 ] + [(r["slug"], "realisations", r["title"] + " · Xpansio", r["ctx"], real_page(r)) for r in REAL] + [
     ("auto-diagnostic.html", "autodiag", "Auto-diagnostic : êtes-vous certain que ce client va renouveler ? · Xpansio", "10 questions, 2 minutes : évaluez la solidité de la relation avec l’un de vos clients clés et repérez les signaux de risque avant l’échéance du contrat.", AUTODIAG),
-    ("auto-diagnostic-channel.html", "autodiag-ch", "Auto-diagnostic : ce partenaire est-il vraiment un partenaire de croissance ? · Xpansio", "10 questions, 3 minutes : évaluez la performance de l’un de vos partenaires (résultats, compétences, qualité de service, engagement, transformation) et repérez les signaux d’alerte.", AUTODIAG_CH),
+    ("auto-diagnostic-channel.html", "autodiag-ch", "Auto-diagnostic : ce partenaire est-il vraiment un partenaire performant pour votre réseau ? · Xpansio", "10 questions, 3 minutes : évaluez la performance de l’un de vos partenaires (résultats, compétences, qualité de service, engagement, transformation) et repérez les signaux d’alerte.", AUTODIAG_CH),
     ("contact.html", "contact", "Contact · Xpansio", "Contacter Xpansio pour un premier échange.", CONTACT),
     ("mentions-legales.html", "legal", "Mentions légales · Xpansio", "Mentions légales du site Xpansio.", LEGAL),
 ]
