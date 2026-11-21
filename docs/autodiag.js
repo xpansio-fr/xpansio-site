@@ -1,6 +1,6 @@
-/* Auto-diagnostic « Êtes-vous certain que ce client va renouveler ? » : version courte (10 questions) du fichier _sources/auto-diagnostic-sante-client.html : questions 5 et 8 et alerte « décideur insatisfait » retirées à la demande d’Agnès ; libellés de la question 1 et règles de couleur par dimension ajoutés (voir « Règles de lecture »). */
+/* Auto-diagnostic « Êtes-vous certain que ce client va renouveler ? » : illustration simplifiée (10 questions), tirée du fichier _sources/auto-diagnostic-sante-client.html : questions 5 et 8 et alerte « décideur insatisfait » retirées à la demande d’Agnès ; libellés de la question 1 et règles de couleur par dimension ajoutés (voir « Règles de lecture »). */
 (function(){
-  /* ---------- Modèle (version courte du Health Score Xpansio) ---------- */
+  /* ---------- Modèle (illustration simplifiée du Health Score Xpansio) ---------- */
   var DIMS = [
     {id:"sol", name:"Solutions & adoption", w:25},
     {id:"irr", name:"Irritants", w:20},

@@ -1,4 +1,4 @@
-/* Auto-diagnostic Channel « Ce partenaire est-il vraiment un partenaire performant pour votre réseau ? » : version courte (10 questions) d'un audit de performance partenaire.
+/* Auto-diagnostic Channel « Ce partenaire est-il vraiment un partenaire performant pour votre réseau ? » : illustration simplifiée (10 questions) de la démarche d'audit de performance partenaire.
    Même fonctionnement que autodiag.js (Customer) : 5 dimensions pondérées, signaux d'alerte, 3 pistes d'action. */
 (function(){
   /* ---------- Modèle ---------- */
