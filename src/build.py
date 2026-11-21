@@ -347,10 +347,15 @@ REAL = [
     result="Mesurer ne suffit pas : c’est la boucle entre écoute, action et retour vers les clients qui fait progresser l’expérience vécue.",
     xp="Expérience professionnelle antérieure de la fondatrice, en tant que responsable Expérience Client, avant la création d’Xpansio."),
   dict(slug="realisation-customer-success.html", cls="cl", kind="a",
-    title="Comment transformer un client Print en client Print + IT grâce au Customer Success ?",
-    ctx="Une base installée importante dans l’impression, mais une relation centrée sur les équipements.",
+    title="Comment élargir la relation client au-delà du métier historique grâce au Customer Success ?",
+    ctx="Une base installée importante dans l’impression, une offre IT à développer, mais une relation centrée sur les équipements.",
     ans="Concevoir et expérimenter une approche Customer Success pour développer la valeur des comptes existants.",
-    defi="L’entreprise peine à développer une relation plus globale avec ses clients et à identifier les opportunités IT. Comment élargir la relation au-delà de l’impression ?",
+    defi="L’entreprise propose aussi des services IT, mais la relation avec ses clients reste centrée sur l’impression : leurs besoins IT sont mal connus et les opportunités échappent aux équipes. Comment élargir la relation au-delà du métier historique ?",
+    vs_label="Et pour vous ?",
+    vs=("La même question chez un revendeur ou une ESN",
+        "Dès que la relation repose sur un métier historique, la démarche est la même : choisir les comptes à potentiel, définir le rôle du Customer Success, organiser le lien avec les commerciaux et les techniciens.",
+        "Revendeur bureautique", "Votre parc de copieurs et vos contrats de maintenance vous donnent un accès régulier à vos clients. Comment en faire le point de départ d’une offre IT : postes de travail, réseau, cybersécurité, cloud ?",
+        "ESN ou intégrateur", "Vos contrats d’infogérance, de maintenance ou de licences installent la relation. Comment proposer à ces mêmes clients la cybersécurité, le cloud ou les services managés qu’ils achètent aujourd’hui ailleurs ?"),
     reponse="Concevoir et expérimenter une approche Customer Success : mieux connaître les besoins des clients, mieux les accompagner et faire émerger de nouvelles opportunités.",
     done=["Identification des comptes et segments pertinents",
           "Définition du rôle et des missions des Customer Success Managers",
@@ -433,7 +438,7 @@ def vs_block(r):
     """Encadré facultatif : deux colonnes comparées (ex. valeur pour le partenaire / pour le client final)."""
     if "vs" not in r: return ""
     t, lead, a, pa, b, pb = r["vs"]; c = r["cls"]
-    return f'''{head("Le principe", t, lead, cls=c)}
+    return f'''{head(r.get("vs_label", "Le principe"), t, lead, cls=c)}
     <div class="vs" style="margin:0 auto clamp(56px,7vw,80px)"><div class="vs-col {c}"><span class="label {c}">{a}</span><p>{pa}</p></div><div class="vs-col"><span class="label">{b}</span><p>{pb}</p></div></div>'''
 
 def real_page(r):
