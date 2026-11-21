@@ -419,13 +419,13 @@ OFFRES_CH = offres("ch", "Chaque mission peut être menée seule. Le parcours pa
    "Raison d’être et proposition de valeur, programme complet, éléments de communication, guides et outils.", "Jusqu’à 6 mois selon la taille du réseau"),
 ])
 
-OFFRES_CL = offres("cl", "Chaque mission peut être menée seule. La segmentation du portefeuille permet souvent d’identifier les clients à potentiel, pour lesquels mettre en place une démarche de Customer Success.", [
+OFFRES_CL = offres("cl", "Chaque mission peut être menée seule. Le parcours client fait le point sur la satisfaction et les irritants. La segmentation repère ensuite les clients à risque et ceux à potentiel : elle aide à prioriser les chantiers d’amélioration et à choisir les clients pour lesquels mettre en place une démarche de Customer Success.", [
   ("Parcours client",
    "Atelier avec la direction sur le cycle client et les points de contact. Ateliers associant des clients représentatifs et vos équipes (régionaux ou nationaux), complétés si besoin par une enquête de satisfaction (NPS).",
    "Cartographie du parcours avec irritants et moments réussis, préconisations, document d’analyse complet.", "4 à 6 semaines"),
   ("Segmentation du portefeuille clients",
    "Étude de vos clients selon plusieurs dimensions (satisfaction, fidélité, risque, potentiel, contribution), avec la méthode du Customer Capital Index.",
-   "Grands groupes de clients, priorités et recommandations par groupe.", "3 à 4 semaines"),
+   "Vos clients à risque et à potentiel, le chiffre d’affaires en jeu, l’impact des irritants du parcours client, priorités et recommandations par groupe.", "3 à 4 semaines"),
   ("Mise en place du Customer Success",
    "Souvent après la segmentation, qui identifie les clients à potentiel. Atelier avec la direction générale et commerciale sur les objectifs. Choix des clients concernés et des ressources de Customer Success Managers (internes ou externes). Méthode de suivi et indicateurs adaptés à vos outils ; plan de commissionnement des CSM avec la direction des ressources humaines ; équipes trio ventes, support et administration ; outils de plan de compte, health score et revues d’affaires.",
    "Démarche Customer Success complète : clients concernés, rôles, processus, indicateurs, outils, plan de commissionnement. Pilote accompagné.", "6 mois de préparation, puis 6 mois de pilote avant extension"),
