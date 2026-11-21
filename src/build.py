@@ -419,12 +419,12 @@ OFFRES_CH = offres("ch", "Chaque mission peut être menée seule. Le parcours pa
    "Raison d’être et proposition de valeur, programme complet, éléments de communication, guides et outils.", "Jusqu’à 6 mois selon la taille du réseau"),
 ])
 
-OFFRES_CL = offres("cl", "Chaque mission peut être menée seule. Le parcours client fait le point sur la satisfaction et les irritants. La segmentation repère ensuite les clients à risque et ceux à potentiel : elle aide à prioriser les chantiers d’amélioration et à choisir les clients pour lesquels mettre en place une démarche de Customer Success.", [
+OFFRES_CL = offres("cl", "Chaque mission peut être menée seule. L’enquête mesure la satisfaction de l’ensemble de vos clients ; le parcours client en explique les causes, avec certains d’entre eux. La segmentation repère ensuite les clients à risque et ceux à potentiel : elle aide à prioriser les chantiers d’amélioration et à choisir les clients pour lesquels mettre en place une démarche de Customer Success.", [
   ("Enquête de satisfaction client",
-   "Atelier avec vos équipes sur les points de contact, conception du questionnaire, paramétrage et envoi, analyse des résultats.",
-   "Résultats commentés, irritants prioritaires, 3 à 5 actions recommandées, restitution à la direction.", "3 à 4 semaines"),
+   "Questionnaire envoyé à l’ensemble de vos clients, construit avec vos équipes à partir de vos points de contact. Paramétrage, envoi et relances, analyse des réponses.",
+   "Niveau de satisfaction par point de contact et par type de client, irritants les plus cités, 3 à 5 actions rapides, restitution à la direction.", "3 à 4 semaines"),
   ("Parcours client",
-   "Atelier avec la direction sur le cycle client et les points de contact. Ateliers associant des clients représentatifs et vos équipes (régionaux ou nationaux), complétés si besoin par une enquête de satisfaction (NPS).",
+   "Atelier avec la direction sur le cycle client et les points de contact. Ateliers associant des clients représentatifs et vos équipes (régionaux ou nationaux), pour comprendre, étape par étape, d’où viennent les irritants. Si une enquête a été réalisée, ses résultats servent de point de départ.",
    "Cartographie du parcours avec irritants et moments réussis, préconisations, document d’analyse complet.", "4 à 6 semaines"),
   ("Segmentation du portefeuille clients",
    "Étude de vos clients selon plusieurs dimensions (satisfaction, fidélité, risque, potentiel, contribution), avec la méthode du Customer Capital Index.",
