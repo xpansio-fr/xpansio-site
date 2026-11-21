@@ -288,9 +288,9 @@ REAL = [
               '<p>Lors de la dernière réunion du club des dirigeants, qui réunit les 15 partenaires les plus moteurs et les plus influents du réseau, après une période de crise : <b>100&nbsp;%</b> des participants se sont déclarés très satisfaits dans l’enquête menée à l’issue de la réunion.</p></div>'
               '<p>Les participants soulignent en particulier l’utilité stratégique des échanges, l’accès à des experts et le dialogue direct avec le constructeur.</p>'
               '<h3 class="res-sub">Ce que disent les partenaires du dispositif mis en place</h3>'
-              '<blockquote class="pquote ch"><p>« Ces moments-là sont bien plus qu’une réunion. C’est un rappel qu’avoir rejoint la dynamique de ce fournisseur, c’était le bon choix. »</p><span class="by">— Dirigeant d’un partenaire du réseau</span></blockquote>'
-              '<blockquote class="pquote ch"><p>« Merci aux équipes de notre fournisseur pour leur accueil, leur disponibilité et la qualité des échanges. »</p><span class="by">— Dirigeant d’un partenaire du réseau</span></blockquote>'
-              '<blockquote class="pquote ch"><p>« Ce trophée nous donne encore plus envie d’aller chercher le suivant. »</p><span class="by">— Partenaire récompensé lors de la remise des trophées du réseau</span></blockquote>'),
+              '<blockquote class="pquote ch"><p>« Ces moments-là sont bien plus qu’une réunion. C’est un rappel qu’avoir rejoint la dynamique de ce fournisseur, c’était le bon choix. »</p><span class="by">— Dirigeant d’un partenaire Silver du réseau, Occitanie</span></blockquote>'
+              '<blockquote class="pquote ch"><p>« Merci aux équipes de notre fournisseur pour leur accueil, leur disponibilité et la qualité des échanges. »</p><span class="by">— Partenaire Silver, Île-de-France</span></blockquote>'
+              '<blockquote class="pquote ch"><p>« Ce trophée nous donne encore plus envie d’aller chercher le suivant. »</p><span class="by">— Partenaire Gold récompensé lors des trophées du réseau, Rhône-Alpes</span></blockquote>'),
     rlabel="L’enseignement",
     result="Un club partenaires n’est pas un simple événement relationnel, mais un dispositif de dialogue, d’écoute et de coconstruction qui aide le constructeur à mieux comprendre son réseau, et les partenaires à contribuer à son évolution.",
     xp="Mission de conseil Xpansio. Le client n’est pas nommé, par confidentialité."),
