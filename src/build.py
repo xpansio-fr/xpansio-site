@@ -420,6 +420,9 @@ OFFRES_CH = offres("ch", "Chaque mission peut être menée seule. Le parcours pa
 ])
 
 OFFRES_CL = offres("cl", "Chaque mission peut être menée seule. Le parcours client fait le point sur la satisfaction et les irritants. La segmentation repère ensuite les clients à risque et ceux à potentiel : elle aide à prioriser les chantiers d’amélioration et à choisir les clients pour lesquels mettre en place une démarche de Customer Success.", [
+  ("Enquête de satisfaction client",
+   "Atelier avec vos équipes sur les points de contact, conception du questionnaire, paramétrage et envoi, analyse des résultats.",
+   "Résultats commentés, irritants prioritaires, 3 à 5 actions recommandées, restitution à la direction.", "3 à 4 semaines"),
   ("Parcours client",
    "Atelier avec la direction sur le cycle client et les points de contact. Ateliers associant des clients représentatifs et vos équipes (régionaux ou nationaux), complétés si besoin par une enquête de satisfaction (NPS).",
    "Cartographie du parcours avec irritants et moments réussis, préconisations, document d’analyse complet.", "4 à 6 semaines"),
