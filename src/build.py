@@ -407,7 +407,7 @@ OFFRES_CH = offres("ch", "Chaque mission peut être menée seule. Le parcours pa
    "Atelier avec la direction commerciale sur les étapes du cycle partenaire et les points de contact. Entretiens approfondis avec une dizaine de partenaires et vos commerciaux, et enquête de satisfaction auprès du réseau.",
    "Cartographie du parcours avec irritants et moments réussis, analyse et préconisations.", "3 à 4 semaines"),
   ("Audit de performance du réseau",
-   "Analyse des données de vos partenaires sur six axes : business, compétences, engagement, adoption et transformation, poids, concurrence. Maturité du réseau et couverture territoriale. L’auto-diagnostic partenaire en est la version courte.",
+   "Analyse des chiffres réels de l’ensemble de vos partenaires : chiffre d’affaires, marge et volumes, formation des équipes, engagement (participation aux événements, utilisation des budgets coop et des outils). Six axes, avec des indicateurs adaptés à votre entreprise : business, compétences, engagement, adoption et transformation, poids, concurrence. Maturité du réseau et couverture territoriale. L’auto-diagnostic partenaire en donne une illustration simplifiée.",
    "Score de performance par axe, points de progrès, analyse complète.", "4 semaines"),
   ("Programme partenaires",
    "Atelier avec la direction (enjeux, objectifs, stratégie). Analyse des ventes, du programme et du contrat actuels, des outils et de la formation. Entretiens avec vos équipes et vos partenaires, en intégrant le parcours partenaires s’il n’a pas encore été réalisé. Puis adaptation du programme existant, ou nouvelle proposition de valeur et nouveau programme : niveaux, devoirs et bénéfices, accréditations et certifications.",
@@ -818,7 +818,7 @@ AUTODIAG = f'''
 
   <div class="cta">
     <h2>Allons plus loin sur l'ensemble de votre portefeuille</h2>
-    <p>Ce diagnostic porte sur un seul client et 10 critères. La version complète en compte plus de 30, avec des signaux d'alerte, un calibrage adapté à votre activité et un tableau de bord de tout votre portefeuille, avec le chiffre d'affaires à risque. Je vous propose un débrief de 30 minutes, offert et sans engagement, pour lire vos résultats ensemble.</p>
+    <p>Ce diagnostic porte sur un seul client et 10 critères : c'est une illustration simplifiée de ma démarche. Une analyse de portefeuille s'appuie sur vos données réelles et sur des indicateurs adaptés à votre activité, avec des signaux d'alerte et un tableau de bord de tout votre portefeuille, avec le chiffre d'affaires à risque. Je vous propose un débrief de 30 minutes, offert et sans engagement, pour lire vos résultats ensemble.</p>
     <a class="btn" href="contact.html?sujet=customer-performance">Réserver mon débrief offert</a>
     <button type="button" class="btn secondary" id="again">Évaluer un autre client</button>
   </div>
@@ -847,8 +847,8 @@ AUTODIAG_CH = (AUTODIAG
   .replace("Dans combien de temps arrive la fin du contrat principal ou son renouvellement&nbsp;?", "Quelle part de votre chiffre d'affaires indirect représente-t-il&nbsp;?")
   .replace("Répondez aux 10 questions", "Répondez aux 10 questions")
   .replace("Allons plus loin sur l'ensemble de votre portefeuille", "Allons plus loin sur l'ensemble de votre réseau")
-  .replace("Ce diagnostic porte sur un seul client et 10 critères. La version complète en compte plus de 30, avec des signaux d'alerte, un calibrage adapté à votre activité et un tableau de bord de tout votre portefeuille, avec le chiffre d'affaires à risque.",
-           "Ce diagnostic porte sur un seul partenaire et 10 critères. Un audit complet de performance partenaire va plus loin : une grille détaillée et pondérée selon vos priorités, la comparaison avec la moyenne du réseau et un plan d'action construit avec chaque partenaire.")
+  .replace("Ce diagnostic porte sur un seul client et 10 critères : c'est une illustration simplifiée de ma démarche. Une analyse de portefeuille s'appuie sur vos données réelles et sur des indicateurs adaptés à votre activité, avec des signaux d'alerte et un tableau de bord de tout votre portefeuille, avec le chiffre d'affaires à risque.",
+           "Ce diagnostic porte sur un seul partenaire et 10 critères : c'est une illustration simplifiée de ma démarche. Un audit de performance s'appuie sur les chiffres réels de tout votre réseau (chiffre d'affaires, marge, volumes, formation des équipes, participation aux événements, utilisation des budgets coop et des outils) et sur des indicateurs adaptés à votre entreprise, avec un plan d'action construit avec chaque partenaire.")
   .replace("contact.html?sujet=customer-performance", "contact.html?sujet=channel-performance")
   .replace("Évaluer un autre client", "Évaluer un autre partenaire"))
 assert AUTODIAG_CH.count("Channel Performance") >= 2 and "10 questions" in AUTODIAG_CH and "channel-performance" in AUTODIAG_CH
