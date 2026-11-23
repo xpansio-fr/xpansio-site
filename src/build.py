@@ -260,6 +260,32 @@ KIND = {"x": "Mission Xpansio", "a": "Expérience antérieure"}
 EXP = {"ch": ("Channel Performance", "experience-channel.html"), "cl": ("Customer Performance", "experience-client.html")}
 
 REAL = [
+  dict(slug="realisation-programme-partenaires.html", cls="ch", kind="x",
+    title="Comment construire un programme partenaires qui crée de la valeur dans la durée ?",
+    ctx="Un programme partenaires ancien et un marché en pleine mutation : il fallait donner au réseau un nouvel élan.",
+    ans="Partir du vécu des partenaires, définir une stratégie de réseau, puis un programme dont chaque élément sert la même proposition de valeur.",
+    defi="Des produits haut de gamme ne seront jamais les moins chers du marché. Pour le partenaire, leur rentabilité se construit dans le temps, grâce aux contrats de service. Comment bâtir un programme qui valorise cette rentabilité durable plutôt que la seule vente ?",
+    reponse="Écouter les partenaires et les équipes sur tout le parcours partenaire, définir avec la direction une stratégie de réseau, puis un programme fondé sur le service, la durabilité et le travail ensemble, avec un nom et une vidéo qui en expliquent le sens.",
+    done=["Cartographie du parcours partenaire avec la direction et les équipes",
+          "Entretiens avec une dizaine de partenaires, dont six sur site : vécu du parcours, irritants, moments réussis, comparaison avec la concurrence",
+          "Enquête de satisfaction à chaque point de contact, et même démarche auprès des responsables régionaux",
+          "Atelier d’amélioration avec les équipes, puis stratégie de réseau et de programme avec la direction",
+          "Nouveaux niveaux et critères de progression au-delà du chiffre d’affaires : services, plan de développement, certifications, engagements RSE"],
+    briques=["Une <b>proposition de valeur réseau</b>, socle de tout le programme. <a class=\"link ch\" href=\"realisation-valeur-marque.html\">Voir la réalisation</a>",
+             "Un <b>nom et une vidéo</b> qui expriment le sens du programme : se rencontrer, s’engager et progresser ensemble.",
+             "Une <b>certification qualité de service</b> qui valorise les meilleurs partenaires. <a class=\"link ch\" href=\"realisation-certification-qualite-service.html\">Voir la réalisation</a>",
+             "Un <b>score RSE des partenaires</b>, construit avec la responsable RSE : charte, brochure, et visite d’usine pour montrer l’importance des consommables d’origine.",
+             "Des <b>clubs de dirigeants et des communautés</b> pour dialoguer avec la direction et entre partenaires. <a class=\"link ch\" href=\"realisation-clubs-partenaires.html\">Voir la réalisation</a>",
+             "Une <b>tournée nationale de rencontres</b> en région, construite sur les réussites des partenaires eux-mêmes.",
+             "Des <b>pilotes co-construits</b> avec des partenaires sur le terrain, autour des solutions et des services.",
+             "Un <b>catalogue d’actions marketing cofinancées</b> pour les principaux partenaires, présenté sur le terrain, avec enquêtes de satisfaction et premiers témoignages clients."],
+    res_intro="Le programme vient d’être lancé. Les premiers signaux sont positifs :",
+    resultats=["les avenants du nouveau programme sont signés et l’accueil du réseau est positif ;",
+               "les rencontres en région ont reçu des retours très positifs, grâce à des contenus utiles et à la participation des partenaires ;",
+               "les premiers effets sont visibles sur les ventes de consommables, au cœur de la rentabilité durable du réseau."],
+    rlabel="L’enseignement",
+    result="Un programme partenaires n’est pas une grille de remises : il traduit une stratégie de réseau. Quand chaque élément, des niveaux aux certifications, des communautés aux rencontres, sert la même proposition de valeur, le programme prend du sens pour les partenaires.",
+    xp="Mission de conseil Xpansio auprès d’un constructeur. Le client n’est pas nommé, par confidentialité."),
   dict(slug="realisation-valeur-marque.html", cls="ch", kind="x",
     title="Comment redonner de la valeur à une marque lorsque les discussions se concentrent sur le prix ?",
     ctx="Un constructeur sur un marché mature, des offres premium mais de plus en plus difficiles à différencier et une forte pression sur les prix.",
@@ -376,7 +402,8 @@ REAL = [
 ]
 R = {r["slug"]: r for r in REAL}
 OG_IMG.update({r["slug"]: r["og_image"] for r in REAL if "og_image" in r})
-R1, R5, R6, R2, R3, R4 = (r["slug"] for r in REAL)
+R0, R1, R5, R6, R2, R3, R4 = (r["slug"] for r in REAL)
+PARENT_CH = {R1, R5, R6}   # réalisations qui sont des éléments du programme partenaires (R0)
 
 def rcard(r):
     """Aperçu court d'une réalisation (accueil, page Réalisations, pages d'expertise)."""
@@ -393,6 +420,7 @@ KINDS_NOTE = ('<p class="note"><b>Mission Xpansio</b> : intervention de conseil 
 
 # Fiches qui renvoient vers l'auto-diagnostic, et la ligne ajoutée en fin de fiche
 AUTODIAG_FICHES = {"realisation-au-dela-du-nps.html", "realisation-crise-clients-prioritaires.html", "realisation-customer-success.html"}
+PARENT_LINE = f'<p class="autodiag-line">Cette démarche est l’un des éléments de la refonte d’un programme partenaires. <a class="link ch" href="realisation-programme-partenaires.html">Voir la démarche d’ensemble {ARR}</a></p>'
 AUTODIAG_LINE = f'<p class="autodiag-line">Et vos clients, êtes-vous certain qu’ils vont renouveler ? <a class="link cl" href="auto-diagnostic.html">Faire l’auto-diagnostic {ARR}</a></p>'
 
 # Fiche NPS : la boucle d'amélioration continue (étapes de « Ce qui a été réalisé »)
@@ -468,6 +496,8 @@ def real_page(r):
     if "figure" in r:
         src, w, h, alt, cap = r["figure"]
         extra += f'<figure class="shot"><img src="{src}" width="{w}" height="{h}" alt="{alt}" loading="lazy" decoding="async"><figcaption>{cap}</figcaption></figure>'
+    if "briques" in r:
+        extra += f'<div class="deliv-box"><span class="label {c}">Les éléments du programme</span><ul>' + ''.join(f'<li>{x}</li>' for x in r["briques"]) + '</ul></div>'
     res = ""
     if any(k in r for k in ("resultats", "res_html")):
         res = (f'<div class="results"><span class="label {c}">Les résultats</span>'
@@ -495,6 +525,7 @@ def real_page(r):
       <p class="from"><b>L’expérience mobilisée :</b> {r["xp"]}</p></div>
     <div class="below"><a class="link {c}" href="{href}">Voir l’expertise {exp} {ARR}</a></div>
     {AUTODIAG_LINE if r["slug"] in AUTODIAG_FICHES else ""}
+    {PARENT_LINE if r["slug"] in PARENT_CH else ""}
   </div>
 </section>
 {cta()}
@@ -654,7 +685,7 @@ CHANNEL = f'''
 <section class="band alt">
   <div class="wrap">
     {head("Réalisations associées", "Ce que cela donne sur le terrain.", "Ces missions ont été conduites pour un constructeur dont le réseau compte plus d’une centaine de partenaires.", cls="ch")}
-    {rgrid([R[R5], R[R1], R[R6]])}
+    {rgrid([R[R0], R[R5], R[R1], R[R6]])}
     <p class="autodiag-line">Ce partenaire est-il vraiment un partenaire performant pour votre réseau ? <a class="link ch" href="auto-diagnostic-channel.html">Faire l’auto-diagnostic {ARR}</a></p>
   </div>
 </section>
