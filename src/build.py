@@ -284,7 +284,7 @@ REAL = [
     xp="Mission de conseil Xpansio auprès d’un constructeur. Le client n’est pas nommé, par confidentialité."),
   dict(slug="realisation-clubs-partenaires.html", cls="ch", kind="x",
     title="Comment rétablir la confiance d’un réseau de partenaires fragilisé ?",
-    ctx="Un changement de management et des crises successives avaient fragilisé l’implication des partenaires.",
+    ctx="Après une période de changements, l’implication des partenaires devait être relancée.",
     ans="Créer et animer des clubs partenaires : un dialogue régulier, des experts, une implication dans la vie du réseau.",
     defi="Un réseau ne peut pas reposer uniquement sur une relation commerciale descendante : les partenaires ont besoin de partager leurs enjeux, de faire entendre leurs attentes, d’accéder à des expertises utiles et de participer à l’évolution du réseau.",
     reponse="Créer et animer des clubs partenaires, clubs technologiques d’expertise et clubs de dirigeants plus stratégiques, pour instaurer un dialogue régulier, faire émerger des réflexions communes et renforcer l’implication des partenaires. Une charte a été élaborée avec eux, l’accès au management de haut niveau facilité, et l’accompagnement renforcé en parallèle.",
@@ -294,7 +294,7 @@ REAL = [
           "Recueil des attentes et des contributions des partenaires",
           "Enquête de satisfaction après chaque réunion, exploitée pour préparer les rencontres suivantes"],
     res_html=('<div class="res-lead"><div class="case-kpis"><div class="kpi"><div class="v">100&nbsp;%</div><div class="l">des participants très satisfaits</div></div></div>'
-              '<p>Lors de la dernière réunion du club des dirigeants, qui réunit les 15 partenaires les plus moteurs et les plus influents du réseau, après une période de crise : <b>100&nbsp;%</b> des participants se sont déclarés très satisfaits dans l’enquête menée à l’issue de la réunion.</p></div>'
+              '<p>Lors de la dernière réunion du club des dirigeants, qui réunit les 15 partenaires les plus moteurs et les plus influents du réseau, après une période de changements : <b>100&nbsp;%</b> des participants se sont déclarés très satisfaits dans l’enquête menée à l’issue de la réunion.</p></div>'
               '<p>Les participants soulignent en particulier l’utilité stratégique des échanges, l’accès à des experts et le dialogue direct avec le constructeur.</p>'
               '<h3 class="res-sub">Ce que disent les partenaires du dispositif mis en place</h3>'
               '<blockquote class="pquote ch"><p>« Ces moments-là sont bien plus qu’une réunion. C’est un rappel qu’avoir rejoint la dynamique de ce fournisseur, c’était le bon choix. »</p><span class="by">— Dirigeant d’un partenaire Silver du réseau, Occitanie</span></blockquote>'
