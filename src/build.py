@@ -644,7 +644,7 @@ CHANNEL = f'''
 </section>
 <section class="band alt">
   <div class="wrap">
-    {head("Réalisations associées", "Ce que cela donne sur le terrain.", cls="ch")}
+    {head("Réalisations associées", "Ce que cela donne sur le terrain.", "Ces missions ont été conduites pour un constructeur dont le réseau compte 120 partenaires, sur deux marques.", cls="ch")}
     {rgrid([R[R5], R[R1], R[R6]])}
     <p class="autodiag-line">Ce partenaire est-il vraiment un partenaire performant pour votre réseau ? <a class="link ch" href="auto-diagnostic-channel.html">Faire l’auto-diagnostic {ARR}</a></p>
   </div>
