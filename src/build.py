@@ -161,7 +161,7 @@ def page(key, title, desc, body, full=True, fn="index.html"):
     extra_css = ''.join(f'\n<link rel="stylesheet" href="{f}?v={ver(f)}">' for f in PAGE_CSS.get(key, []))
     extra_js = ''.join(f'\n<script src="{f}?v={ver(f)}"></script>' for f in PAGE_JS.get(key, []))
     head = (f'<title>{title}</title>\n<meta name="claude:viewport-fit-sides" content="cover">\n'
-            f'<meta name="description" content="{desc}">\n{og(fn, title, desc)}\n{FONTS}\n<link rel="stylesheet" href="styles.css?v={CSS_V}">{extra_css}\n<link rel="icon" href="assets/favicon.png">')
+            f'<meta name="description" content="{desc}">\n<link rel="canonical" href="{SITE}{"" if fn == "index.html" else fn}">\n{og(fn, title, desc)}\n{FONTS}\n<link rel="stylesheet" href="styles.css?v={CSS_V}">{extra_css}\n<link rel="icon" href="assets/favicon.png">')
     inner = f'{header(key)}\n<main>\n{body}\n</main>\n{FOOTER}\n{SCRIPT}{extra_js}'
     if not full:
         return head + '\n' + inner
@@ -893,5 +893,9 @@ if __name__ == "__main__":
     d = os.path.join(ROOT, "docs")
     open(os.path.join(d, "CNAME"), "w").write("xpansio.fr\n")
     open(os.path.join(d, ".nojekyll"), "w").write("")
+    # Référencement Google : plan du site et fichier robots (les pages de redirection n'y figurent pas)
+    open(os.path.join(d, "sitemap.xml"), "w").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        + ''.join(f'  <url><loc>{SITE}{"" if fn == "index.html" else fn}</loc></url>\n' for fn, *_ in PAGES) + '</urlset>\n')
+    open(os.path.join(d, "robots.txt"), "w").write(f"User-agent: *\nAllow: /\n\nSitemap: {SITE}sitemap.xml\n")
     print("ok")
 
