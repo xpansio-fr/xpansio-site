@@ -264,7 +264,7 @@ REAL = [
     title="Comment construire un programme partenaires qui crée de la valeur dans la durée ?",
     ctx="Un programme partenaires ancien et un marché en pleine mutation : il fallait donner au réseau un nouvel élan.",
     ans="Partir du vécu des partenaires, définir une stratégie de réseau, puis un programme dont chaque élément sert la même proposition de valeur.",
-    defi="Des produits haut de gamme ne seront jamais les moins chers du marché. Pour le partenaire, leur rentabilité se construit dans le temps, grâce aux contrats de service. Comment bâtir un programme qui valorise cette rentabilité durable plutôt que la seule vente ?",
+    defi="Sur un marché mature, un réseau de distribution a besoin d’autre chose que de niveaux et de remises. Comment lui redonner du sens, et apporter aux partenaires une valeur concrète qui les aide à progresser et à développer leur activité dans la durée ?",
     reponse="Écouter les partenaires et les équipes sur tout le parcours partenaire, définir avec la direction une stratégie de réseau, puis un programme fondé sur le service, la durabilité et le travail ensemble, avec un nom et une vidéo qui en expliquent le sens.",
     done=["Cartographie du parcours partenaire avec la direction et les équipes",
           "Entretiens avec une dizaine de partenaires, dont six sur site : vécu du parcours, irritants, moments réussis, comparaison avec la concurrence",
