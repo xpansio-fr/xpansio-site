@@ -318,6 +318,9 @@ section[id]{scroll-margin-top:60px}
 .coords div{display:grid;gap:8px;justify-items:center;text-align:center;padding:24px 16px;border-radius:var(--radius);background:#fff}
 .coords dt{font-family:var(--mono);font-size:.64rem;text-transform:uppercase;letter-spacing:.18em;color:var(--muted)}
 .coords dd{margin:0;font-size:.9rem;overflow-wrap:anywhere;line-height:1.5}
+/* Téléphone : « Appeler » sur mobile, « Être rappelé » sur ordinateur (souris) */
+.coords .on-desk{display:none}
+@media (hover:hover) and (pointer:fine){.coords .on-touch{display:none}.coords .on-desk{display:inline-flex}}
 .form{max-width:var(--narrow);margin-inline:auto;background:#fff;border-radius:22px;padding:clamp(24px,4vw,48px);display:grid;gap:24px}
 .fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
 @media (max-width:560px){.fields{grid-template-columns:1fr}}

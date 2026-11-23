@@ -18,7 +18,7 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Montserrat:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="styles.css?v=e1f58d76">
+<link rel="stylesheet" href="styles.css?v=c52361d2">
 <link rel="icon" href="assets/favicon.png">
 </head>
 <body>
@@ -340,12 +340,21 @@
     if(sc)sc.checked=true;
     if(fm&&!fm.value)fm.value="Je viens de faire l’auto-diagnostic et je souhaite un débrief.";
   }
+  /* Sur ordinateur, « Être rappelé » remplace « Appeler » : message pré-rempli, téléphone obligatoire */
+  var rp=document.getElementById('rappel');
+  if(f&&rp){rp.addEventListener('click',function(e){
+    e.preventDefault();var fm=document.getElementById('f-msg'),ft=document.getElementById('f-tel'),fs=document.getElementById('f-subj');
+    if(fm&&!fm.value)fm.value="Merci de me rappeler. Mes disponibilités : ";
+    if(fs)fs.value="Demande de rappel depuis xpansio.fr";
+    ft.required=true;document.getElementById('l-tel').textContent='Téléphone (pour vous rappeler)';
+    ft.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(function(){ft.focus({preventScroll:true});},400);
+  });}
   if(f){f.addEventListener('submit',function(e){
     e.preventDefault();var msg=f.querySelector('.form-msg');
     var btn=f.querySelector('button[type=submit]');btn.disabled=true;
     fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Accept':'application/json'},body:new FormData(f)})
       .then(function(r){return r.json();}).then(function(j){btn.disabled=false;if(!j.success)throw 0;msg.textContent='Merci, votre message a bien été envoyé. Réponse sous 48 heures ouvrées.';msg.hidden=false;f.reset();})
-      .catch(function(){btn.disabled=false;msg.textContent="Le message n’a pas pu être envoyé. Réessayez dans quelques instants, ou utilisez le bouton Appeler.";msg.hidden=false;});
+      .catch(function(){btn.disabled=false;msg.textContent="Le message n’a pas pu être envoyé. Réessayez dans quelques instants, ou contactez-moi via LinkedIn.";msg.hidden=false;});
   });}
 })();
 </script>
