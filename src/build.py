@@ -236,7 +236,7 @@ def page_hero(crumbs, title, lead, extra="", cta_btn=None, tiles="", h1cls="", c
 </div>{tiles}</section>'''
 
 def issues(items):
-    return '<div class="issues">' + ''.join(
+    return f'<div class="issues{" n4" if len(items) == 4 else ""}">' + ''.join(
         f'<div class="issue"><span class="num">0{i+1}</span><b>{t}</b><p>{p}</p></div>' for i, (t, p) in enumerate(items)) + '</div>'
 
 def offers(items, cls):
@@ -972,10 +972,11 @@ PROG = f"""
   f'<span class="pill ch"><span class="ico ch">{I_NET}</span>Channel Performance</span>', cta_btn="Échanger sur votre programme", cta2=("Faire l’auto-diagnostic partenaire", "auto-diagnostic-channel.html")).replace('class="page-hero"', 'class="page-hero compact"', 1)}
 <section class="band alt">
   <div class="wrap">
-    {head("Les signaux", "Votre programme a-t-il encore du sens pour vos partenaires ?", cls="ch")}
+    {head("Les signaux", "Votre programme sert-il encore votre réseau, et vos objectifs ?", cls="ch")}
     {issues([("Un programme qui n’a pas suivi le marché","Vos offres, vos modèles de vente et vos partenaires ont changé ; le programme, lui, est resté le même."),
              ("Des niveaux fondés sur le chiffre d’affaires et les remises","Les partenaires comparent les conditions, pas la valeur que vous leur apportez."),
-             ("Des partenaires référencés, mais peu engagés","Une partie du réseau signe le contrat, puis s’investit peu : formation, événements, outils, budgets.")])}
+             ("Des partenaires référencés, mais peu engagés","Une partie du réseau signe le contrat, puis s’investit peu : formation, événements, outils, budgets."),
+             ("Des leviers et critères qui ne répondent plus à vos objectifs","Niveaux, remises, bénéfices : les règles du programme ne font plus avancer votre stratégie.")])}
   </div>
 </section>
 <section class="band">

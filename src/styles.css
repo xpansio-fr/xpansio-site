@@ -265,7 +265,8 @@ section[id]{scroll-margin-top:60px}
 .pill.cl{background:var(--client-soft);color:var(--client-text)}
 
 .issues{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px}
-@media (max-width:860px){.issues{grid-template-columns:1fr;max-width:480px;margin-inline:auto}}
+.issues.n4{grid-template-columns:repeat(2,minmax(0,1fr));max-width:860px;margin-inline:auto;gap:48px 56px}
+@media (max-width:860px){.issues,.issues.n4{grid-template-columns:1fr;max-width:480px;margin-inline:auto}}
 .issue{display:grid;gap:12px;justify-items:center;text-align:center;align-content:start}
 .issue .num{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-family:var(--mono);font-size:.72rem;border:1px solid var(--line-strong)}
 .issue b{font-weight:600;font-size:1.06rem;line-height:1.4}
