@@ -486,7 +486,7 @@ OFFRES_CH = offres("ch", "Chaque mission peut être menée seule. Le parcours pa
    "Score de performance par axe, points de progrès, analyse complète.", "4 semaines"),
   ("Programme partenaires",
    "Atelier avec la direction (enjeux, objectifs, stratégie). Analyse des ventes, du programme et du contrat actuels, des outils et de la formation. Entretiens avec vos équipes et vos partenaires, en intégrant le parcours partenaires s’il n’a pas encore été réalisé. Puis adaptation du programme existant, ou nouvelle proposition de valeur et nouveau programme : niveaux, devoirs et bénéfices, accréditations et certifications.",
-   "Raison d’être et proposition de valeur, programme complet, éléments de communication, guides et outils.", "Jusqu’à 6 mois selon la taille du réseau"),
+   "Raison d’être et proposition de valeur, programme complet, éléments de communication, guides et outils.", "Environ 6 mois selon la taille du réseau"),
 ])
 
 OFFRES_CL = offres("cl", "Chaque mission peut être menée seule. L’enquête mesure la satisfaction de l’ensemble de vos clients ; le parcours client en explique les causes, avec certains d’entre eux. La segmentation repère ensuite les clients à risque et ceux à potentiel : elle aide à prioriser les chantiers d’amélioration et à choisir les clients pour lesquels mettre en place une démarche de Customer Success.", [
@@ -991,7 +991,7 @@ PROG = f"""
 </section>
 <section class="band alt">
   <div class="wrap">
-    {head("La démarche", "Partir du vécu des partenaires, jusqu’au pilotage du réseau.", "Jusqu’à 6 mois selon la taille du réseau. Chaque étape peut aussi être menée seule.", cls="ch")}
+    {head("La démarche", "Partir du vécu des partenaires, jusqu’au pilotage du réseau.", "Environ 6 mois selon la taille du réseau. Chaque étape peut aussi être menée seule.", cls="ch")}
     {loop([("Écouter","Parcours partenaires : entretiens, enquête, irritants et moments réussis."),
            ("Mesurer","Audit de performance du réseau, sur six axes."),
            ("Définir","Stratégie de réseau et proposition de valeur, avec la direction."),
