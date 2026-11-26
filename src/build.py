@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Génère le site Xpansio v3 : dist/ (site à héberger) et artifact/ (accueil sans squelette)."""
-import os, shutil, sys
+import json, os, shutil, sys
 import hashlib
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from icons import *
@@ -60,6 +60,7 @@ FOOTER = '''<footer>
   <div class="wrap">
     <img class="logo" src="assets/logo-white.png" alt="xpansio" width="480" height="140">
     <p class="tagline">Accélérer la performance de vos partenaires.<br>Révéler la valeur de vos clients.</p>
+    <p class="identity">Xpansio est un cabinet de conseil indépendant basé en France, spécialisé dans la performance des réseaux de partenaires et du portefeuille clients des constructeurs, éditeurs, distributeurs et revendeurs IT.</p>
     <nav aria-label="Pied de page"><a href="index.html">Accueil</a><a href="experience-channel.html">Channel Performance</a><a href="experience-client.html">Customer Performance</a><a href="realisations.html">Réalisations</a><a href="auto-diagnostic.html">Auto-diagnostic client</a><a href="auto-diagnostic-channel.html">Auto-diagnostic partenaire</a><a href="contact.html">Contact</a><a href="https://www.linkedin.com/in/agnes-chabrier-7186971/" target="_blank" rel="noopener">LinkedIn</a></nav>
     <div class="foot-bottom"><span>© 2026 Xpansio</span><a href="mentions-legales.html">Mentions légales et confidentialité</a></div>
   </div>
@@ -166,11 +167,43 @@ def ver(f):
 PAGE_CSS = {"autodiag": ["autodiag.css"], "autodiag-ch": ["autodiag.css"]}
 PAGE_JS = {"autodiag": ["autodiag.js"], "autodiag-ch": ["autodiag-channel.js"]}
 
+# Fiche d'identité lisible par les moteurs de recherche et les IA (invisible à l'écran).
+# Ni email ni téléphone, conformément aux règles du site.
+IDENTITE = ("Xpansio est un cabinet de conseil indépendant basé en France, spécialisé dans la performance des réseaux de partenaires "
+            "(Channel) et du portefeuille clients des constructeurs, éditeurs, distributeurs et revendeurs IT.")
+LD_ORG = {
+  "@context": "https://schema.org", "@type": "ProfessionalService", "@id": SITE + "#xpansio",
+  "name": "Xpansio", "url": SITE, "logo": SITE + "assets/logo.png", "image": SITE + "assets/og-image.png",
+  "description": IDENTITE,
+  "slogan": "Accélérer la performance de vos partenaires. Révéler la valeur de vos clients.",
+  "address": {"@type": "PostalAddress", "addressLocality": "Nanterre", "postalCode": "92000", "addressCountry": "FR"},
+  "areaServed": {"@type": "Country", "name": "France"},
+  "knowsAbout": ["Programme partenaires", "Refonte de programme partenaires", "Stratégie de distribution indirecte", "Channel management",
+                 "Engagement des partenaires", "Parcours partenaire", "Performance des réseaux de revendeurs", "Partner Performance Index",
+                 "Expérience client B2B", "Customer Success", "Fidélisation client"],
+  "founder": {"@type": "Person", "name": "Agnès Chabrier", "jobTitle": "Fondatrice, consultante Channel et Customer Performance",
+              "url": SITE, "sameAs": ["https://www.linkedin.com/in/agnes-chabrier-7186971/"]},
+  "sameAs": ["https://www.linkedin.com/in/agnes-chabrier-7186971/"],
+  "hasOfferCatalog": {"@type": "OfferCatalog", "name": "Missions de conseil", "itemListElement": [
+    {"@type": "Offer", "itemOffered": {"@type": "Service", "name": n, "url": SITE + u}} for n, u in [
+      ("Refonte de programme partenaires", "programme-partenaires.html"),
+      ("Parcours partenaires", "experience-channel.html#comment-je-travaille"),
+      ("Audit de performance du réseau de partenaires", "experience-channel.html#comment-je-travaille"),
+      ("Enquête de satisfaction client", "experience-client.html#comment-je-travaille"),
+      ("Parcours client", "experience-client.html#comment-je-travaille"),
+      ("Segmentation du portefeuille clients", "experience-client.html#comment-je-travaille"),
+      ("Mise en place du Customer Success", "experience-client.html#comment-je-travaille")]]},
+}
+EXTRA_LD = {}   # fichier → données structurées supplémentaires (ex. FAQ)
+def ld(obj):
+    return '<script type="application/ld+json">' + json.dumps(obj, ensure_ascii=False) + '</script>'
+
 def page(key, title, desc, body, full=True, fn="index.html"):
     extra_css = ''.join(f'\n<link rel="stylesheet" href="{f}?v={ver(f)}">' for f in PAGE_CSS.get(key, []))
     extra_js = ''.join(f'\n<script src="{f}?v={ver(f)}"></script>' for f in PAGE_JS.get(key, []))
     head = (f'<title>{title}</title>\n<meta name="claude:viewport-fit-sides" content="cover">\n'
-            f'<meta name="description" content="{desc}">\n<link rel="canonical" href="{SITE}{"" if fn == "index.html" else fn}">\n{og(fn, title, desc)}\n{FONTS}\n<link rel="stylesheet" href="styles.css?v={CSS_V}">{extra_css}\n<link rel="icon" href="assets/favicon.png">')
+            f'<meta name="description" content="{desc}">\n<link rel="canonical" href="{SITE}{"" if fn == "index.html" else fn}">\n{og(fn, title, desc)}\n{FONTS}\n<link rel="stylesheet" href="styles.css?v={CSS_V}">{extra_css}\n<link rel="icon" href="assets/favicon.png">'
+            f'\n{ld(LD_ORG)}' + ''.join('\n' + ld(x) for x in EXTRA_LD.get(fn, [])))
     inner = f'{header(key)}\n<main>\n{body}\n</main>\n{FOOTER}\n{SCRIPT}{extra_js}'
     if not full:
         return head + '\n' + inner
@@ -669,6 +702,7 @@ CHANNEL = f'''
       <a href="assets/parcours-partenaire-grand.webp" target="_blank" rel="noopener" title="Ouvrir l’image en grand"><img src="assets/parcours-partenaire.webp" width="1600" height="900" alt="Exemple de livrable de diagnostic réseau : courbe d’expérience des partenaires sur 12 étapes, carte de chaleur par partenaire et principaux enseignements. Données fictives." loading="lazy" decoding="async"></a>
       <figcaption>Exemple de livrable : la cartographie du parcours partenaire, consolidée à l’échelle du réseau (données fictives). <a href="assets/parcours-partenaire-grand.webp" target="_blank" rel="noopener">Agrandir</a></figcaption>
     </figure>
+    <p class="autodiag-line">Votre programme partenaires doit évoluer ? <a class="link ch" href="programme-partenaires.html">Voir la démarche de refonte {ARR}</a></p>
   </div>
 </section>
 {OFFRES_CH}
@@ -901,10 +935,92 @@ AUTODIAG_CH = (AUTODIAG
   .replace("Évaluer un autre client", "Évaluer un autre partenaire"))
 assert AUTODIAG_CH.count("Channel Performance") >= 2 and "10 questions" in AUTODIAG_CH and "channel-performance" in AUTODIAG_CH
 
+# ---------- REFONTE DE PROGRAMME PARTENAIRES ----------
+# Page qui répond directement à la question d'un directeur channel / des ventes indirectes.
+FAQ_PROG = [
+  # Textes validés par Agnès
+  ('Quand faut-il faire évoluer un programme partenaires ?',
+   'Quand le programme n’a pas changé depuis plusieurs années alors que vos offres et votre marché ont évolué ; quand les niveaux reposent surtout sur le chiffre d’affaires et les remises ; quand une partie du réseau est référencée mais peu active ; ou quand vous lancez de nouvelles offres (services, cloud, solutions logicielles) que les partenaires doivent savoir vendre. Et surtout, lorsque vous vous apercevez que les différents leviers du programme sont sans effet sur votre stratégie ou vos objectifs. Car ce sont bien vos objectifs qui doivent être sous-jacents derrière les règles du programme. Un programme qui ne sert plus vos objectifs est un programme devenu caduc.'),
+  ('Combien de temps dure une refonte de programme partenaires ?',
+   'Environ 6 mois selon la taille du réseau, de l’écoute des partenaires au programme complet. Le parcours partenaires (3 à 4 semaines) et l’audit de performance du réseau (4 semaines) peuvent être menés seuls, en première étape. Mais en réalité, c’est très variable et totalement dépendant de votre réalité. Si votre stratégie de distribution différenciatrice est claire, si les objectifs du programme sont déjà établis, le temps nécessaire à la refonte sera plus faible. En revanche, s’il faut travailler en amont une stratégie de différenciation et des objectifs liés, alors ce travail, basé sur des ateliers avec la direction des ventes, voire le Comex, prendra un temps indispensable et nécessaire avant toute refonte.'),
+  ('Faut-il repartir de zéro ?',
+   'Non. Selon la situation, on adapte le programme existant ou l’on construit une nouvelle proposition de valeur et un nouveau programme : niveaux, devoirs et bénéfices, accréditations et certifications.'),
+  ('Cabinet de conseil, agence channel marketing ou grand cabinet : que choisir ?',
+   'Les approches sont complémentaires. Une agence channel marketing met en œuvre des campagnes et des actions marketing avec les partenaires. Xpansio intervient en amont : stratégie de réseau, proposition de valeur, conception du programme et mesure de la performance des partenaires, avec une démarche à taille humaine et une connaissance vécue du terrain, côté constructeur comme côté partenaires.'),
+  ('Comment impliquer les partenaires dans la refonte ?',
+   'En partant de leur vécu : entretiens approfondis avec une dizaine de partenaires, enquête de satisfaction auprès du réseau, ateliers avec vos équipes, puis pilotes co-construits avec des partenaires sur le terrain. Un programme compris et partagé est un programme appliqué.'),
+  ('Comment mesurer l’efficacité d’un programme partenaires ?',
+   'Sur deux niveaux : la performance globale du réseau (chiffre d’affaires, parts de marché, couverture, croissance), sa capacité à répondre à vos objectifs, et la relation avec chaque partenaire, structurée par le Partner Performance Index (compétences, qualité de service, engagement, pratiques commerciales, capacité de transformation).'),
+  ('Pour quelles entreprises ?',
+   'Les constructeurs, éditeurs et distributeurs IT et bureautique qui vendent par un réseau de revendeurs, d’intégrateurs ou d’ESN, en France.'),
+]
+EXTRA_LD["programme-partenaires.html"] = [
+  {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+    {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in FAQ_PROG]},
+  {"@context": "https://schema.org", "@type": "Service", "name": "Refonte de programme partenaires",
+   "serviceType": "Conseil en stratégie channel et programme partenaires", "provider": {"@id": SITE + "#xpansio"},
+   "areaServed": {"@type": "Country", "name": "France"}, "url": SITE + "programme-partenaires.html",
+   "audience": {"@type": "BusinessAudience", "audienceType": "Directeurs channel, directeurs des ventes indirectes, responsables de programmes partenaires"}},
+]
+def faq(items, cls):
+    return f'<div class="faq {cls}">' + ''.join(f'<details><summary>{q}</summary><p>{a}</p></details>' for q, a in items) + '</div>'
+
+PROG = f"""
+{page_hero([("index.html","Accueil"),("experience-channel.html","Channel Performance"),(None,"Programme partenaires")], "Faire évoluer votre programme partenaires",
+  ["Un programme plus efficace, adapté à vos nouveaux enjeux, et qui a du sens pour vos partenaires.",
+   "Pour les directeurs channel et des ventes indirectes des constructeurs, éditeurs et distributeurs IT."],
+  f'<span class="pill ch"><span class="ico ch">{I_NET}</span>Channel Performance</span>', cta_btn="Échanger sur votre programme", cta2=("Faire l’auto-diagnostic partenaire", "auto-diagnostic-channel.html")).replace('class="page-hero"', 'class="page-hero compact"', 1)}
+<section class="band alt">
+  <div class="wrap">
+    {head("Les signaux", "Votre programme a-t-il encore du sens pour vos partenaires ?", cls="ch")}
+    {issues([("Un programme qui n’a pas suivi le marché","Vos offres, vos modèles de vente et vos partenaires ont changé ; le programme, lui, est resté le même."),
+             ("Des niveaux fondés sur le chiffre d’affaires et les remises","Les partenaires comparent les conditions, pas la valeur que vous leur apportez."),
+             ("Des partenaires référencés, mais peu engagés","Une partie du réseau signe le contrat, puis s’investit peu : formation, événements, outils, budgets.")])}
+  </div>
+</section>
+<section class="band">
+  <div class="wrap">
+    {head("Vos nouveaux enjeux", "Un programme partenaires traduit une stratégie de réseau.", "Pas une grille de remises : chaque élément sert la même proposition de valeur.", cls="ch")}
+    {cards([
+      (I_LAYERS,"Services et revenus récurrents","Valoriser les partenaires qui développent les contrats de service, au cœur de la rentabilité durable du réseau."),
+      (I_CAP,"Cloud, cybersécurité, IA","Aider les partenaires à démontrer une valeur métier à leurs clients, au-delà de la technologie."),
+      (I_MAP,"Des critères au-delà du chiffre d’affaires","Services, plan de développement, certifications, qualité de service, engagements RSE."),
+      (I_PATH,"L’engagement plutôt que les remises","Rencontres, clubs, pilotes co-construits : des partenaires qui progressent avec vous."),
+    ],"ch",4)}
+  </div>
+</section>
+<section class="band alt">
+  <div class="wrap">
+    {head("La démarche", "Partir du vécu des partenaires, jusqu’au pilotage du réseau.", "Jusqu’à 6 mois selon la taille du réseau. Chaque étape peut aussi être menée seule.", cls="ch")}
+    {loop([("Écouter","Parcours partenaires : entretiens, enquête, irritants et moments réussis."),
+           ("Mesurer","Audit de performance du réseau, sur six axes."),
+           ("Définir","Stratégie de réseau et proposition de valeur, avec la direction."),
+           ("Construire","Niveaux, devoirs et bénéfices, certifications, communication."),
+           ("Piloter","Indicateurs du réseau et Partner Performance Index.")],
+          "ch n5", "Démarche en cinq étapes : écouter, mesurer, définir, construire, piloter, puis recommencer")}
+    <p class="autodiag-line">Durées et livrables de chaque mission : <a class="link ch" href="experience-channel.html#comment-je-travaille">Comment je travaille {ARR}</a></p>
+  </div>
+</section>
+<section class="band">
+  <div class="wrap">
+    {head("Réalisation", "Ce que cela donne sur le terrain.", "Mission conduite pour un constructeur dont le réseau compte plus d’une centaine de partenaires.", cls="ch")}
+    {rgrid([R[R0]])}
+  </div>
+</section>
+<section class="band alt" id="questions">
+  <div class="wrap">
+    {head("Questions fréquentes", "Faire évoluer un programme partenaires : vos questions.", cls="ch")}
+    {faq(FAQ_PROG, "ch")}
+  </div>
+</section>
+{cta()}
+"""
+
 PAGES = [
     ("index.html", "home", "Xpansio · Conseil en performance Channel et Customer, B2B IT", "Xpansio, conseil en performance Channel & Customer pour les constructeurs, éditeurs, distributeurs et revendeurs IT : réseaux de partenaires et valeur du portefeuille clients.", HOME),
     ("experience-channel.html", "channel", "Channel Performance : réseaux et programmes partenaires · Xpansio", "Stratégie de réseau, proposition de valeur et programmes partenaires, parcours et engagement des partenaires : l’expertise Channel Performance d’Xpansio.", CHANNEL),
     ("experience-client.html", "client", "Customer Performance : satisfaction, fidélisation, Customer Success · Xpansio", "Écoute et satisfaction, expérience client, fidélisation et Customer Success, développement du capital client : l’expertise Customer Performance d’Xpansio.", CLIENT),
+    ("programme-partenaires.html", "channel", "Refonte de programme partenaires : conseil channel pour constructeurs, éditeurs et distributeurs IT · Xpansio", "Faire évoluer votre programme partenaires : signaux, nouveaux enjeux, démarche en cinq étapes, réalisation et questions fréquentes. Xpansio, conseil indépendant en performance Channel.", PROG),
     ("realisations.html", "realisations", "Réalisations · Xpansio", "Des situations réelles en Channel et Customer Performance : contexte, démarche, réalisations et enseignements.", REALISATIONS_PAGE),
 ] + [(r["slug"], "realisations", r["title"] + " · Xpansio", r["ctx"], real_page(r)) for r in REAL] + [
     ("auto-diagnostic.html", "autodiag", "Auto-diagnostic : êtes-vous certain que ce client va renouveler ? · Xpansio", "10 questions, 2 minutes : évaluez la solidité de la relation avec l’un de vos clients clés et repérez les signaux de risque avant l’échéance du contrat.", AUTODIAG),

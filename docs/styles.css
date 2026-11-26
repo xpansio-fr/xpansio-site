@@ -789,3 +789,14 @@ a.pcard:focus-visible{outline:2px solid var(--channel);outline-offset:3px}
 .wk.ch .wk-d{background:var(--channel-soft);color:var(--channel-text)}.wk.cl .wk-d{background:var(--client-soft);color:var(--client-text)}
 .wk-s{display:grid;gap:6px}
 .wk-s p{font-size:.9rem;color:var(--ink-2);line-height:1.65}
+
+/* Pied de page : phrase d'identité */
+footer .identity{max-width:620px;font-size:.78rem;line-height:1.7;color:var(--on-ink-muted)}
+/* Questions fréquentes */
+.faq{max-width:820px;margin:0 auto;display:grid;gap:12px;text-align:left}
+.faq details{border:1px solid var(--line);border-radius:var(--radius);background:var(--bg);padding:0 22px}
+.faq summary{cursor:pointer;list-style:none;padding:18px 28px 18px 0;font-weight:600;font-size:.98rem;color:var(--ink);position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:0;top:50%;transform:translateY(-50%);font-size:1.3rem;font-weight:400;color:var(--channel)}
+.faq details[open] summary::after{content:"–"}
+.faq details p{padding:0 0 20px;font-size:.92rem;line-height:1.7;color:var(--ink-2)}
