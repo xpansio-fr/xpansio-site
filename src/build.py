@@ -968,7 +968,7 @@ def faq(items, cls):
 PROG = f"""
 {page_hero([("index.html","Accueil"),("experience-channel.html","Channel Performance"),(None,"Programme partenaires")], "Faire évoluer votre programme partenaires",
   ["Un programme plus efficace, adapté à vos nouveaux enjeux, et qui a du sens pour vos partenaires.",
-   "Pour les directeurs channel et des ventes indirectes des constructeurs, éditeurs et distributeurs IT."],
+   "Pour les directeurs channel et ventes indirectes : constructeurs, éditeurs, distributeurs IT."],
   f'<span class="pill ch"><span class="ico ch">{I_NET}</span>Channel Performance</span>', cta_btn="Échanger sur votre programme", cta2=("Faire l’auto-diagnostic partenaire", "auto-diagnostic-channel.html")).replace('class="page-hero"', 'class="page-hero compact"', 1)}
 <section class="band alt">
   <div class="wrap">
