@@ -178,11 +178,12 @@ LD_ORG = {
   "slogan": "Accélérer la performance de vos partenaires. Révéler la valeur de vos clients.",
   "address": {"@type": "PostalAddress", "addressLocality": "Nanterre", "postalCode": "92000", "addressCountry": "FR"},
   "areaServed": {"@type": "Country", "name": "France"},
+  "knowsLanguage": ["fr", "en"],
   "knowsAbout": ["Programme partenaires", "Refonte de programme partenaires", "Stratégie de distribution indirecte", "Channel management",
                  "Engagement des partenaires", "Parcours partenaire", "Performance des réseaux de revendeurs", "Partner Performance Index",
                  "Expérience client B2B", "Customer Success", "Fidélisation client"],
   "founder": {"@type": "Person", "name": "Agnès Chabrier", "jobTitle": "Fondatrice, consultante Channel et Customer Performance",
-              "url": SITE, "sameAs": ["https://www.linkedin.com/in/agnes-chabrier-7186971/"]},
+              "url": SITE, "knowsLanguage": ["fr", "en"], "sameAs": ["https://www.linkedin.com/in/agnes-chabrier-7186971/"]},
   "sameAs": ["https://www.linkedin.com/in/agnes-chabrier-7186971/"],
   "hasOfferCatalog": {"@type": "OfferCatalog", "name": "Missions de conseil", "itemListElement": [
     {"@type": "Offer", "itemOffered": {"@type": "Service", "name": n, "url": SITE + u}} for n, u in [
@@ -952,7 +953,7 @@ FAQ_PROG = [
   ('Comment mesurer l’efficacité d’un programme partenaires ?',
    'Sur deux niveaux : la performance globale du réseau (chiffre d’affaires, parts de marché, couverture, croissance), sa capacité à répondre à vos objectifs, et la relation avec chaque partenaire, structurée par le Partner Performance Index (compétences, qualité de service, engagement, pratiques commerciales, capacité de transformation).'),
   ('Pour quelles entreprises ?',
-   'Les constructeurs, éditeurs et distributeurs IT et bureautique qui vendent par un réseau de revendeurs, d’intégrateurs ou d’ESN, en France.'),
+   'Les constructeurs, éditeurs et distributeurs IT et bureautique qui vendent par un réseau de revendeurs, d’intégrateurs ou d’ESN. Mon terrain principal est la France. Pour un programme qui s’étend à l’international, je peux travailler en anglais avec vos équipes et vos partenaires anglophones. Les entretiens approfondis avec les partenaires se font en français ou en anglais.'),
 ]
 EXTRA_LD["programme-partenaires.html"] = [
   {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
